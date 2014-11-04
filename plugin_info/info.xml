@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>sms</id>
+    <name>SMS</name>
+    <description>Plugin permettant de gérer les SMS</description>
+    <icon>fa fa-caret-square-o-right</icon>
+    <licence>AGPL</licence>
+    <author>Loïc Gevrey</author>
+    <installation></installation>
+    <require>1.114</require>
+    <version>2.0</version>
+    <category>communication</category>
+    <allowRemote>1</allowRemote>
+</info>
+

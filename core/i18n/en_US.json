@@ -1,0 +1,21 @@
+{
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Cr\u00e9ation de l'interface s\u00e9rie sur le port : ": "Cr\u00e9ation de l'interface s\u00e9rie sur le port : ",
+        "Envoie message sur port s\u00e9rie : ": "Envoie message sur port s\u00e9rie : ",
+        "PIN ERREUR (": "PIN ERREUR ("
+    },
+    "plugins\/sms\/desktop\/php\/sms.php": {
+        "Liste des equipements SMS": "Liste des equipements SMS",
+        "G\u00e9n\u00e9rale": "G\u00e9n\u00e9rale",
+        "Nom de l'\u00e9quipement SMS": "Nom de l'\u00e9quipement SMS",
+        "Nom de l'\u00e9quipement GSM": "Nom de l'\u00e9quipement GSM",
+        "Port du p\u00e9riph\u00e9rique": "Port du p\u00e9riph\u00e9rique",
+        "Code pin": "Code pin",
+        "Commandes": "Commandes",
+        "Ajouter d'un num\u00e9ro": "Ajouter d'un num\u00e9ro",
+        "Num\u00e9ro": "Num\u00e9ro"
+    },
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Tester": "Tester"
+    }
+}
