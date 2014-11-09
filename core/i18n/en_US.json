@@ -11,5 +11,9 @@
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
         "Tester": "Tester"
+    },
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Message venant de ": "Message venant de ",
+        "\nRéponse : ": "\nRéponse : "
     }
 }
