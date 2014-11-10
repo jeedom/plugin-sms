@@ -19,7 +19,7 @@
 if (!isConnect('admin')) {
     throw new Exception('401 Unauthorized');
 }
-echo '<div class="alert alert-warning">{{Attention le lancement en mode debug est très consommateur en ressources et en log, pensez bien à relancer le démon une fois l\'analyse terminé}}</div>';
+echo '<div class="alert alert-warning">{{Attention le lancement en mode debug est très consommateur en ressources et en log, pensez bien à relancer le démon une fois l\'analyse terminée}}</div>';
 ?>
 <div id='div_smsShowDebug' style="display: none;"></div>
 <pre id='pre_smslog' style='overflow: auto; height: 85%;with:90%;'></pre>
