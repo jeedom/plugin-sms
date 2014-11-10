@@ -29,6 +29,16 @@ try {
         ajax::success();
     }
 
+    if (init('action') == 'launchInDebug') {
+        sms::stopDeamon();
+        if (sms::deamonRunning()) {
+            throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
+        }
+        log::clear('smscmd');
+        sms::runDeamon(true);
+        ajax::success();
+    }
+
     throw new Exception('Aucune methode correspondante');
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

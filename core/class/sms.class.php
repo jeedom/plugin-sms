@@ -39,7 +39,7 @@ class sms extends eqLogic {
         }
     }
 
-    public static function runDeamon() {
+    public static function runDeamon($_debug = false) {
         log::add('sms', 'info', 'Lancement du démon sms');
         $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
         if (!file_exists($port)) {
@@ -74,6 +74,9 @@ class sms extends eqLogic {
         chmod($sms_path . '/config.xml', 0777);
 
         $cmd = 'nice -n 19 /usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
+        if ($_debug) {
+            $cmd .= ' -D';
+        }
         log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
         $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
         if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {

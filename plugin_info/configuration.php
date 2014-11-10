@@ -71,6 +71,12 @@ $deamonRunning = sms::deamonRunning();
                 <a class="btn btn-warning" id="bt_stopEnOceanDeamon"><i class='fa fa-stop'></i> Arrêter/Redemarrer le démon</a> 
             </div>
         </div>
+        <div class="form-group expertModeVisible">
+            <label class="col-lg-4 control-label">Lancer en debug</label>
+            <div class="col-lg-2">
+                <a class="btn btn-danger" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> Lancer en mode debug</a> 
+            </div>
+        </div>
     </fieldset>
 </form>
 
@@ -93,6 +99,15 @@ $deamonRunning = sms::deamonRunning();
                 }
                 $('#div_alert').showAlert({message: 'Le démon a été correctement arreté il se relancera automatiquement dans 1 minute', level: 'success'});
                 $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
+            }
+        });
+    });
+
+    $('#bt_launchSmsInDebug').on('click', function () {
+        bootbox.confirm('Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé', function (result) {
+            if (result) {
+                $('#md_modal').dialog({title: "SMS en mode debug"});
+                $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug').dialog('open');
             }
         });
     });
