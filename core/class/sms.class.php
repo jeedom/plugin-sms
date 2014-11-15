@@ -103,7 +103,7 @@ class sms extends eqLogic {
         if (posix_getsid(intval(trim(file_get_contents($pid_file))))) {
             return true;
         } else {
-            if (!file_exists($pid_file)) {
+            if (file_exists($pid_file)) {
                 unlink($pid_file);
             }
             return false;
