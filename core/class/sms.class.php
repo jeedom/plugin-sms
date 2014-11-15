@@ -128,7 +128,7 @@ class sms extends eqLogic {
         }
         if (self::deamonRunning()) {
             sleep(1);
-            exec('kill -9 ' . $pid);
+            exec('kill -9 ' . $pid.' > /dev/null 2&1');
         } else {
             unlink($pid_file);
         }
