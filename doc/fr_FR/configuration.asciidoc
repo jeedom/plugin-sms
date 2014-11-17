@@ -1,15 +1,17 @@
-Celui-ci est assez standard dans son fonctionnement, on ajoute un nouvel équipement puis on configure celui-ci :
 
-- Le nom de celui-ci
-- S’il est actif ou non
+
+Celui-ci est assez standard dans son fonctionnement, sur la page Générale -> Plugin puis en selectionnant le plugin SMS : 
 - Le port (chemin) jusqu’au périphérique qui sert de modem (chez moi c’est /dev/ttyUSB0, pour le voir il suffit de lancer “dmesg” puis de brancher le modem)
 - Le code pin de la carte sim
+ 
+
+on ajoute un nouvel équipement puis on configure celui-ci :
+- Le nom de celui-ci
+- S’il est actif ou non
 Puis il faut ajouter les commandes qui seront composées d’un nom et d’un numéro, seuls les numéros listés dans la liste des commandes peuvent recevoir une réponse de Jeedom (ça permet de sécuriser tout en évitant de mettre un mot de passe à chaque début de SMS que j’envoie à Jeedom).
 
 Pour communiquer avec Jeedom il suffira juste de lui envoyer un message à partir d’un numéro autorisé, toutes les interactions viennent du système d’interaction .
 
 Petit exemple d’interaction :
-
 Question : “Quelle est la température de la chambre ?”
-
 Réponse  : “16.3 C”
