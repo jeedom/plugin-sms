@@ -6,5 +6,8 @@ Plugin permetant à l'aide d'une clef GSM, d'envoyer et recevoir des SMS
 === Configuration
 include::configuration.asciidoc[]
 
+=== Liste des clefs compatiples
+link:https://jeedom.fr/liste_module_gsm.php[ici]
+
 === Changelog
 include::changelog.asciidoc[]
