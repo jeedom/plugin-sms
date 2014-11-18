@@ -6,7 +6,9 @@ Celui-ci est assez standard dans son fonctionnement, sur la page Générale -> P
 - Le code pin de la carte sim
  
 
-on ajoute un nouvel équipement puis on configure celui-ci :
+Puis ajoute un nouvel équipement puis on configure celui-ci :
+
+image::../images/sms.JPG[]
 
 - Le nom de celui-ci
 - S’il est actif ou non
