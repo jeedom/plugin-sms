@@ -73,7 +73,7 @@ class sms extends eqLogic {
         file_put_contents($sms_path . '/config.xml', $config);
         chmod($sms_path . '/config.xml', 0777);
 
-        $cmd = 'nice -n 19 /usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
+        $cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
         if ($_debug) {
             $cmd .= ' -D';
         }
