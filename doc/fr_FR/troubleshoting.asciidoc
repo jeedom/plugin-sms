@@ -1,11 +1,23 @@
-Le démon refuse de demarrer:::
+[panel,danger]
+.Le démon refuse de demarrer
+--
 Essayer de le demarrer en mode debug pour voir l'erreur
+--
 
-Lors du démarrage en mode debug j'ai une erreur avec : /usr/share/nginx/www/jeedom/tmp/sms.pid:::
+[panel,danger]
+.Lors du démarrage en mode debug j'ai une erreur avec : /usr/share/nginx/www/jeedom/tmp/sms.pid
+--
 Attendez une minute pour voir si le problème persiste, si c'est le cas en ssh faites : "sudo rm /usr/share/nginx/www/jeedom/tmp/sms.pid"
+--
 
-Lors du démarrage en mode debug j'ai : socket already in use:::
+[panel,danger]
+.Lors du démarrage en mode debug j'ai : socket already in use
+--
 Cela veut dire que le demon est demarrer mais que Jeedom n'arrive pas à le stopper. Vous pouvez soit redemarrer tous le système, soit en ssh faire "killall -9 refxcmd.py"
+--
 
-En mode debug j'ai l'erreur "timeout" qui apparait:::
+[panel,danger]
+.En mode debug j'ai l'erreur "timeout" qui apparait
+--
 Cette erreur arrive quand la clef ne reponds pas dans les 10 secondes qui suivent une demande. Les causes connuent peuvent etre : incompatibilité de la clef GSM, probleme avec la version du firmware de la clef
+--
