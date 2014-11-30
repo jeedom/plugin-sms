@@ -8,7 +8,7 @@ Celui-ci est assez standard dans son fonctionnement, sur la page Générale -> P
 
 Puis ajoute un nouvel équipement puis on configure celui-ci :
 
-image::../images/sms.JPG[]
+image::../images/sms_screenshot1.JPG[]
 
 - Le nom de celui-ci
 - S’il est actif ou non
