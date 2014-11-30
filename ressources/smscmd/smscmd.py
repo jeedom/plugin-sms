@@ -220,6 +220,7 @@ def option_listen():
 			serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
 		except:
 			logger.error("Error starting socket server. Line: " + _line())
+                        logger.error("Error: %s" % str(err))
 			print("Error: can not start server socket, another instance already running?")
 			exit(1)
 		if serversocket.netAdapterRegistered:

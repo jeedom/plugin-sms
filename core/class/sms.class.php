@@ -60,9 +60,9 @@ class sms extends eqLogic {
             '#pid_path#' => realpath(dirname(__FILE__) . '/../../../../tmp') . '/sms.pid'
         );
         if (config::byKey('jeeNetwork::mode') == 'slave') {
-            $replace_config['#sockethost#'] = getIpFromString(config::byKey('internalAddr', 'core', 'localhost'));
+            $replace_config['#sockethost#'] = getIpFromString(config::byKey('internalAddr', 'core', '127.0.0.1'));
         } else {
-            $replace_config['#sockethost#'] = 'localhost';
+            $replace_config['#sockethost#'] = '127.0.0.1';
         }
         if (config::byKey('jeeNetwork::mode') == 'slave') {
             $config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
