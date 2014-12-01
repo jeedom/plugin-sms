@@ -1,1 +1,5 @@
-
+[panel,primary]
+.Jeedom n'envoi plus et ne recoit plus de sms
+--
+Ceci arrive en générale si la clef GSM n'arrive plus à se connecter au réseau. Essayer de la deplacer et de voir si ca revient au bout de quelques minutes.
+--
