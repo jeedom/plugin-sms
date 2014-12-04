@@ -39,6 +39,15 @@ class sms extends eqLogic {
         }
     }
 
+    public static function cronDaily() {
+        if (self::deamonRunning()) {
+            self::stopDeamon();
+            if (!self::deamonRunning()) {
+                self::runDeamon();
+            }
+        }
+    }
+
     public static function runDeamon($_debug = false) {
         log::add('sms', 'info', 'Lancement du démon sms');
         $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
