@@ -228,17 +228,29 @@ def option_listen():
 		else:
 			logger.debug("Cannot start socket interface")
 
+        signal_strength_store = 0                
 	try:
 		while 1:
 			# Let it breath
 			# Without this sleep it will cause 100% CPU in windows
 			time.sleep(1)
+                        logger.debug("------------------------------------")
                         try:
                             gsm.waitForNetworkCoverage()
                             gsm.processStoredSms(True)
+
+                            if signal_strength_store != gsm.signalStrength:
+                                signal_strength_store = gsm.signalStrength
+                                action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'signal_strength').replace("$message$", str(gsm.signalStrength) )
+                                logger.debug("Execute shell : "+action)
+                                command = Command(action)
+                                command.run(timeout=config.trigger_timeout)
+
                         except Exception, e:
                             print("Exception: %s" % str(e))
-                            #logger.error("Exception: %s" % str(e))
+                            #logger.debug("Exception: %s" % str(e))
+
+                      
                            
                         try:
                             if config.socketserver:

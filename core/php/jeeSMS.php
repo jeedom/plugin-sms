@@ -47,6 +47,11 @@ if ($number == 'none') {
     die();
 }
 
+if ($number == 'signal_strength') {
+    config::save('signal_strengh', $message, 'sms');
+    die();
+}
+
 $eqLogics = eqLogic::byType('sms');
 if (count($eqLogics) < 1) {
     die();
@@ -64,9 +69,9 @@ foreach ($eqLogics as $eqLogic) {
             $params = array();
             $smsOk = true;
             log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
-            if($cmd->getConfiguration('user') != ''){
+            if ($cmd->getConfiguration('user') != '') {
                 $user = user::byId($cmd->getConfiguration('user'));
-                if(is_object($user)){
+                if (is_object($user)) {
                     $params['profile'] = $user->getLogin();
                 }
             }
