@@ -68,7 +68,7 @@ $deamonRunning = sms::deamonRunning();
          <div class="form-group">
             <label class="col-lg-4 control-label">Force du signal</label>
             <div class="col-lg-4">
-                <span class="configKey" data-l1key="signal_strengh" ></span> / 99
+                <span class="configKey" data-l1key="signal_strengh" ></span> / 30
             </div>
         </div>
         <div class="form-group">
