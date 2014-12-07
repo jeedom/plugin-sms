@@ -234,7 +234,6 @@ def option_listen():
 			# Let it breath
 			# Without this sleep it will cause 100% CPU in windows
 			time.sleep(1)
-                        logger.debug("------------------------------------")
                         try:
                             gsm.waitForNetworkCoverage()
                             gsm.processStoredSms(True)
