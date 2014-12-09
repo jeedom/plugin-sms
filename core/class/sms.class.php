@@ -187,7 +187,7 @@ class smsCmd extends cmd {
         if (config::byKey('jeeNetwork::mode') == 'master') {
             foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
                 foreach ($values as $value) {
-                    if (trim($value) != '') {
+                    if (trim($value['message']) != '') {
                         $socket = socket_create(AF_INET, SOCK_STREAM, 0);
                         socket_connect($socket, $jeeNetwork->getRealIp(), 55002);
                         socket_write($socket, $value, strlen($value));
@@ -198,7 +198,7 @@ class smsCmd extends cmd {
         }
         if (config::byKey('port', 'sms', 'none') != 'none') {
             foreach ($values as $value) {
-                if (trim($value) != '') {
+                if (trim($value['message']) != '') {
                     $socket = socket_create(AF_INET, SOCK_STREAM, 0);
                     socket_connect($socket, '127.0.0.1', 55002);
                     socket_write($socket, $value, strlen($value));
