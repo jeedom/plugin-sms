@@ -20,7 +20,6 @@ function addCmdToTable(_cmd) {
         var _cmd = {configuration: {}};
     }
     if (!isset(_cmd.type) || _cmd.type == 'action') {
-
         var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
         tr += '<td>';
         tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
@@ -54,7 +53,5 @@ function addCmdToTable(_cmd) {
                 modifyWithoutSave = false;
             }
         });
-
-
     }
 }
