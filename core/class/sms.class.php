@@ -170,20 +170,18 @@ class smsCmd extends cmd {
 
     public function execute($_options = null) {
         $values = array();
+        $message = $_options['title'] . ' ' . $_options['message'];
         if (config::byKey('text_mode', 'sms') == 1) {
-            $message = self::cleanSMS(trim($_options['title'] . ' ' . $_options['message']));
-            if (strlen($message) > 140) {
-                $messages = str_split($message, 140);
-                foreach ($messages as $message_split) {
-                    $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
-                }
-            } else {
-                $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message));
+            $message = self::cleanSMS(trim($message), true);
+        }
+        if (strlen($message) > 140) {
+            $messages = str_split($message, 140);
+            foreach ($messages as $message_split) {
+                $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
             }
         } else {
-            $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $_options['title'] . ' ' . $_options['message']));
+            $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message));
         }
-
         if (config::byKey('jeeNetwork::mode') == 'master') {
             foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
                 foreach ($values as $value) {

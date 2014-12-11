@@ -1,0 +1,3 @@
+==== 11/12/2014
+
+- Bugfix des sms vident
