@@ -63,6 +63,7 @@ class sms extends eqLogic {
         $replace_config = array(
             '#device#' => $port,
             '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
+            '#socketport#' => config::byKey('socketport', 'sms', 55002),
             '#pin#' => config::byKey('pin', 'sms'),
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
@@ -187,7 +188,7 @@ class smsCmd extends cmd {
                 foreach ($values as $value) {
                     if (trim($value['message']) != '') {
                         $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-                        socket_connect($socket, $jeeNetwork->getRealIp(), 55002);
+                        socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms', 55002));
                         socket_write($socket, $value, strlen($value));
                         socket_close($socket);
                     }
@@ -198,7 +199,7 @@ class smsCmd extends cmd {
             foreach ($values as $value) {
                 if (trim($value['message']) != '') {
                     $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-                    socket_connect($socket, '127.0.0.1', 55002);
+                    socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms', 55002));
                     socket_write($socket, $value, strlen($value));
                     socket_close($socket);
                 }

@@ -65,10 +65,16 @@ $deamonRunning = sms::deamonRunning();
                 <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux' />
             </div>
         </div>
-         <div class="form-group">
+        <div class="form-group">
             <label class="col-lg-4 control-label">Force du signal</label>
             <div class="col-lg-4">
                 <span class="configKey" data-l1key="signal_strengh" ></span> / 30
+            </div>
+        </div>
+        <div class="form-group expertModeVisible">
+            <label class="col-lg-4 control-label">Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)</label>
+            <div class="col-lg-2">
+                <input class="configKey form-control" data-l1key="socketport" value='55002' />
             </div>
         </div>
         <div class="form-group">

@@ -17,5 +17,5 @@
     <!-- Socket server -->
     <socketserver>yes</socketserver>
     <sockethost>#sockethost#</sockethost>
-    <socketport>55002</socketport>
+    <socketport>#socketport#</socketport>
 </config>
