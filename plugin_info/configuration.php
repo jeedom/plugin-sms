@@ -98,7 +98,7 @@ $deamonRunning = sms::deamonRunning();
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
             data: {
-                action: "stopDeamon",
+                action: "stopRestartDeamon",
             },
             dataType: 'json',
             error: function (request, status, error) {

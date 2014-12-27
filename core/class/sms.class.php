@@ -25,7 +25,7 @@ class sms extends eqLogic {
         self::stopDeamon();
     }
 
-    public static function cron() {
+    public static function cronHourly() {
         $port = config::byKey('port', 'sms', 'none');
         if ($port != 'none') {
             if (file_exists(jeedom::getUsbMapping($port))) {
@@ -53,7 +53,7 @@ class sms extends eqLogic {
         $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
         if (!file_exists($port)) {
             config::save('port', '', 'sms');
-            throw new Exception(__('Le port : ', __FILE__) . $port . __(' n\'éxiste pas', __FILE__));
+            throw new Exception(__('Le port : ', __FILE__) . print_r($port,true) . __(' n\'éxiste pas', __FILE__));
         }
         $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 

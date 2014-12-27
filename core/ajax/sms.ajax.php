@@ -24,18 +24,13 @@ try {
         throw new Exception('401 Unauthorized');
     }
 
-    if (init('action') == 'stopDeamon') {
-        sms::stopDeamon();
-        ajax::success();
-    }
-
-    if (init('action') == 'launchInDebug') {
+    if (init('action') == 'stopRestartDeamon') {
         sms::stopDeamon();
         if (sms::deamonRunning()) {
-            throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
+            throw new Exception(__('Impossible d\'arrêter le démon',__FILE__));
         }
         log::clear('smscmd');
-        sms::runDeamon(true);
+        sms::runDeamon(init('debug',0));
         ajax::success();
     }
 
