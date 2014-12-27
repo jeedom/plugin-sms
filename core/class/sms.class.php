@@ -25,6 +25,20 @@ class sms extends eqLogic {
         self::stopDeamon();
     }
 
+    public static function start(){
+        $port = config::byKey('port', 'sms', 'none');
+        if ($port != 'none') {
+            if (file_exists(jeedom::getUsbMapping($port))) {
+                if (!self::deamonRunning()) {
+                    self::runDeamon();
+                }
+                message::removeAll('sms', 'noSMSComPort');
+            } else {
+                log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
+            }
+        }
+    }
+
     public static function cronHourly() {
         $port = config::byKey('port', 'sms', 'none');
         if ($port != 'none') {
@@ -68,7 +82,7 @@ class sms extends eqLogic {
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
             '#pid_path#' => realpath(dirname(__FILE__) . '/../../../../tmp') . '/sms.pid'
-        );
+            );
         if (config::byKey('jeeNetwork::mode') == 'slave') {
             $replace_config['#sockethost#'] = getIpFromString(config::byKey('internalAddr', 'core', '127.0.0.1'));
         } else {

@@ -19,30 +19,17 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function sms_install() {
-    $cron = cron::byClassAndFunction('sms', 'pull');
-    if (is_object($cron)) {
-        $cron->remove();
-    }
+    sms::stopDeamon();
+    sms::runDeamon();
 }
 
 function sms_update() {
-    $cron = cron::byClassAndFunction('sms', 'pull');
-    if (is_object($cron)) {
-        $cron->remove();
-    }
-    if (method_exists('sms', 'stopDeamon')) {
-        sms::stopDeamon();
-    }
+    sms::stopDeamon();
+    sms::runDeamon();
 }
 
 function sms_remove() {
-    $cron = cron::byClassAndFunction('sms', 'pull');
-    if (is_object($cron)) {
-        $cron->remove();
-    }
-    if (method_exists('sms', 'stopDeamon')) {
-        sms::stopDeamon();
-    }
+    sms::stopDeamon();
 }
 
 ?>
