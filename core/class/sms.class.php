@@ -81,7 +81,7 @@ class sms extends eqLogic {
             '#pin#' => config::byKey('pin', 'sms'),
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
-            '#pid_path#' => realpath(dirname(__FILE__) . '/../../../../tmp') . '/sms.pid'
+            '#pid_path#' => '/tmp/sms.pid'
             );
         if (config::byKey('jeeNetwork::mode') == 'slave') {
             $replace_config['#sockethost#'] = getIpFromString(config::byKey('internalAddr', 'core', '127.0.0.1'));
@@ -120,7 +120,7 @@ class sms extends eqLogic {
     }
 
     public static function deamonRunning() {
-        $pid_file = realpath(dirname(__FILE__) . '/../../../../tmp/sms.pid');
+        $pid_file = '/tmp/sms.pid';
         if (!file_exists($pid_file)) {
             return false;
         }
@@ -138,7 +138,7 @@ class sms extends eqLogic {
         if (!self::deamonRunning()) {
             return true;
         }
-        $pid_file = dirname(__FILE__) . '/../../../../tmp/sms.pid';
+        $pid_file = '/tmp/sms.pid';
         if (!file_exists($pid_file)) {
             return true;
         }
