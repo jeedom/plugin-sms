@@ -31,7 +31,7 @@ $deamonRunning = sms::deamonRunning();
         <?php
         if ($port != 'none') {
             if (!$deamonRunning) {
-                echo '<div class="alert alert-danger">Le démon SMS ne tourne pas vérifier le port (' . $port . ' : ' . jeedom::getUsbMapping($port) . ', si vous venez de l\'arreter il redemarrera automatiquement dans 1 minute)</div>';
+                echo '<div class="alert alert-danger">Le démon SMS ne tourne pas vérifier le port (' . $port . ' : ' . jeedom::getUsbMapping($port) . ')</div>';
             } else {
                 echo '<div class="alert alert-success">Le démon SMS est en marche</div>';
             }
