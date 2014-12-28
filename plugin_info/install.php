@@ -18,18 +18,29 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-function sms_install() {
-    sms::stopDeamon();
-    sms::runDeamon();
-}
-
 function sms_update() {
-    sms::stopDeamon();
-    sms::runDeamon();
+	$pid_file = dirname(__FILE__) .'/../../../tmp/sms.pid';
+	if (file_exists($pid_file)) {
+		$pid = intval(trim(file_get_contents($pid_file)));
+		$kill = posix_kill($pid, 15);
+		$retry = 0;
+		while (!$kill && $retry < 5) {
+			sleep(1);
+			$kill = posix_kill($pid, 9);
+			$retry++;
+		}
+		unlink($pid_file);
+	}
+	try {
+		sms::stopDeamon();
+		sms::runDeamon();
+	} catch (Exception  $e) {
+		
+	}
 }
 
 function sms_remove() {
-    sms::stopDeamon();
+	sms::stopDeamon();
 }
 
 ?>

@@ -23,6 +23,7 @@ class sms extends eqLogic {
 
     public static function slaveReload() {
         self::stopDeamon();
+        self::runDeamon();
     }
 
     public static function start(){
@@ -65,7 +66,7 @@ class sms extends eqLogic {
     public static function runDeamon($_debug = false) {
         log::add('sms', 'info', 'Lancement du démon sms');
         $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
-        if (config::byKey('port', 'sms') == '' || !file_exists($port)) {
+        if (!file_exists($port)) {
             config::save('port', '', 'sms');
             throw new Exception(__('Le port : ', __FILE__) . print_r($port,true) . __(' n\'éxiste pas', __FILE__));
         }
