@@ -22,13 +22,9 @@ function sms_update() {
 	$pid_file = dirname(__FILE__) .'/../../../tmp/sms.pid';
 	if (file_exists($pid_file)) {
 		$pid = intval(trim(file_get_contents($pid_file)));
-		$kill = posix_kill($pid, 15);
-		$retry = 0;
-		while (!$kill && $retry < 5) {
-			sleep(1);
-			$kill = posix_kill($pid, 9);
-			$retry++;
-		}
+		shell_exec('kill -9 '.$pid);
+		sleep(1);
+		shell_exec('kill -9 '.$pid);
 		unlink($pid_file);
 	}
 	try {
