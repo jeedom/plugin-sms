@@ -23,7 +23,6 @@ class sms extends eqLogic {
 
     public static function slaveReload() {
         self::stopDeamon();
-        self::runDeamon();
     }
 
     public static function start(){
@@ -80,6 +79,7 @@ class sms extends eqLogic {
             '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
             '#socketport#' => config::byKey('socketport', 'sms', 55002),
             '#pin#' => config::byKey('pin', 'sms'),
+            '#smsc#' => config::byKey('smsc', 'sms'),
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
             '#pid_path#' => '/tmp/sms.pid'

@@ -31,7 +31,7 @@ $deamonRunning = sms::deamonRunning();
         <?php
         if ($port != 'none') {
             if (!$deamonRunning) {
-                echo '<div class="alert alert-danger">Le démon SMS ne tourne pas vérifier le port</div>';
+                echo '<div class="alert alert-danger">Le démon SMS ne tourne pas vérifier le port (' . $port . ' : ' . jeedom::getUsbMapping($port) . ', si vous venez de l\'arreter il redemarrera automatiquement dans 1 minute)</div>';
             } else {
                 echo '<div class="alert alert-success">Le démon SMS est en marche</div>';
             }
@@ -63,6 +63,12 @@ $deamonRunning = sms::deamonRunning();
             <label class="col-lg-4 control-label">Texte mode</label>
             <div class="col-lg-4">
                 <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux' />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)</label>
+            <div class="col-lg-4">
+                <input class="configKey form-control" data-l1key="smsc" title='Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur'/>
             </div>
         </div>
         <div class="form-group">

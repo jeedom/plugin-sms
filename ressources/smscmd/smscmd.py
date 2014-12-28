@@ -48,8 +48,9 @@ class config_data:
 		socketserver = False,
 		sockethost = "",
 		socketport = "",
-                pin = "",
-                text_mode = "no",
+		pin = "",
+		text_mode = "no",
+		smsc = "",
 		daemon_active = False,
 		daemon_pidfile = "gsm.pid",
                 debug = False
@@ -60,8 +61,9 @@ class config_data:
 		self.trigger_timeout = trigger_timeout
 		self.loglevel = loglevel
 		self.logfile = logfile
-                self.text_mode = text_mode
-                self.pin = pin
+		self.text_mode = text_mode
+		self.pin = pin
+		self.smsc = smsc
 		self.program_path = program_path
 		self.socketserver = socketserver
 		self.sockethost = sockethost
@@ -203,6 +205,10 @@ def option_listen():
                 gsm.connect(config.pin)
             else :
                 gsm.connect()
+            if config.smsc != '' :
+				logger.debug("Configure smsc : "+config.smsc)
+				gsm.write('AT+CSCA="{0}"'.format(config.smsc))
+				#gsm.smsc(config.smsc)
             logger.debug("Waiting for network...")
             gsm.waitForNetworkCoverage()
             logger.debug("Ok")
@@ -357,8 +363,10 @@ def read_configfile():
 		config.serial_device = read_config( cmdarg.configfile, "serial_device")
 		logger.debug("Serial device: " + str(config.serial_device))
 
-                config.pin = read_config( cmdarg.configfile, "pin")
+		config.pin = read_config( cmdarg.configfile, "pin")
 		logger.debug("Code pin: " + str(config.pin))
+		config.smsc = read_config( cmdarg.configfile, "smsc")
+		logger.debug("Smsc: " + str(config.smsc))
 
                 config.text_mode = read_config( cmdarg.configfile, "text_mode")
 		logger.debug("Code text_mode: " + str(config.text_mode))

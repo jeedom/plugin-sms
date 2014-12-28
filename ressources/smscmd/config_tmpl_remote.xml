@@ -5,6 +5,7 @@
     <serial_device>#device#</serial_device>
     <pin>#pin#</pin>
     <text_mode>#text_mode#</text_mode>
+	<smsc>#smsc#</smsc>
     <!-- Trigger -->
     <trigger>curl -L -s "http://#ip_master#/plugins/sms/core/php/jeeSMS.php?apikey=#apikey#&amp;number=$number$&amp;message=$message$"</trigger>
     <trigger_timeout>10</trigger_timeout>
