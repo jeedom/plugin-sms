@@ -5,7 +5,7 @@
     <serial_device>#device#</serial_device>
     <pin>#pin#</pin>
     <text_mode>#text_mode#</text_mode>
-	<smsc>#smsc#</smsc>
+    <smsc>#smsc#</smsc>
     <!-- Trigger -->
     <trigger>/usr/bin/php #trigger_path# number="$number$" message="$message$"</trigger>
     <trigger_timeout>10</trigger_timeout>

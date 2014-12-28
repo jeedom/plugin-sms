@@ -205,10 +205,10 @@ def option_listen():
                 gsm.connect(config.pin)
             else :
                 gsm.connect()
-            if config.smsc != '' :
-				logger.debug("Configure smsc : "+config.smsc)
-				gsm.write('AT+CSCA="{0}"'.format(config.smsc))
-				#gsm.smsc(config.smsc)
+            if config.smsc.strip() != '' :
+                logger.debug("Configure smsc : "+config.smsc)
+                gsm.write('AT+CSCA="{0}"'.format(config.smsc))
+
             logger.debug("Waiting for network...")
             gsm.waitForNetworkCoverage()
             logger.debug("Ok")
