@@ -86,7 +86,7 @@ $deamonRunning = sms::deamonRunning();
         <div class="form-group">
             <label class="col-lg-4 control-label">Arrêt/Redémarrage</label>
             <div class="col-lg-2">
-                <a class="btn btn-warning" id="bt_stopEnOceanDeamon"><i class='fa fa-stop'></i> Arrêter/Redemarrer le démon</a> 
+                <a class="btn btn-warning" id="bt_stopSMSDeamon"><i class='fa fa-stop'></i> Arrêter/Redemarrer le démon</a> 
             </div>
         </div>
         <div class="form-group expertModeVisible">
@@ -99,7 +99,7 @@ $deamonRunning = sms::deamonRunning();
 </form>
 
 <script>
-    $('#bt_stopEnOceanDeamon').on('click', function () {
+    $('#bt_stopSMSDeamon').on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
