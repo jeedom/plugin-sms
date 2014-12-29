@@ -78,8 +78,8 @@ class sms extends eqLogic {
             '#device#' => $port,
             '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
             '#socketport#' => config::byKey('socketport', 'sms', 55002),
-            '#pin#' => config::byKey('pin', 'sms'),
-            '#smsc#' => config::byKey('smsc', 'sms',''),
+            '#pin#' => config::byKey('pin', 'sms','None'),
+            '#smsc#' => config::byKey('smsc', 'sms','None'),
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
             '#pid_path#' => '/tmp/sms.pid'
@@ -155,7 +155,7 @@ class sms extends eqLogic {
             sleep(1);
             exec('kill -9 ' . $pid . ' > /dev/null 2&1');
         } else {
-            if (file_exists($pid_file)) {
+            if (file_exists($pid_file) && !self::deamonRunning()) {
                 unlink($pid_file);
             }
         }

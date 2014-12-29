@@ -21,11 +21,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function sms_update() {
 	$pid_file = dirname(__FILE__) .'/../../../tmp/sms.pid';
 	if (file_exists($pid_file)) {
-		$pid = intval(trim(file_get_contents($pid_file)));
-		shell_exec('kill -9 '.$pid);
-		sleep(1);
-		shell_exec('kill -9 '.$pid);
-		unlink($pid_file);
+		rename($pid_file,'/tmp/sms.pid');
 	}
 	try {
 		sms::stopDeamon();

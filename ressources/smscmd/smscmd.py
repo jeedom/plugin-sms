@@ -48,9 +48,9 @@ class config_data:
 		socketserver = False,
 		sockethost = "",
 		socketport = "",
-		pin = "",
+		pin = "None",
 		text_mode = "no",
-		smsc = "",
+		smsc = "None",
 		daemon_active = False,
 		daemon_pidfile = "gsm.pid",
                 debug = False
@@ -201,13 +201,14 @@ def option_listen():
             else :
                 gsm.smsTextMode = False 
 
-            if config.pin != '' :
+            if config.pin != 'None' :
                 gsm.connect(config.pin)
             else :
                 gsm.connect()
-            if config.smsc.strip() != '' :
+            if config.smsc != 'None' :
                 logger.debug("Configure smsc : "+config.smsc)
                 gsm.write('AT+CSCA="{0}"'.format(config.smsc))
+	            
 
             logger.debug("Waiting for network...")
             gsm.waitForNetworkCoverage()
