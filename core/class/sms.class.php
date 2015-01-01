@@ -83,7 +83,7 @@ class sms extends eqLogic {
             '#log_path#' => log::getPathToLog('sms'),
             '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
             '#pid_path#' => '/tmp/sms.pid'
-        );
+            );
         if (config::byKey('jeeNetwork::mode') == 'slave') {
             $replace_config['#sockethost#'] = getIpFromString(config::byKey('internalAddr', 'core', '127.0.0.1'));
         } else {
@@ -122,47 +122,53 @@ class sms extends eqLogic {
 
     public static function deamonRunning() {
         $pid_file = '/tmp/sms.pid';
+        $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
         if (!file_exists($pid_file)) {
-            return false;
+          if(jeedom::checkOngoingThread($sms_path) > 0){
+            exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
         }
-        if (posix_getsid(intval(trim(file_get_contents($pid_file))))) {
-            return true;
-        } else {
-            if (file_exists($pid_file)) {
-                unlink($pid_file);
-            }
-            return false;
+        return false;
+    }
+    $pid = trim(file_get_contents($pid_file));
+    if(count(explode("\n", $pid)) != 1){
+        exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
+        return false;
+    }
+    if (posix_getsid($pid)) {
+        return true;
+    } 
+    unlink($pid_file);
+    return false;
+}
+
+public static function stopDeamon() {
+    if (!self::deamonRunning()) {
+        return true;
+    }
+    $pid_file = '/tmp/sms.pid';
+    if (!file_exists($pid_file)) {
+        return true;
+    }
+    $pid = intval(trim(file_get_contents($pid_file)));
+    $kill = posix_kill($pid, 15);
+    $retry = 0;
+    while (!$kill && $retry < 5) {
+        sleep(1);
+        $kill = posix_kill($pid, 9);
+        $retry++;
+    }
+    if (self::deamonRunning()) {
+        sleep(1);
+        exec('kill -9 ' . $pid . ' > /dev/null 2&1');
+    } else {
+        if (file_exists($pid_file) && !self::deamonRunning()) {
+            unlink($pid_file);
         }
     }
+    return self::deamonRunning();
+}
 
-    public static function stopDeamon() {
-        if (!self::deamonRunning()) {
-            return true;
-        }
-        $pid_file = '/tmp/sms.pid';
-        if (!file_exists($pid_file)) {
-            return true;
-        }
-        $pid = intval(trim(file_get_contents($pid_file)));
-        $kill = posix_kill($pid, 15);
-        $retry = 0;
-        while (!$kill && $retry < 5) {
-            sleep(1);
-            $kill = posix_kill($pid, 9);
-            $retry++;
-        }
-        if (self::deamonRunning()) {
-            sleep(1);
-            exec('kill -9 ' . $pid . ' > /dev/null 2&1');
-        } else {
-            if (file_exists($pid_file) && !self::deamonRunning()) {
-                unlink($pid_file);
-            }
-        }
-        return self::deamonRunning();
-    }
-
-    /*     * *********************Methode d'instance************************* */
+/*     * *********************Methode d'instance************************* */
 }
 
 class smsCmd extends cmd {
