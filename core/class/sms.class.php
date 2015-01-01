@@ -150,20 +150,14 @@ public static function stopDeamon() {
         return true;
     }
     $pid = intval(trim(file_get_contents($pid_file)));
-    $kill = posix_kill($pid, 15);
-    $retry = 0;
-    while (!$kill && $retry < 5) {
+    posix_kill($pid, 15);
+    if (self::deamonRunning()) {
         sleep(1);
-        $kill = posix_kill($pid, 9);
-        $retry++;
+        posix_kill($pid, 9);
     }
     if (self::deamonRunning()) {
         sleep(1);
         exec('kill -9 ' . $pid . ' > /dev/null 2&1');
-    } else {
-        if (file_exists($pid_file) && !self::deamonRunning()) {
-            unlink($pid_file);
-        }
     }
     return self::deamonRunning();
 }
