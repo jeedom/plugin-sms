@@ -132,6 +132,7 @@ class sms extends eqLogic {
     $pid = trim(file_get_contents($pid_file));
     if(count(explode("\n", $pid)) != 1){
         exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
+        unlink($pid_file);
         return false;
     }
     if (posix_getsid($pid)) {
