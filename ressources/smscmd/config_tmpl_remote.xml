@@ -7,7 +7,7 @@
     <text_mode>#text_mode#</text_mode>
 	<smsc>#smsc#</smsc>
     <!-- Trigger -->
-    <trigger>curl -L -s "http://#ip_master#/plugins/sms/core/php/jeeSMS.php?apikey=#apikey#&amp;number=$number$&amp;message=$message$"</trigger>
+    <trigger>curl -L -s "#ip_master#/plugins/sms/core/php/jeeSMS.php?apikey=#apikey#&amp;number=$number$&amp;message=$message$"</trigger>
     <trigger_timeout>10</trigger_timeout>
     <!-- Daemon -->
     <daemon_active>yes</daemon_active>
