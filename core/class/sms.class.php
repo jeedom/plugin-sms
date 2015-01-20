@@ -126,6 +126,8 @@ class sms extends eqLogic {
         if (!file_exists($pid_file)) {
           if(jeedom::checkOngoingThread($sms_path) > 0){
             exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
+            exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
+            exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
         }
         return false;
     }
@@ -160,6 +162,8 @@ public static function stopDeamon() {
         sleep(1);
         exec('kill -9 ' . $pid . ' > /dev/null 2&1');
     }
+    exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
+    exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
     return self::deamonRunning();
 }
 
