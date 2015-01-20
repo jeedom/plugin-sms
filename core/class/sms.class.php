@@ -125,15 +125,15 @@ class sms extends eqLogic {
         $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
         if (!file_exists($pid_file)) {
           if(jeedom::checkOngoingThread($sms_path) > 0){
-            exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
-            exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
-            exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
+            exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
+            exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
+            exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
         }
         return false;
     }
     $pid = trim(file_get_contents($pid_file));
     if(count(explode("\n", $pid)) != 1){
-        exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2&1");
+        exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
         unlink($pid_file);
         return false;
     }
@@ -160,10 +160,10 @@ public static function stopDeamon() {
     }
     if (self::deamonRunning()) {
         sleep(1);
-        exec('kill -9 ' . $pid . ' > /dev/null 2&1');
+        exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
     }
-    exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
-    exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2&1');
+    exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
+    exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
     return self::deamonRunning();
 }
 
