@@ -135,9 +135,9 @@ public static function deamonRunning() {
 public static function stopDeamon() {
     $pid_file = '/tmp/sms.pid';
     if (file_exists($pid_file)) {
-     $pid = intval(trim(file_get_contents($pid_file)));
-     posix_kill($pid, 15);
-     if (self::deamonRunning()) {
+       $pid = intval(trim(file_get_contents($pid_file)));
+       posix_kill($pid, 15);
+       if (self::deamonRunning()) {
         sleep(1);
         posix_kill($pid, 9);
     }
