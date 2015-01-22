@@ -39,7 +39,7 @@ class sms extends eqLogic {
         }
     }
 
-    public static function cronHourly() {
+    public static function cron() {
         $port = config::byKey('port', 'sms', 'none');
         if ($port != 'none') {
             if (file_exists(jeedom::getUsbMapping($port))) {
@@ -54,89 +54,77 @@ class sms extends eqLogic {
     }
 
     public static function cronDaily() {
-        if (self::deamonRunning()) {
-            self::stopDeamon();
-            if (!self::deamonRunning()) {
-                self::runDeamon();
-            }
-        }
+      sleep(30);
+      $port = config::byKey('port', 'sms', 'none');
+      if (file_exists(jeedom::getUsbMapping($port))) {
+        self::runDeamon();
     }
+}
 
-    public static function runDeamon($_debug = false) {
-        log::add('sms', 'info', 'Lancement du démon sms');
-        $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
-        if (@!file_exists($port)) {
-            config::save('port', '', 'sms');
-            throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
-        }
-        $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
+public static function runDeamon($_debug = false) {
+    self::stopDeamon();
+    $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
+    if (@!file_exists($port)) {
+        config::save('port', '', 'sms');
+        throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
+    }
+    $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
-        if (file_exists($sms_path . '/config.xml')) {
-            unlink($sms_path . '/config.xml');
-        }
-        $replace_config = array(
-            '#device#' => $port,
-            '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
-            '#socketport#' => config::byKey('socketport', 'sms', 55002),
-            '#pin#' => config::byKey('pin', 'sms','None'),
-            '#smsc#' => config::byKey('smsc', 'sms','None'),
-            '#log_path#' => log::getPathToLog('sms'),
-            '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
-            '#pid_path#' => '/tmp/sms.pid'
-            );
-        if (config::byKey('jeeNetwork::mode') == 'slave') {
-            $replace_config['#sockethost#'] = config::byKey('internalAddr', 'core', '127.0.0.1');
-        } else {
-            $replace_config['#sockethost#'] = '127.0.0.1';
-        }
-        if (config::byKey('jeeNetwork::mode') == 'slave') {
-            $config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
-        } else {
-            $config = file_get_contents($sms_path . '/config_tmpl.xml');
-        }
-        $config = template_replace($replace_config, $config);
-        file_put_contents($sms_path . '/config.xml', $config);
-        chmod($sms_path . '/config.xml', 0777);
+    if (file_exists($sms_path . '/config.xml')) {
+        unlink($sms_path . '/config.xml');
+    }
+    $replace_config = array(
+        '#device#' => $port,
+        '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
+        '#socketport#' => config::byKey('socketport', 'sms', 55002),
+        '#pin#' => config::byKey('pin', 'sms','None'),
+        '#smsc#' => config::byKey('smsc', 'sms','None'),
+        '#log_path#' => log::getPathToLog('sms'),
+        '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
+        '#pid_path#' => '/tmp/sms.pid'
+        );
+    if (config::byKey('jeeNetwork::mode') == 'slave') {
+        $replace_config['#sockethost#'] = config::byKey('internalAddr', 'core', '127.0.0.1');
+    } else {
+        $replace_config['#sockethost#'] = '127.0.0.1';
+    }
+    if (config::byKey('jeeNetwork::mode') == 'slave') {
+        $config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
+    } else {
+        $config = file_get_contents($sms_path . '/config_tmpl.xml');
+    }
+    $config = template_replace($replace_config, $config);
+    file_put_contents($sms_path . '/config.xml', $config);
+    chmod($sms_path . '/config.xml', 0777);
 
-        $cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
-        if ($_debug) {
-            $cmd .= ' -D';
-        }
-        log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
-        $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
-        if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
-            log::add('sms', 'error', $result);
+    $cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
+    if ($_debug) {
+        $cmd .= ' -D';
+    }
+    log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
+    $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
+    if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
+        log::add('sms', 'error', $result);
+        return false;
+    }
+    sleep(2);
+    if (!self::deamonRunning()) {
+        sleep(10);
+        if (!self::deamonRunning()) {
+            log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
             return false;
         }
-        sleep(2);
-        if (!self::deamonRunning()) {
-            sleep(10);
-            if (!self::deamonRunning()) {
-                log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
-                return false;
-            }
-        }
-        message::removeAll('sms', 'unableStartDeamon');
-        log::add('sms', 'info', 'Démon sms lancé');
     }
+    message::removeAll('sms', 'unableStartDeamon');
+    log::add('sms', 'info', 'Démon sms lancé');
+}
 
-    public static function deamonRunning() {
-        $pid_file = '/tmp/sms.pid';
-        $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
-        if (!file_exists($pid_file)) {
-          if(jeedom::checkOngoingThread($sms_path) > 0){
-            exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
-            exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-            exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-        }
+public static function deamonRunning() {
+    $pid_file = '/tmp/sms.pid';
+    if (!file_exists($pid_file)) {
         return false;
     }
     $pid = trim(file_get_contents($pid_file));
-    if(count(explode("\n", $pid)) != 1){
-        exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
-        unlink($pid_file);
-        return false;
-    }
     if (posix_getsid($pid)) {
         return true;
     } 
@@ -145,16 +133,11 @@ class sms extends eqLogic {
 }
 
 public static function stopDeamon() {
-    if (!self::deamonRunning()) {
-        return true;
-    }
     $pid_file = '/tmp/sms.pid';
-    if (!file_exists($pid_file)) {
-        return true;
-    }
-    $pid = intval(trim(file_get_contents($pid_file)));
-    posix_kill($pid, 15);
-    if (self::deamonRunning()) {
+    if (file_exists($pid_file)) {
+     $pid = intval(trim(file_get_contents($pid_file)));
+     posix_kill($pid, 15);
+     if (self::deamonRunning()) {
         sleep(1);
         posix_kill($pid, 9);
     }
@@ -162,9 +145,12 @@ public static function stopDeamon() {
         sleep(1);
         exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
     }
-    exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-    exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-    return self::deamonRunning();
+}
+$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
+exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
+exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
+exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
+return self::deamonRunning();
 }
 
 /*     * *********************Methode d'instance************************* */
