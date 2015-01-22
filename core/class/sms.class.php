@@ -107,16 +107,21 @@ public static function runDeamon($_debug = false) {
         log::add('sms', 'error', $result);
         return false;
     }
-    sleep(2);
-    if (!self::deamonRunning()) {
-        sleep(10);
-        if (!self::deamonRunning()) {
-            log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
-            return false;
+    $i = 0;
+    while($i<30){
+        if (self::deamonRunning()) {
+            break;
         }
+        sleep(1);
+        $i++;
     }
-    message::removeAll('sms', 'unableStartDeamon');
-    log::add('sms', 'info', 'Démon sms lancé');
+    if($i>=30){
+       log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+       return false;
+   }
+   message::removeAll('sms', 'unableStartDeamon');
+   log::add('sms', 'info', 'Démon sms lancé');
+   return true;
 }
 
 public static function deamonRunning() {
@@ -135,9 +140,9 @@ public static function deamonRunning() {
 public static function stopDeamon() {
     $pid_file = '/tmp/sms.pid';
     if (file_exists($pid_file)) {
-       $pid = intval(trim(file_get_contents($pid_file)));
-       posix_kill($pid, 15);
-       if (self::deamonRunning()) {
+     $pid = intval(trim(file_get_contents($pid_file)));
+     posix_kill($pid, 15);
+     if (self::deamonRunning()) {
         sleep(1);
         posix_kill($pid, 9);
     }
