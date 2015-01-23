@@ -25,6 +25,7 @@ import inspect
 import xml.dom.minidom as minidom
 from optparse import OptionParser
 from gsmmodem.modem import GsmModem
+import unicodedata
 
 from Queue import Queue
 messageQueue = Queue()
@@ -175,9 +176,13 @@ def stripped(str):
 
 # ----------------------------------------------------------------------------
 
+def remove_accents(input_str):
+    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
+
 def handleSms(sms):
      logger.debug("Got SMS message : "+str(sms))
-     message = sms.text.replace('"', '')
+     message = remove_accents(sms.text.replace('"', ''))
      action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",sms.number).replace("$message$", message )
      logger.debug("Execute shell : "+action)
      command = Command(action)
