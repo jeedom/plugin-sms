@@ -49,6 +49,9 @@ if ($number == 'none') {
 
 if ($number == 'signal_strength') {
     config::save('signal_strengh', $message, 'sms');
+    if($message <= 1){
+        log::add('sms','error',__('Attention le signal GSM est trop faible : ',__FILE__).$message);
+    }
     die();
 }
 

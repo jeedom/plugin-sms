@@ -1,3 +1,7 @@
+==== 25/01/2015
+
+- Refonte de la gestion du démon
+
 ==== 11/12/2014
 
 - Bugfix des sms vident
