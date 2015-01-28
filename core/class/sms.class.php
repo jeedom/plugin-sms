@@ -116,12 +116,12 @@ public static function runDeamon($_debug = false) {
         $i++;
     }
     if($i>=30){
-       log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
-       return false;
-   }
-   message::removeAll('sms', 'unableStartDeamon');
-   log::add('sms', 'info', 'Démon sms lancé');
-   return true;
+     log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+     return false;
+ }
+ message::removeAll('sms', 'unableStartDeamon');
+ log::add('sms', 'info', 'Démon sms lancé');
+ return true;
 }
 
 public static function deamonRunning() {
@@ -140,9 +140,9 @@ public static function deamonRunning() {
 public static function stopDeamon() {
     $pid_file = '/tmp/sms.pid';
     if (file_exists($pid_file)) {
-     $pid = intval(trim(file_get_contents($pid_file)));
-     posix_kill($pid, 15);
-     if (self::deamonRunning()) {
+       $pid = intval(trim(file_get_contents($pid_file)));
+       posix_kill($pid, 15);
+       if (self::deamonRunning()) {
         sleep(1);
         posix_kill($pid, 9);
     }
@@ -159,6 +159,22 @@ return self::deamonRunning();
 }
 
 /*     * *********************Methode d'instance************************* */
+
+
+public function postSave(){
+ $signal = $this->getCmd(null, 'signal');
+ if (!is_object($signal)) {
+    $signal = new smsCmd();
+    $signal->setLogicalId('signal');
+    $signal->setIsVisible(0);
+    $signal->setName(__('Signal', __FILE__));
+}
+$signal->setType('info');
+$signal->setSubType('numeric');
+$signal->setEventOnly(1);
+$signal->setEqLogic_id($this->getId());
+$signal->save();
+}
 }
 
 class smsCmd extends cmd {
@@ -179,6 +195,13 @@ class smsCmd extends cmd {
     }
 
     /*     * *********************Methode d'instance************************* */
+
+    public function dontRemoveCmd() {
+        if($this->getLogicalId() == 'signal'){
+            return true;
+        }
+        return false;
+    }
 
     public function execute($_options = null) {
         $values = array();

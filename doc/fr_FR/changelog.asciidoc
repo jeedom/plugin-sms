@@ -1,3 +1,7 @@
+==== 28/01/2015
+
+- Ajout d'une commande Signal pour declencher des actions en cas de perte de signal
+
 ==== 25/01/2015
 
 - Refonte de la gestion du démon

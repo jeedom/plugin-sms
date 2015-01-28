@@ -15,7 +15,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function addCmdToTable(_cmd) {
+ function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
     }
@@ -28,6 +28,10 @@ function addCmdToTable(_cmd) {
         tr += '<select class="form-control cmdAttr input-sm" data-l1key="configuration" data-l2key="user"></select>';
         tr += '</td>';
         tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="phonenumber"></td>';
+        tr += '<td>';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
+        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
+        tr += '</td>';
         tr += '<td>';
         tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="action" style="display : none;">';
         tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="message" style="display : none;">';
@@ -53,5 +57,29 @@ function addCmdToTable(_cmd) {
                 modifyWithoutSave = false;
             }
         });
+    }else if (_cmd.type == 'info') {
+       var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+       tr += '<td>';
+       tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+       tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
+       tr += '<td>';
+       tr += '</td>';
+       tr += '<td></td>';
+       tr += '<td>';
+       tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
+       tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
+       tr += '</td>';
+       tr += '<td>';
+       tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="info" style="display : none;">';
+       tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="numeric" style="display : none;">';
+       if (is_numeric(_cmd.id)) {
+        tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
+        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
     }
+    tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
+    tr += '</tr>';
+    $('#table_cmd tbody').append(tr);
+    var tr = $('#table_cmd tbody tr:last');
+    tr.setValues(_cmd, '.cmdAttr');
+}
 }

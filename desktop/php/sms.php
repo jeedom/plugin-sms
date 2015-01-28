@@ -89,6 +89,7 @@ $eqLogics = eqLogic::byType('sms');
                     <th>{{Nom}}</th>
                     <th>{{Utilisateur}}</th>
                     <th>{{Numéro}}</th>
+                    <th>{{Paramètres}}</th>
                     <th></th>
                 </tr>
             </thead>

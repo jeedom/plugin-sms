@@ -49,17 +49,20 @@ if ($number == 'none') {
 
 if ($number == 'signal_strength') {
     config::save('signal_strengh', $message, 'sms');
-    if($message <= 1){
-        log::add('sms','error',__('Attention le signal GSM est trop faible : ',__FILE__).$message);
+    foreach (eqLogic::byType('sms') as $eqLogic) {
+        $cmd = $eqLogic->getCmd(null,'signal');
+        if(is_object($cmd)){
+            $cmd->event($message);
+        }
     }
     die();
 }
 
-$eqLogics = eqLogic::byType('sms');
+
 if (count($eqLogics) < 1) {
     die();
 }
-
+$eqLogics = eqLogic::byType('sms');
 if (strlen($number) == 11) {
     $number = '+' . $number;
 }
