@@ -28,13 +28,11 @@ $deamonRunning = sms::deamonRunning();
 
 <form class="form-horizontal">
     <fieldset>
-        <?php
-        if ($port != 'none') {
-            if (!$deamonRunning) {
-                echo '<div class="alert alert-danger">Le démon SMS ne tourne pas vérifier le port (' . $port . ' : ' . jeedom::getUsbMapping($port) . ', si vous venez de l\'arreter il redemarrera automatiquement dans 1 minute)</div>';
-            } else {
-                echo '<div class="alert alert-success">Le démon SMS est en marche</div>';
-            }
+    <?php
+        if (!$deamonRunning) {
+            echo '<div class="alert alert-danger">Le démon SMS ne tourne pas</div>';
+        } else {
+            echo '<div class="alert alert-success">Le démon SMS est en marche</div>';
         }
         ?>
         <div class="form-group">
@@ -84,41 +82,59 @@ $deamonRunning = sms::deamonRunning();
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Arrêt/Redémarrage</label>
-            <div class="col-lg-2">
-                <a class="btn btn-warning" id="bt_stopSMSDeamon"><i class='fa fa-stop'></i> Arrêter/Redemarrer le démon</a> 
-            </div>
-        </div>
-        <div class="form-group expertModeVisible">
-            <label class="col-lg-4 control-label">Lancer en debug</label>
-            <div class="col-lg-2">
-                <a class="btn btn-danger" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> Lancer en mode debug</a> 
+            <label class="col-lg-4 control-label">Gestion du démon</label>
+            <div class="col-lg-8">
+                <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> (Re)démarrer</a> 
+                <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> Arrêter</a> 
+                <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> Lancer en mode debug</a> 
             </div>
         </div>
     </fieldset>
 </form>
 
 <script>
-    $('#bt_stopSMSDeamon').on('click', function () {
+    $('#bt_restartSmsDeamon').on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
             data: {
-                action: "stopRestartDeamon",
+                action: "restartDeamon",
             },
             dataType: 'json',
             error: function (request, status, error) {
                 handleAjaxError(request, status, error);
             },
             success: function (data) { // si l'appel a bien fonctionné
-                if (data.state != 'ok') {
-                    $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                $('#div_alert').showAlert({message: 'Le démon a été correctement arreté il se relancera automatiquement dans 1 minute', level: 'success'});
-                $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
             }
-        });
+            $('#div_alert').showAlert({message: 'Le démon a été correctement (re)démaré', level: 'success'});
+            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
+        }
+    });
+    });
+
+    $('#bt_stopSmsDeamon').on('click', function () {
+        $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
+            data: {
+                action: "stopDeamon",
+            },
+            dataType: 'json',
+            error: function (request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function (data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: 'Le démon a été correctement arreté', level: 'success'});
+            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
+        }
+    });
     });
 
     $('#bt_launchSmsInDebug').on('click', function () {
