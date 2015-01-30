@@ -58,7 +58,7 @@ if ($number == 'signal_strength') {
     die();
 }
 
-
+$eqLogics = eqLogic::byType('sms');
 if (count($eqLogics) < 1) {
     die();
 }
