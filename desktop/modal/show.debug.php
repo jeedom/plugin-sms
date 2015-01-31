@@ -30,7 +30,7 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
         type: 'POST',
         url: 'plugins/sms/core/ajax/sms.ajax.php',
         data: {
-            action: 'stopRestartDeamon',
+            action: 'restartDeamon',
             debug : 1
         },
         dataType: 'json',
