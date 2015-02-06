@@ -54,7 +54,7 @@ class config_data:
 		smsc = "None",
 		daemon_active = False,
 		daemon_pidfile = "gsm.pid",
-                debug = False
+				debug = False
 		):
 
 		self.serial_device = serial_device
@@ -69,7 +69,7 @@ class config_data:
 		self.socketserver = socketserver
 		self.sockethost = sockethost
 		self.socketport = socketport
-                self.debug = debug
+		self.debug = debug
 		self.daemon_active = daemon_active
 		self.daemon_pidfile = daemon_pidfile
 
@@ -177,62 +177,62 @@ def stripped(str):
 # ----------------------------------------------------------------------------
 
 def remove_accents(input_str):
-    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
-    return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
+	nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+	return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
 
 def handleSms(sms):
-     logger.debug("Got SMS message : "+str(sms))
-     message = remove_accents(sms.text.replace('"', ''))
-     action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",sms.number).replace("$message$", message )
-     logger.debug("Execute shell : "+action)
-     command = Command(action)
-     command.run(timeout=config.trigger_timeout)
+	logger.debug("Got SMS message : "+str(sms))
+	message = remove_accents(sms.text.replace('"', ''))
+	action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",sms.number).replace("$message$", message )
+	logger.debug("Execute shell : "+action)
+	command = Command(action)
+	command.run(timeout=config.trigger_timeout)
 
 def option_listen():
 	"""
 	Listen to GSM device and process data, exit with CTRL+C
 	"""
-        global gsm
+	global gsm
 	logger.debug("Start listening...")
-        
-        try:
-            logger.debug("Connecting to GSM Modem...")
-            if config.debug :
-                logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+		
+	try:
+		logger.debug("Connecting to GSM Modem...")
+		if config.debug :
+			logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-            gsm = GsmModem(config.serial_device, 115200, smsReceivedCallbackFunc=handleSms)
-            if config.text_mode == 'yes' : 
-                gsm.smsTextMode = True 
-            else :
-                gsm.smsTextMode = False 
+		gsm = GsmModem(config.serial_device, 115200, smsReceivedCallbackFunc=handleSms)
+		if config.text_mode == 'yes' : 
+			gsm.smsTextMode = True 
+		else :
+			gsm.smsTextMode = False 
 
-            if config.pin != 'None' :
-                gsm.connect(config.pin)
-            else :
-                gsm.connect()
-            if config.smsc != 'None' :
-                logger.debug("Configure smsc : "+config.smsc)
-                gsm.write('AT+CSCA="{0}"'.format(config.smsc))
-	            
+		if config.pin != 'None' :
+			gsm.connect(config.pin)
+		else :
+			gsm.connect()
+		if config.smsc != 'None' :
+			logger.debug("Configure smsc : "+config.smsc)
+			gsm.write('AT+CSCA="{0}"'.format(config.smsc))
+			
 
-            logger.debug("Waiting for network...")
-            gsm.waitForNetworkCoverage()
-            logger.debug("Ok")
-        except Exception, e:
-            print("Exception: %s" % str(e))
-            logger.error("Exception: %s" % str(e))
-            action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'none').replace("$message$", str(e) )
-            logger.debug("Execute shell : "+action)
-            command = Command(action)
-            command.run(timeout=config.trigger_timeout)
-            exit(1)
+		logger.debug("Waiting for network...")
+		gsm.waitForNetworkCoverage()
+		logger.debug("Ok")
+	except Exception, e:
+		print("Exception: %s" % str(e))
+		logger.error("Exception: %s" % str(e))
+		action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'none').replace("$message$", str(e) )
+		logger.debug("Execute shell : "+action)
+		command = Command(action)
+		command.run(timeout=config.trigger_timeout)
+		exit(1)
 
 	if config.socketserver:
 		try:
 			serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
 		except:
 			logger.error("Error starting socket server. Line: " + _line())
-                        logger.error("Error: %s" % str(err))
+			logger.error("Error: %s" % str(err))
 			print("Error: can not start server socket, another instance already running?")
 			exit(1)
 		if serversocket.netAdapterRegistered:
@@ -240,35 +240,33 @@ def option_listen():
 		else:
 			logger.debug("Cannot start socket interface")
 
-        signal_strength_store = 0                
+		signal_strength_store = 0				
 	try:
 		while 1:
 			# Let it breath
 			# Without this sleep it will cause 100% CPU in windows
 			time.sleep(1)
-                        try:
-                            gsm.waitForNetworkCoverage()
-                            gsm.processStoredSms(True)
+			try:
+				gsm.waitForNetworkCoverage()
+				gsm.processStoredSms(True)
 
-                            if signal_strength_store != gsm.signalStrength:
-                                signal_strength_store = gsm.signalStrength
-                                action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'signal_strength').replace("$message$", str(gsm.signalStrength) )
-                                logger.debug("Execute shell : "+action)
-                                command = Command(action)
-                                command.run(timeout=config.trigger_timeout)
+				if signal_strength_store != gsm.signalStrength:
+					signal_strength_store = gsm.signalStrength
+					action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'signal_strength').replace("$message$", str(gsm.signalStrength) )
+					logger.debug("Execute shell : "+action)
+					command = Command(action)
+					command.run(timeout=config.trigger_timeout)
 
-                        except Exception, e:
-                            print("Exception: %s" % str(e))
-                            #logger.debug("Exception: %s" % str(e))
+			except Exception, e:
+				print("Exception: %s" % str(e))
+				#logger.debug("Exception: %s" % str(e))
 
-                      
-                           
-                        try:
-                            if config.socketserver:
-                                read_socket()
-                        except Exception, e:
-                            print("Exception: %s" % str(e))
-                            logger.error("Exception: %s" % str(e))
+			try:
+				if config.socketserver:
+					read_socket()
+			except Exception, e:
+				print("Exception: %s" % str(e))
+				logger.error("Exception: %s" % str(e))
 			
 	except KeyboardInterrupt:
 		logger.debug("Received keyboard interrupt")
@@ -345,14 +343,14 @@ def read_socket():
 	if not messageQueue.empty():
 		logger.debug("Message received in socket messageQueue")
 		message = stripped(messageQueue.get())
-                logger.debug("Message  : "+str(message))
-                try :
-                    message = json.loads(message)
-                    gsm.waitForNetworkCoverage()
-                    gsm.sendSms(message['number'],message['message'])
-                except Exception, e:
-                        print("Exception: %s" % str(e))
-                        
+		logger.debug("Message  : "+str(message))
+		try :
+			message = json.loads(message)
+			gsm.waitForNetworkCoverage()
+			gsm.sendSms(message['number'],message['message'])
+		except Exception, e:
+				print("Exception: %s" % str(e))
+						
 
 def read_configfile():
 	"""
@@ -374,10 +372,10 @@ def read_configfile():
 		config.smsc = read_config( cmdarg.configfile, "smsc")
 		logger.debug("Smsc: " + str(config.smsc))
 
-                config.text_mode = read_config( cmdarg.configfile, "text_mode")
+		config.text_mode = read_config( cmdarg.configfile, "text_mode")
 		logger.debug("Code text_mode: " + str(config.text_mode))
 
-            
+			
 		# ----------------------
 		# SOCKET SERVER
 		if (read_config(cmdarg.configfile, "socketserver") == "yes"):
@@ -400,7 +398,7 @@ def read_configfile():
 		logger.debug("Daemon_active: " + str(config.daemon_active))
 		logger.debug("Daemon_pidfile: " + str(config.daemon_pidfile))
 
-                # TRIGGER
+				# TRIGGER
 		config.trigger = read_config( cmdarg.configfile, "trigger").replace('&quot;', '"').replace('&amp;', '&')
 		config.trigger_timeout = read_config( cmdarg.configfile, "trigger_timeout")
 		
@@ -433,7 +431,7 @@ def read_config( configFile, configItem):
 		f.close()
 	
 		# xml parse file data
- 		logger.debug('Parse config XML data')
+		logger.debug('Parse config XML data')
 		try:
 			dom = minidom.parseString(data)
 		except:
@@ -441,22 +439,22 @@ def read_config( configFile, configItem):
 			logger.debug('Error in config.xml file')
 			
 		# Get config item
-	 	logger.debug('Get the configuration item: ' + configItem)
+		logger.debug('Get the configuration item: ' + configItem)
 		
 		try:
-                        xmlTag = dom.getElementsByTagName( configItem )[0].toxml()
-                        logger.debug('Found: ' + xmlTag)
+			xmlTag = dom.getElementsByTagName( configItem )[0].toxml()
+			logger.debug('Found: ' + xmlTag)
 			xmlData = xmlTag.replace('<' + configItem + '>','').replace('</' + configItem + '>','')
 			logger.debug('--> ' + xmlData)
 		except:
 			logger.debug('The item tag not found in the config file')
 			xmlData = ""
 			
- 		logger.debug('Return')
- 		
- 	else:
- 		logger.error("Error: Config file does not exists. Line: " + _line())
- 		
+		logger.debug('Return')
+		
+	else:
+		logger.error("Error: Config file does not exists. Line: " + _line())
+		
 	return xmlData
 
 # ----------------------------------------------------------------------------
@@ -474,7 +472,7 @@ def logger_init(configfile, name, debug):
 			dom = minidom.parseString(data)
 		except Exception, e:
 			print "Error: problem in the config.xml file, cannot process it"
-                        print "Exception: %s" % str(e)
+			print "Exception: %s" % str(e)
 		if dom:
 		
 			# Get loglevel from config file
@@ -520,8 +518,8 @@ def main():
 	config.program_path = os.path.dirname(os.path.realpath(__file__))
 
 	parser = OptionParser()
-        parser.add_option("-d", "--device", action="store", type="string", dest="device", help="The serial device of the SMSCMD, example /dev/ttyUSB0")
-        parser.add_option("-l", "--listen", action="store_true", dest="listen", help="Listen for messages from GSM device")
+	parser.add_option("-d", "--device", action="store", type="string", dest="device", help="The serial device of the SMSCMD, example /dev/ttyUSB0")
+	parser.add_option("-l", "--listen", action="store_true", dest="listen", help="Listen for messages from GSM device")
 	parser.add_option("-o", "--config", action="store", type="string", dest="config", help="Specify the configuration file")
 	parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Output all messages to stdout")
 	parser.add_option("-V", "--version", action="store_true", dest="version", help="Print enoceancmd version information")
@@ -534,11 +532,11 @@ def main():
 		cmdarg.configfile = options.config
 	else:
 		cmdarg.configfile = os.path.join(config.program_path, "config.xml")
-                
+				
 	# ----------------------------------------------------------
 	# LOGHANDLER
 	if options.debug:
-                config.debug = True
+		config.debug = True
 		logger = logger_init(cmdarg.configfile,'smscmd', True)
 	else:
 		logger = logger_init(cmdarg.configfile,'smscmd', False)
@@ -552,7 +550,7 @@ def main():
 	logger.debug("Read configuration file")
 	read_configfile()
 
-        # ----------------------------------------------------------
+		# ----------------------------------------------------------
 	# SERIAL
 	if options.device:
 		config.device = options.device
@@ -561,9 +559,9 @@ def main():
 	else:
 		config.device = None
 
-        # ----------------------------------------------------------
+	# ----------------------------------------------------------
 	
-        logger.debug("Trigger : " + config.trigger)
+	logger.debug("Trigger : " + config.trigger)
 
 	# ----------------------------------------------------------
 	# DAEMON
@@ -591,22 +589,22 @@ def main():
 			sys.exit(1)
 
 		logger.debug("Check platform")
-                logger.debug("Platform: " + sys.platform)
-                try:
-                        logger.debug("Write PID file")
-                        file(cmdarg.pidfile, 'w').write("pid\n")
-                except IOError, e:
-                        logger.error("Line: " + _line())
-                        logger.error("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
-                        raise SystemExit("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
+		logger.debug("Platform: " + sys.platform)
+		try:
+			logger.debug("Write PID file")
+			file(cmdarg.pidfile, 'w').write("pid\n")
+		except IOError, e:
+			logger.error("Line: " + _line())
+			logger.error("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
+			raise SystemExit("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
 
-                logger.debug("Deactivate screen printouts")
-                cmdarg.printout_complete = False
+		logger.debug("Deactivate screen printouts")
+		cmdarg.printout_complete = False
 
-                logger.debug("Start daemon")
-                daemonize()
+		logger.debug("Start daemon")
+		daemonize()
 
-        # ----------------------------------------------------------
+		# ----------------------------------------------------------
 	# LISTEN
 	if options.listen:
 		option_listen()
