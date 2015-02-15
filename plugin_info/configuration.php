@@ -30,16 +30,16 @@ $deamonRunning = sms::deamonRunning();
     <fieldset>
     <?php
         if (!$deamonRunning) {
-            echo '<div class="alert alert-danger">Le démon SMS ne tourne pas</div>';
+            echo '<div class="alert alert-danger">{{Le démon SMS ne tourne pas}}</div>';
         } else {
-            echo '<div class="alert alert-success">Le démon SMS est en marche</div>';
+            echo '<div class="alert alert-success">{{Le démon SMS est en marche}}</div>';
         }
         ?>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Port SMS</label>
+            <label class="col-lg-4 control-label">{{Port SMS}}</label>
             <div class="col-lg-4">
                 <select class="configKey form-control" data-l1key="port">
-                    <option value="none">Aucun</option>
+                    <option value="none">{{Aucun</option>
                     <?php
                     foreach (jeedom::getUsbMapping() as $name => $value) {
                         echo '<option value="' . $name . '">' . $name . ' (' . $value . ')</option>';
@@ -52,41 +52,41 @@ $deamonRunning = sms::deamonRunning();
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Code pin (laisser vide s'il n'y en a pas)</label>
+            <label class="col-lg-4 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
             <div class="col-lg-4">
                 <input type="password" class="configKey form-control" data-l1key="pin" />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Texte mode</label>
+            <label class="col-lg-4 control-label">{{Texte mode}}</label>
             <div class="col-lg-4">
                 <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux' />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)</label>
+            <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)}}</label>
             <div class="col-lg-4">
                 <input class="configKey form-control" data-l1key="smsc" title='Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur'/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Force du signal</label>
+            <label class="col-lg-4 control-label">{{Force du signal}}</label>
             <div class="col-lg-4">
                 <span class="configKey" data-l1key="signal_strengh" ></span> / 30
             </div>
         </div>
         <div class="form-group expertModeVisible">
-            <label class="col-lg-4 control-label">Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)</label>
+            <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
             <div class="col-lg-2">
                 <input class="configKey form-control" data-l1key="socketport" value='55002' />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">Gestion du démon</label>
+            <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
             <div class="col-lg-8">
-                <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> (Re)démarrer</a> 
-                <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> Arrêter</a> 
-                <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> Lancer en mode debug</a> 
+                <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a> 
+                <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a> 
+                <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a> 
             </div>
         </div>
     </fieldset>
@@ -109,7 +109,7 @@ $deamonRunning = sms::deamonRunning();
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Le démon a été correctement (re)démaré', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Le démon a été correctement (re)démaré}}', level: 'success'});
             $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
         }
     });
@@ -131,16 +131,16 @@ $deamonRunning = sms::deamonRunning();
                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            $('#div_alert').showAlert({message: 'Le démon a été correctement arreté', level: 'success'});
+            $('#div_alert').showAlert({message: '{{Le démon a été correctement arreté}}', level: 'success'});
             $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
         }
     });
     });
 
     $('#bt_launchSmsInDebug').on('click', function () {
-        bootbox.confirm('Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé', function (result) {
+        bootbox.confirm('{{Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé}}', function (result) {
             if (result) {
-                $('#md_modal').dialog({title: "SMS en mode debug"});
+                $('#md_modal').dialog({title: "{{SMS en mode debug}}"});
                 $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug').dialog('open');
             }
         });
