@@ -28,7 +28,7 @@ class sms extends eqLogic {
     public static function start() {
         $port = config::byKey('port', 'sms', 'none');
         if ($port != 'none') {
-            if (file_exists(jeedom::getUsbMapping($port))) {
+            if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
                 if (!self::deamonRunning()) {
                     self::runDeamon();
                 }
@@ -42,7 +42,7 @@ class sms extends eqLogic {
     public static function cron() {
         $port = config::byKey('port', 'sms', 'none');
         if ($port != 'none') {
-            if (file_exists(jeedom::getUsbMapping($port))) {
+            if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
                 if (!self::deamonRunning()) {
                     self::runDeamon();
                 }
@@ -56,17 +56,19 @@ class sms extends eqLogic {
     public static function cronDaily() {
       sleep(30);
       $port = config::byKey('port', 'sms', 'none');
-      if (file_exists(jeedom::getUsbMapping($port))) {
+      if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
         self::runDeamon();
     }
 }
 
 public static function runDeamon($_debug = false) {
     self::stopDeamon();
-    $port = jeedom::getUsbMapping(config::byKey('port', 'sms'));
-    if (@!file_exists($port)) {
-        config::save('port', '', 'sms');
-        throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
+    $port = config::byKey('port', 'sms');
+    if ($port != 'auto') {
+        $port = jeedom::getUsbMapping($port);
+        if (@!file_exists($port)) {
+            throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
+        }
     }
     $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
@@ -112,16 +114,16 @@ public static function runDeamon($_debug = false) {
         if (self::deamonRunning()) {
             break;
         }
-        sleep(1);
+        //sleep(1);
         $i++;
     }
     if($i>=30){
-     log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
-     return false;
- }
- message::removeAll('sms', 'unableStartDeamon');
- log::add('sms', 'info', 'Démon sms lancé');
- return true;
+       log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+       return false;
+   }
+   message::removeAll('sms', 'unableStartDeamon');
+   log::add('sms', 'info', 'Démon sms lancé');
+   return true;
 }
 
 public static function deamonRunning() {
@@ -140,9 +142,9 @@ public static function deamonRunning() {
 public static function stopDeamon() {
     $pid_file = '/tmp/sms.pid';
     if (file_exists($pid_file)) {
-       $pid = intval(trim(file_get_contents($pid_file)));
-       posix_kill($pid, 15);
-       if (self::deamonRunning()) {
+     $pid = intval(trim(file_get_contents($pid_file)));
+     posix_kill($pid, 15);
+     if (self::deamonRunning()) {
         sleep(1);
         posix_kill($pid, 9);
     }
@@ -162,8 +164,8 @@ return self::deamonRunning();
 
 
 public function postSave(){
- $signal = $this->getCmd(null, 'signal');
- if (!is_object($signal)) {
+   $signal = $this->getCmd(null, 'signal');
+   if (!is_object($signal)) {
     $signal = new smsCmd();
     $signal->setLogicalId('signal');
     $signal->setIsVisible(0);

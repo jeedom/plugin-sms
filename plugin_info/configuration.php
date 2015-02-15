@@ -39,7 +39,8 @@ $deamonRunning = sms::deamonRunning();
             <label class="col-lg-4 control-label">{{Port SMS}}</label>
             <div class="col-lg-4">
                 <select class="configKey form-control" data-l1key="port">
-                    <option value="none">{{Aucun</option>
+                    <option value="none">{{Aucun}}</option>
+                    <option value="auto">{{Auto}}</option>
                     <?php
                     foreach (jeedom::getUsbMapping() as $name => $value) {
                         echo '<option value="' . $name . '">' . $name . ' (' . $value . ')</option>';
@@ -60,13 +61,13 @@ $deamonRunning = sms::deamonRunning();
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Texte mode}}</label>
             <div class="col-lg-4">
-                <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux' />
+                <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)}}</label>
             <div class="col-lg-4">
-                <input class="configKey form-control" data-l1key="smsc" title='Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur'/>
+                <input class="configKey form-control" data-l1key="smsc" title='{{Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur}}'/>
             </div>
         </div>
         <div class="form-group">
