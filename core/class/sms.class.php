@@ -114,7 +114,7 @@ public static function runDeamon($_debug = false) {
         if (self::deamonRunning()) {
             break;
         }
-        //sleep(1);
+        sleep(1);
         $i++;
     }
     if($i>=30){
