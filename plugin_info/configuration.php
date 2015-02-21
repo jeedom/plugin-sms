@@ -18,23 +18,42 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 include_file('core', 'authentification', 'php');
 if (!isConnect()) {
-    include_file('desktop', '404', 'php');
-    die();
+	include_file('desktop', '404', 'php');
+	die();
 }
 $port = config::byKey('port', 'sms');
-$deamonRunning = sms::deamonRunning();
+$deamonRunningMaster = sms::deamonRunning();
+$deamonRunningSlave = array();
+if (config::byKey('jeeNetwork::mode') == 'master') {
+	foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
+		try {
+			$deamonRunningSlave[$jeeNetwork->getName()] = $jeeNetwork->sendRawRequest('deamonRunning', array('plugin' => 'sms'));
+		} catch (Exception $e) {
+			$deamonRunningSlave[$jeeNetwork->getName()] = false;
+		}
+	}
+}
 ?>
 
 
 <form class="form-horizontal">
     <fieldset>
-    <?php
-        if (!$deamonRunning) {
-            echo '<div class="alert alert-danger">{{Le démon SMS ne tourne pas}}</div>';
-        } else {
-            echo '<div class="alert alert-success">{{Le démon SMS est en marche}}</div>';
-        }
-        ?>
+         <div class="alert alert-info"><strong style="color : #31708f">{{Statut du démon : }}</strong><br/>
+            <?php
+if (!$deamonRunningMaster) {
+	echo '{{En local :}} <strong style="color : #a94442" class="tooltips" title="{{Normale si vous etes en deporté}}">NOK</strong>';
+} else {
+	echo '{{En local :}} <strong style="color : #3c763d;">OK</strong>';
+}
+foreach ($deamonRunningSlave as $name => $status) {
+	if (!$status) {
+		echo '<br/>{{Sur l\'esclave}} ' . $name . ' : <strong style="color : #a94442" >NOK</strong>';
+	} else {
+		echo '<br/>{{Sur l\'esclave}} ' . $name . ' : <strong style="color : #3c763d;">OK</strong>';
+	}
+}
+?>
+    </div>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Port SMS}}</label>
             <div class="col-lg-4">
@@ -42,13 +61,13 @@ $deamonRunning = sms::deamonRunning();
                     <option value="none">{{Aucun}}</option>
                     <option value="auto">{{Auto}}</option>
                     <?php
-                    foreach (jeedom::getUsbMapping() as $name => $value) {
-                        echo '<option value="' . $name . '">' . $name . ' (' . $value . ')</option>';
-                    }
-                    foreach (ls('/dev/', 'tty*') as $value) {
-                        echo '<option value="/dev/' . $value . '">/dev/' . $value . '</option>';
-                    }
-                    ?>
+foreach (jeedom::getUsbMapping() as $name => $value) {
+	echo '<option value="' . $name . '">' . $name . ' (' . $value . ')</option>';
+}
+foreach (ls('/dev/', 'tty*') as $value) {
+	echo '<option value="/dev/' . $value . '">/dev/' . $value . '</option>';
+}
+?>
                 </select>
             </div>
         </div>
@@ -85,9 +104,9 @@ $deamonRunning = sms::deamonRunning();
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
             <div class="col-lg-8">
-                <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a> 
-                <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a> 
-                <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a> 
+                <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a>
+                <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a>
+                <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a>
             </div>
         </div>
     </fieldset>
