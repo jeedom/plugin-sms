@@ -17,35 +17,39 @@
  */
 
 try {
-    require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-    include_file('core', 'authentification', 'php');
+	require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+	include_file('core', 'authentification', 'php');
 
-    if (!isConnect('admin')) {
-        throw new Exception('401 Unauthorized');
-    }
+	if (!isConnect('admin')) {
+		throw new Exception('401 Unauthorized');
+	}
 
-    if (init('action') == 'restartDeamon') {
-        sms::stopDeamon();
-        if (sms::deamonRunning()) {
-            throw new Exception(__('Impossible d\'arrêter le démon',__FILE__));
-        }
-        log::clear('smscmd');
-        sms::runDeamon(init('debug',0));
-        ajax::success();
-    }
+	if (init('action') == 'restartDeamon') {
+		$port = config::byKey('port', 'sms', 'none');
+		if ($port == 'none') {
+			ajax::success();
+		}
+		sms::stopDeamon();
+		if (sms::deamonRunning()) {
+			throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
+		}
+		log::clear('smscmd');
+		sms::runDeamon(init('debug', 0));
+		ajax::success();
+	}
 
-    if (init('action') == 'stopDeamon') {
-        sms::stopDeamon();
-        if (sms::deamonRunning()) {
-            throw new Exception(__('Impossible d\'arrêter le démon',__FILE__));
-        }
-        config::save('port','none','sms');
-        ajax::success();
-    }
+	if (init('action') == 'stopDeamon') {
+		sms::stopDeamon();
+		if (sms::deamonRunning()) {
+			throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
+		}
+		config::save('port', 'none', 'sms');
+		ajax::success();
+	}
 
-    throw new Exception('Aucune methode correspondante');
-    /*     * *********Catch exeption*************** */
+	throw new Exception('Aucune methode correspondante');
+	/*     * *********Catch exeption*************** */
 } catch (Exception $e) {
-    ajax::error(displayExeption($e), $e->getCode());
+	ajax::error(displayExeption($e), $e->getCode());
 }
 ?>

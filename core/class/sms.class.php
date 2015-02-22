@@ -19,228 +19,226 @@
 /* * ***************************Includes********************************* */
 
 class sms extends eqLogic {
-    /*     * ***********************Methode static*************************** */
+	/*     * ***********************Methode static*************************** */
 
-    public static function slaveReload() {
-        self::stopDeamon();
-    }
+	public static function slaveReload() {
+		self::stopDeamon();
+	}
 
-    public static function start() {
-        $port = config::byKey('port', 'sms', 'none');
-        if ($port != 'none') {
-            if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
-                if (!self::deamonRunning()) {
-                    self::runDeamon();
-                }
-                message::removeAll('sms', 'noSMSComPort');
-            } else {
-                log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
-            }
-        }
-    }
+	public static function start() {
+		$port = config::byKey('port', 'sms', 'none');
+		if ($port != 'none') {
+			if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
+				if (!self::deamonRunning()) {
+					self::runDeamon();
+				}
+				message::removeAll('sms', 'noSMSComPort');
+			} else {
+				log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
+			}
+		}
+	}
 
-    public static function cron() {
-        $port = config::byKey('port', 'sms', 'none');
-        if ($port != 'none') {
-            if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
-                if (!self::deamonRunning()) {
-                    self::runDeamon();
-                }
-                message::removeAll('sms', 'noSMSComPort');
-            } else {
-                log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
-            }
-        }
-    }
+	public static function cron() {
+		$port = config::byKey('port', 'sms', 'none');
+		if ($port != 'none') {
+			if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
+				if (!self::deamonRunning()) {
+					self::runDeamon();
+				}
+				message::removeAll('sms', 'noSMSComPort');
+			} else {
+				log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
+			}
+		}
+	}
 
-    public static function cronDaily() {
-      sleep(30);
-      $port = config::byKey('port', 'sms', 'none');
-      if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
-        self::runDeamon();
-    }
-}
+	public static function cronDaily() {
+		sleep(30);
+		$port = config::byKey('port', 'sms', 'none');
+		if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
+			self::runDeamon();
+		}
+	}
 
-public static function runDeamon($_debug = false) {
-    self::stopDeamon();
-    $port = config::byKey('port', 'sms');
-    if ($port != 'auto') {
-        $port = jeedom::getUsbMapping($port);
-        if (@!file_exists($port)) {
-            throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
-        }
-    }
-    $sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
+	public static function runDeamon($_debug = false) {
+		self::stopDeamon();
+		$port = config::byKey('port', 'sms');
+		if ($port != 'auto') {
+			$port = jeedom::getUsbMapping($port);
+			if (@!file_exists($port)) {
+				throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
+			}
+		}
+		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
-    if (file_exists($sms_path . '/config.xml')) {
-        unlink($sms_path . '/config.xml');
-    }
-    $replace_config = array(
-        '#device#' => $port,
-        '#text_mode#' => (config::byKey('text_mode', 'sms') == 1 ) ? 'yes' : 'no',
-        '#socketport#' => config::byKey('socketport', 'sms', 55002),
-        '#pin#' => config::byKey('pin', 'sms','None'),
-        '#smsc#' => config::byKey('smsc', 'sms','None'),
-        '#log_path#' => log::getPathToLog('sms'),
-        '#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
-        '#pid_path#' => '/tmp/sms.pid'
-        );
-    if (config::byKey('jeeNetwork::mode') == 'slave') {
-        $replace_config['#sockethost#'] = config::byKey('internalAddr', 'core', '127.0.0.1');
-    } else {
-        $replace_config['#sockethost#'] = '127.0.0.1';
-    }
-    if (config::byKey('jeeNetwork::mode') == 'slave') {
-        $config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
-    } else {
-        $config = file_get_contents($sms_path . '/config_tmpl.xml');
-    }
-    $config = template_replace($replace_config, $config);
-    file_put_contents($sms_path . '/config.xml', $config);
-    chmod($sms_path . '/config.xml', 0777);
+		if (file_exists($sms_path . '/config.xml')) {
+			unlink($sms_path . '/config.xml');
+		}
+		$replace_config = array(
+			'#device#' => $port,
+			'#text_mode#' => (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no',
+			'#socketport#' => config::byKey('socketport', 'sms', 55002),
+			'#pin#' => config::byKey('pin', 'sms', 'None'),
+			'#smsc#' => config::byKey('smsc', 'sms', 'None'),
+			'#log_path#' => log::getPathToLog('sms'),
+			'#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
+			'#pid_path#' => '/tmp/sms.pid',
+		);
+		if (config::byKey('jeeNetwork::mode') == 'slave') {
+			$replace_config['#sockethost#'] = config::byKey('internalAddr', 'core', '127.0.0.1');
+		} else {
+			$replace_config['#sockethost#'] = '127.0.0.1';
+		}
+		if (config::byKey('jeeNetwork::mode') == 'slave') {
+			$config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
+		} else {
+			$config = file_get_contents($sms_path . '/config_tmpl.xml');
+		}
+		$config = template_replace($replace_config, $config);
+		file_put_contents($sms_path . '/config.xml', $config);
+		chmod($sms_path . '/config.xml', 0777);
 
-    $cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
-    if ($_debug) {
-        $cmd .= ' -D';
-    }
-    log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
-    $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
-    if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
-        log::add('sms', 'error', $result);
-        return false;
-    }
-    $i = 0;
-    while($i<30){
-        if (self::deamonRunning()) {
-            break;
-        }
-        sleep(1);
-        $i++;
-    }
-    if($i>=30){
-       log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
-       return false;
-   }
-   message::removeAll('sms', 'unableStartDeamon');
-   log::add('sms', 'info', 'Démon sms lancé');
-   return true;
-}
+		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
+		if ($_debug) {
+			$cmd .= ' -D';
+		}
+		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
+		$result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
+		if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
+			log::add('sms', 'error', $result);
+			return false;
+		}
+		$i = 0;
+		while ($i < 30) {
+			if (self::deamonRunning()) {
+				break;
+			}
+			sleep(1);
+			$i++;
+		}
+		if ($i >= 30) {
+			log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+			return false;
+		}
+		message::removeAll('sms', 'unableStartDeamon');
+		log::add('sms', 'info', 'Démon sms lancé');
+		return true;
+	}
 
-public static function deamonRunning() {
-    $pid_file = '/tmp/sms.pid';
-    if (!file_exists($pid_file)) {
-        return false;
-    }
-    $pid = trim(file_get_contents($pid_file));
-    if (posix_getsid($pid)) {
-        return true;
-    } 
-    unlink($pid_file);
-    return false;
-}
+	public static function deamonRunning() {
+		$pid_file = '/tmp/sms.pid';
+		if (!file_exists($pid_file)) {
+			return false;
+		}
+		$pid = trim(file_get_contents($pid_file));
+		if (posix_getsid($pid)) {
+			return true;
+		}
+		unlink($pid_file);
+		return false;
+	}
 
-public static function stopDeamon() {
-    $pid_file = '/tmp/sms.pid';
-    if (file_exists($pid_file)) {
-     $pid = intval(trim(file_get_contents($pid_file)));
-     posix_kill($pid, 15);
-     if (self::deamonRunning()) {
-        sleep(1);
-        posix_kill($pid, 9);
-    }
-    if (self::deamonRunning()) {
-        sleep(1);
-        exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
-    }
-}
-$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
-exec("kill -9 `ps ax | grep '$sms_path' | awk '{print $1}'` > /dev/null 2>&1");
-exec('fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-exec('sudo fuser -k '.config::byKey('socketport', 'sms', 55002).'/tcp > /dev/null 2>&1');
-return self::deamonRunning();
-}
+	public static function stopDeamon() {
+		$pid_file = '/tmp/sms.pid';
+		if (file_exists($pid_file)) {
+			$pid = intval(trim(file_get_contents($pid_file)));
+			posix_kill($pid, 15);
+			if (self::deamonRunning()) {
+				sleep(1);
+				posix_kill($pid, 9);
+			}
+			if (self::deamonRunning()) {
+				sleep(1);
+				exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
+			}
+		}
+		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
+		exec('fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
+		exec('sudo fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
+		return self::deamonRunning();
+	}
 
 /*     * *********************Methode d'instance************************* */
 
-
-public function postSave(){
-   $signal = $this->getCmd(null, 'signal');
-   if (!is_object($signal)) {
-    $signal = new smsCmd();
-    $signal->setLogicalId('signal');
-    $signal->setIsVisible(0);
-    $signal->setName(__('Signal', __FILE__));
-}
-$signal->setType('info');
-$signal->setSubType('numeric');
-$signal->setEventOnly(1);
-$signal->setEqLogic_id($this->getId());
-$signal->save();
-}
+	public function postSave() {
+		$signal = $this->getCmd(null, 'signal');
+		if (!is_object($signal)) {
+			$signal = new smsCmd();
+			$signal->setLogicalId('signal');
+			$signal->setIsVisible(0);
+			$signal->setName(__('Signal', __FILE__));
+		}
+		$signal->setType('info');
+		$signal->setSubType('numeric');
+		$signal->setEventOnly(1);
+		$signal->setEqLogic_id($this->getId());
+		$signal->save();
+	}
 }
 
 class smsCmd extends cmd {
-    /*     * *************************Attributs****************************** */
+	/*     * *************************Attributs****************************** */
 
-    /*     * ***********************Methode static*************************** */
+	/*     * ***********************Methode static*************************** */
 
-    public static function cleanSMS($_message) {
-        $caracteres = array(
-            'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', '@' => 'a',
-            'È' => 'e', 'É' => 'e', 'Ê' => 'e', 'Ë' => 'e', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', '€' => 'e',
-            'Ì' => 'i', 'Í' => 'i', 'Î' => 'i', 'Ï' => 'i', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
-            'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ö' => 'o',
-            'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
-            'Œ' => 'oe', 'œ' => 'oe',
-            '$' => 's');
-        return preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', strtr($_message, $caracteres));
-    }
+	public static function cleanSMS($_message) {
+		$caracteres = array(
+			'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', '@' => 'a',
+			'È' => 'e', 'É' => 'e', 'Ê' => 'e', 'Ë' => 'e', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', '€' => 'e',
+			'Ì' => 'i', 'Í' => 'i', 'Î' => 'i', 'Ï' => 'i', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+			'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ö' => 'o',
+			'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
+			'Œ' => 'oe', 'œ' => 'oe',
+			'$' => 's');
+		return preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', strtr($_message, $caracteres));
+	}
 
-    /*     * *********************Methode d'instance************************* */
+	/*     * *********************Methode d'instance************************* */
 
-    public function dontRemoveCmd() {
-        if($this->getLogicalId() == 'signal'){
-            return true;
-        }
-        return false;
-    }
+	public function dontRemoveCmd() {
+		if ($this->getLogicalId() == 'signal') {
+			return true;
+		}
+		return false;
+	}
 
-    public function execute($_options = null) {
-        $values = array();
-        $message = $_options['title'] . ' ' . $_options['message'];
-        if (config::byKey('text_mode', 'sms') == 1) {
-            $message = self::cleanSMS(trim($message), true);
-        }
-        if (strlen($message) > 140) {
-            $messages = str_split($message, 140);
-            foreach ($messages as $message_split) {
-                $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
-            }
-        } else {
-            $values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message));
-        }
-        if (config::byKey('jeeNetwork::mode') == 'master') {
-            foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
-                foreach ($values as $value) {
-                    if (trim($value['message']) != '') {
-                        $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-                        socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms', 55002));
-                        socket_write($socket, $value, strlen($value));
-                        socket_close($socket);
-                    }
-                }
-            }
-        }
-        if (config::byKey('port', 'sms', 'none') != 'none') {
-            foreach ($values as $value) {
-                if (trim($value) != '') {
-                    $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-                    socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms', 55002));
-                    socket_write($socket, $value, strlen($value));
-                    socket_close($socket);
-                }
-            }
-        }
-    }
+	public function execute($_options = null) {
+		$values = array();
+		$message = $_options['title'] . ' ' . $_options['message'];
+		if (config::byKey('text_mode', 'sms') == 1) {
+			$message = self::cleanSMS(trim($message), true);
+		}
+		if (strlen($message) > 140) {
+			$messages = str_split($message, 140);
+			foreach ($messages as $message_split) {
+				$values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
+			}
+		} else {
+			$values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message));
+		}
+		if (config::byKey('jeeNetwork::mode') == 'master') {
+			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
+				foreach ($values as $value) {
+					if (trim($value['message']) != '') {
+						$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+						socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms', 55002));
+						socket_write($socket, $value, strlen($value));
+						socket_close($socket);
+					}
+				}
+			}
+		}
+		if (config::byKey('port', 'sms', 'none') != 'none') {
+			foreach ($values as $value) {
+				if (trim($value) != '') {
+					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+					socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms', 55002));
+					socket_write($socket, $value, strlen($value));
+					socket_close($socket);
+				}
+			}
+		}
+	}
 
 }
