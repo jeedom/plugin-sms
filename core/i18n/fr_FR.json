@@ -18,7 +18,9 @@
         "Le démon a été correctement (re)démaré": "Le démon a été correctement (re)démaré",
         "Le démon a été correctement arreté": "Le démon a été correctement arreté",
         "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé",
-        "SMS en mode debug": "SMS en mode debug"
+        "SMS en mode debug": "SMS en mode debug",
+        "Statut du démon : ": "Statut du démon : ",
+        "En local :": "En local :"
     },
     "plugins\/sms\/desktop\/php\/sms.php": {
         "Ajouter un équipement": "Ajouter un équipement",
@@ -39,5 +41,9 @@
         "Paramètres": "Paramètres",
         "Supprimer": "Supprimer",
         "Sauvegarder": "Sauvegarder"
+    },
+    "plugins\/sms\/plugin_info\/info.xml": {
+        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
+        "": ""
     }
 }
