@@ -319,4 +319,26 @@ $('.bt_launchSMSInDebug').on('click', function () {
         }
     });
          }
+
+
+           function sms_postSaveSlaveConfiguration(_slave_id){
+             $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
+            data: {
+                action: "restartSlaveDeamon",
+                id : _slave_id
+            },
+            dataType: 'json',
+            error: function (request, status, error) {
+                handleAjaxError(request, status, error);
+            },
+            success: function (data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+        }
+    });
+         }
      </script>
