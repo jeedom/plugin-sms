@@ -28,5 +28,24 @@ if ($jsonrpc->getMethod() == 'deamonRunning') {
 	$jsonrpc->makeSuccess(sms::deamonRunning());
 }
 
+if ($jsonrpc->getMethod() == 'stopDeamon') {
+	$jsonrpc->makeSuccess(sms::stopDeamon());
+}
+
+if ($jsonrpc->getMethod() == 'restartDeamon') {
+	$port = config::byKey('port', 'sms', 'none');
+	if ($port == 'none') {
+		ajax::success();
+	}
+	sms::stopDeamon();
+	if (sms::deamonRunning()) {
+		throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
+	}
+	log::clear('smscmd');
+	$params['debug'] = (!isset($params['debug'])) ? 0 : $params['debug'];
+	sms::runDeamon($params['debug']);
+	$jsonrpc->makeSuccess();
+}
+
 throw new Exception(__('Aucune methode correspondante pour le plugin SMS : ' . $jsonrpc->getMethod(), __FILE__));
 ?>

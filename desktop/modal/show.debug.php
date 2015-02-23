@@ -15,10 +15,10 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 if (!isConnect('admin')) {
-    throw new Exception('401 Unauthorized');
+	throw new Exception('401 Unauthorized');
 }
+sendVarToJs('debugMode_slaveId', init('slave_id'));
 echo '<div class="alert alert-warning">{{Attention le lancement en mode debug est très consommateur en ressources et en log, pensez bien à relancer le démon une fois l\'analyse terminée}}</div>';
 ?>
 <div id='div_smsShowDebug' style="display: none;"></div>
@@ -26,6 +26,68 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
 
 
 <script>
+  if(debugMode_slaveId != ''){
+ $.ajax({// fonction permettant de faire de l'ajax
+            type: "POST", // methode de transmission des données au fichier php
+            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
+            data: {
+                action: "restartSlaveDeamon",
+                id : debugMode_slaveId
+            },
+            dataType: 'json',
+            error: function (request, status, error) {
+                handleAjaxError(request, status, error, $('#div_smsShowDebug'));
+            },
+            success: function (data) { // si l'appel a bien fonctionné
+            if (data.state != 'ok') {
+                $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            getJeedomSlaveLog(1);
+        }
+    });
+
+ function getJeedomSlaveLog(_autoUpdate) {
+    $.ajax({
+        type: 'POST',
+        url: 'core/ajax/jeeNetwork.ajax.php',
+        data: {
+            action: 'getLog',
+            log: 'smscmd',
+            id: debugMode_slaveId
+        },
+        dataType: 'json',
+        global: false,
+        error: function (request, status, error) {
+            setTimeout(function () {
+                getJeedomSlaveLog(_autoUpdate, 'smscmd')
+            }, 1000);
+        },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            var log = '';
+            var regex = /<br\s*[\/]?>/gi;
+            for (var i in data.result.reverse()) {
+                log += data.result[i][2].replace(regex, "\n");
+            }
+            $('#pre_smslog').text(log);
+            $('#pre_smslog').scrollTop($('#pre_smslog').height() + 200000);
+            if (!$('#pre_smslog').is(':visible')) {
+                _autoUpdate = 0;
+            }
+
+            if (init(_autoUpdate, 0) == 1) {
+                setTimeout(function () {
+                    getJeedomSlaveLog(_autoUpdate)
+                }, 1000);
+            }
+        }
+    });
+}
+}else{
     $.ajax({
         type: 'POST',
         url: 'plugins/sms/core/ajax/sms.ajax.php',
@@ -85,5 +147,5 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
             }
         });
     }
-
+}
 </script>
