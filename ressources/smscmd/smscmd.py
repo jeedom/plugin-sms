@@ -225,7 +225,17 @@ def option_listen():
 		command = Command(action)
 		command.run(timeout=config.trigger_timeout)
 
-		gsm.deleteMultipleStoredSms();
+		try:
+			gsm.write('AT+CPMS="ME","ME","ME"')
+			gsm.write('AT+CMGD=1,4')
+		except Exception, e:
+			print("Exception: %s" % str(e))
+
+		try:
+			gsm.write('AT+CPMS="SM","SM","SM"')
+			gsm.write('AT+CMGD=1,4')
+		except Exception, e:
+			print("Exception: %s" % str(e))
 
 	except Exception, e:
 		print("Exception: %s" % str(e))
