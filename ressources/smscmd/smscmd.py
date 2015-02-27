@@ -219,6 +219,14 @@ def option_listen():
 		logger.debug("Waiting for network...")
 		gsm.waitForNetworkCoverage()
 		logger.debug("Ok")
+
+		action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'network_name').replace("$message$", str(gsm.networkName) )
+		logger.debug("Execute shell : "+action)
+		command = Command(action)
+		command.run(timeout=config.trigger_timeout)
+
+		gsm.deleteMultipleStoredSms();
+
 	except Exception, e:
 		print("Exception: %s" % str(e))
 		logger.error("Exception: %s" % str(e))

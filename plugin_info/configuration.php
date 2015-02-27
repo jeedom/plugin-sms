@@ -103,6 +103,12 @@ foreach (ls('/dev/', 'tty*') as $value) {
             <span class="configKey" data-l1key="signal_strengh" ></span> / 30
         </div>
     </div>
+     <div class="form-group">
+        <label class="col-lg-4 control-label">{{Reseaux}}</label>
+        <div class="col-lg-4">
+            <span class="configKey" data-l1key="network_name" ></span>
+        </div>
+    </div>
     <div class="form-group expertModeVisible">
         <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
         <div class="col-lg-2">
@@ -163,6 +169,12 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
                     <label class="col-lg-4 control-label">{{Force du signal}}</label>
                     <div class="col-lg-4">
                         <span class="slaveConfigKey" data-l1key="signal_strengh" ></span> / 30
+                    </div>
+                </div>
+                   <div class="form-group">
+                    <label class="col-lg-4 control-label">{{Réseaux}}</label>
+                    <div class="col-lg-4">
+                        <span class="slaveConfigKey" data-l1key="network_name" ></span>
                     </div>
                 </div>
                 <div class="form-group expertModeVisible">

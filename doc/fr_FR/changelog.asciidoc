@@ -1,3 +1,8 @@
+==== 27/02/2015
+
+- Ajout du nom du reseaux mobile
+- Suppression de tous les sms en mémoire au demarrage du démon
+
 ==== 28/01/2015
 
 - Ajout d'une commande Signal pour declencher des actions en cas de perte de signal
