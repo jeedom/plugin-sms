@@ -220,10 +220,13 @@ def option_listen():
 		gsm.waitForNetworkCoverage()
 		logger.debug("Ok")
 
-		action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'network_name').replace("$message$", str(gsm.networkName) )
-		logger.debug("Execute shell : "+action)
-		command = Command(action)
-		command.run(timeout=config.trigger_timeout)
+		try:
+			action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'network_name').replace("$message$", str(gsm.networkName) )
+			logger.debug("Execute shell : "+action)
+			command = Command(action)
+			command.run(timeout=config.trigger_timeout)
+		except Exception, e:
+			print("Exception: %s" % str(e))
 
 		try:
 			gsm.write('AT+CPMS="ME","ME","ME"')
