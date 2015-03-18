@@ -205,7 +205,7 @@ class smsCmd extends cmd {
 
 	public function execute($_options = null) {
 		$values = array();
-		$message = $_options['title'] . ' ' . $_options['message'];
+		$message = trim($_options['title'] . ' ' . $_options['message']);
 		if (config::byKey('text_mode', 'sms') == 1) {
 			$message = self::cleanSMS(trim($message), true);
 		}
