@@ -35,7 +35,7 @@ if ($jsonrpc->getMethod() == 'stopDeamon') {
 if ($jsonrpc->getMethod() == 'restartDeamon') {
 	$port = config::byKey('port', 'sms', 'none');
 	if ($port == 'none') {
-		ajax::success();
+		$jsonrpc->makeSuccess('ok');
 	}
 	sms::stopDeamon();
 	if (sms::deamonRunning()) {
@@ -44,7 +44,7 @@ if ($jsonrpc->getMethod() == 'restartDeamon') {
 	log::clear('smscmd');
 	$params['debug'] = (!isset($params['debug'])) ? 0 : $params['debug'];
 	sms::runDeamon($params['debug']);
-	$jsonrpc->makeSuccess();
+	$jsonrpc->makeSuccess('ok');
 }
 
 throw new Exception(__('Aucune methode correspondante pour le plugin SMS : ' . $jsonrpc->getMethod(), __FILE__));

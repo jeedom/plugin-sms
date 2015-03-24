@@ -220,23 +220,19 @@ class smsCmd extends cmd {
 		if (config::byKey('jeeNetwork::mode') == 'master') {
 			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
 				foreach ($values as $value) {
-					if (trim($value) != '') {
-						$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-						socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms', 55002));
-						socket_write($socket, $value, strlen($value));
-						socket_close($socket);
-					}
+					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+					socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms', 55002));
+					socket_write($socket, $value, strlen($value));
+					socket_close($socket);
 				}
 			}
 		}
 		if (config::byKey('port', 'sms', 'none') != 'none') {
 			foreach ($values as $value) {
-				if (trim($value) != '') {
-					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-					socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms', 55002));
-					socket_write($socket, $value, strlen($value));
-					socket_close($socket);
-				}
+				$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+				socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms', 55002));
+				socket_write($socket, $value, strlen($value));
+				socket_close($socket);
 			}
 		}
 	}

@@ -32,7 +32,8 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
             data: {
                 action: "restartSlaveDeamon",
-                id : debugMode_slaveId
+                id : debugMode_slaveId,
+                debug : 1
             },
             dataType: 'json',
             error: function (request, status, error) {
