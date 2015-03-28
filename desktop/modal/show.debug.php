@@ -22,11 +22,34 @@ sendVarToJs('debugMode_slaveId', init('slave_id'));
 echo '<div class="alert alert-warning">{{Attention le lancement en mode debug est très consommateur en ressources et en log, pensez bien à relancer le démon une fois l\'analyse terminée}}</div>';
 ?>
 <div id='div_smsShowDebug' style="display: none;"></div>
-<pre id='pre_smslog' style='overflow: auto; height: 85%;with:90%;'></pre>
+<a class="btn btn-warning pull-right" data-state="1" id="bt_smsLogStopStart"><i class="fa fa-pause"></i> {{Pause}}</a>
+<input class="form-control pull-right" id="in_smsLogSearch" style="width : 300px;" placeholder="{{Rechercher}}" />
+<br/><br/><br/>
+<pre id='pre_smslog' style='overflow: auto; height: 80%;with:90%;'></pre>
 
 
 <script>
-  if(debugMode_slaveId != ''){
+    $('#bt_smsLogStopStart').on('click',function(){
+        if($(this).attr('data-state') == 1){
+            $(this).attr('data-state',0);
+            $(this).removeClass('btn-warning').addClass('btn-success');
+            $(this).html('<i class="fa fa-play"></i> {{Reprise}}');
+
+        }else{
+            $(this).removeClass('btn-success').addClass('btn-warning');
+            $(this).html('<i class="fa fa-pause"></i> {{Pause}}');
+            $(this).attr('data-state',1);
+            jeedom.log.autoupdate({
+                log : 'smscmd',
+                slaveId : debugMode_slaveId,
+                display : $('#pre_smslog'),
+                search : $('#in_smsLogSearch'),
+                control : $('#bt_smsLogStopStart'),
+            });
+        }
+    });
+
+    if(debugMode_slaveId != ''){
  $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
@@ -44,50 +67,16 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
                 $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            getJeedomSlaveLog(1);
+            jeedom.log.autoupdate({
+                log : 'smscmd',
+                slaveId : debugMode_slaveId,
+                display : $('#pre_smslog'),
+                search : $('#in_smsLogSearch'),
+                control : $('#bt_smsLogStopStart'),
+            });
         }
     });
 
- function getJeedomSlaveLog(_autoUpdate) {
-    $.ajax({
-        type: 'POST',
-        url: 'core/ajax/jeeNetwork.ajax.php',
-        data: {
-            action: 'getLog',
-            log: 'smscmd',
-            id: debugMode_slaveId
-        },
-        dataType: 'json',
-        global: false,
-        error: function (request, status, error) {
-            setTimeout(function () {
-                getJeedomSlaveLog(_autoUpdate, 'smscmd')
-            }, 1000);
-        },
-        success: function (data) {
-            if (data.state != 'ok') {
-                $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            var log = '';
-            var regex = /<br\s*[\/]?>/gi;
-            for (var i in data.result.reverse()) {
-                log += data.result[i][2].replace(regex, "\n");
-            }
-            $('#pre_smslog').text(log);
-            $('#pre_smslog').scrollTop($('#pre_smslog').height() + 200000);
-            if (!$('#pre_smslog').is(':visible')) {
-                _autoUpdate = 0;
-            }
-
-            if (init(_autoUpdate, 0) == 1) {
-                setTimeout(function () {
-                    getJeedomSlaveLog(_autoUpdate)
-                }, 1000);
-            }
-        }
-    });
-}
 }else{
     $.ajax({
         type: 'POST',
@@ -105,48 +94,13 @@ echo '<div class="alert alert-warning">{{Attention le lancement en mode debug es
                 $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
                 return;
             }
-            getDebugLog(1);
+            jeedom.log.autoupdate({
+                log : 'smscmd',
+                display : $('#pre_smslog'),
+                search : $('#in_smsLogSearch'),
+                control : $('#bt_smsLogStopStart'),
+            });
         }
     });
-
-    function getDebugLog(_autoUpdate) {
-        $.ajax({
-            type: 'POST',
-            url: 'core/ajax/log.ajax.php',
-            data: {
-                action: 'get',
-                logfile: 'smscmd',
-            },
-            dataType: 'json',
-            global: false,
-            error: function (request, status, error) {
-                setTimeout(function () {
-                    getJeedomLog(_autoUpdate, 'smscmd')
-                }, 1000);
-            },
-            success: function (data) {
-                if (data.state != 'ok') {
-                    $('#div_smsShowDebug').showAlert({message: data.result, level: 'danger'});
-                    return;
-                }
-                var log = '';
-                var regex = /<br\s*[\/]?>/gi;
-                for (var i in data.result.reverse()) {
-                    log += data.result[i][2].replace(regex, "\n");
-                }
-                $('#pre_smslog').text(log);
-                $('#pre_smslog').scrollTop($('#pre_smslog').height() + 200000);
-                if (!$('#pre_smslog').is(':visible')) {
-                    _autoUpdate = 0;
-                }
-
-                if (init(_autoUpdate, 0) == 1) {
-                    setTimeout(function () {
-                        getDebugLog(_autoUpdate)
-                    }, 1000);
-                }
-            }
-        });
-    }
 }
 </script>
