@@ -92,8 +92,14 @@ foreach (ls('/dev/', 'tty*') as $value) {
         </div>
     </div>
     <div class="form-group">
+        <label class="col-lg-4 control-label">{{Découper les messages par paquet de caractères}}</label>
+        <div class="col-lg-2">
+            <input class="configKey tooltips form-control" data-l1key="maxChartByMessage" title='{{Par defaut 140}}' />
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)}}</label>
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <input class="configKey form-control" data-l1key="smsc" title='{{Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur}}'/>
         </div>
     </div>

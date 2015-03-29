@@ -195,8 +195,8 @@ class smsCmd extends cmd {
 		if (config::byKey('text_mode', 'sms') == 1) {
 			$message = self::cleanSMS(trim($message), true);
 		}
-		if (strlen($message) > 140) {
-			$messages = str_split($message, 140);
+		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
+			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
 			foreach ($messages as $message_split) {
 				$values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
 			}
