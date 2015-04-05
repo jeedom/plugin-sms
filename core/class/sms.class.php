@@ -72,7 +72,7 @@ class sms extends eqLogic {
 			'#pid_path#' => '/tmp/sms.pid',
 		);
 		if (config::byKey('jeeNetwork::mode') == 'slave') {
-			$replace_config['#sockethost#'] = config::byKey('internalAddr', 'core', '127.0.0.1');
+			$replace_config['#sockethost#'] = network::getNetworkAccess('internal', 'ip', '127.0.0.1');
 		} else {
 			$replace_config['#sockethost#'] = '127.0.0.1';
 		}
