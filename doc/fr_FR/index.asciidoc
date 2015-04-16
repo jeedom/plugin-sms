@@ -10,7 +10,7 @@ include::configuration.asciidoc[]
 
 '''
 === Liste des clefs compatibles
-link:https://jeedom.fr/liste_module_gsm.php[ici]
+include::compatibility.asciidoc[]
 
 '''
 === FAQ
