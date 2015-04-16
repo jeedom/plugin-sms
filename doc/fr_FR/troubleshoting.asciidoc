@@ -11,10 +11,10 @@ Cela veut dire que le démon est démarré mais que Jeedom n'arrive pas à le st
 --
 
 [panel,danger]
-.En mode debug j'ai l'erreur "timeout" qui apparait...
+.En mode debug j'ai l'erreur "timeout" qui apparaît...
 --
 Cette erreur arrive quand la clef ne répond pas dans les 10 secondes qui suivent une demande. Les causes connues peuvent être :
 
-..incompatibilité de la clef GSM,
-..problème avec la version du firmware de la clef.
+** incompatibilité de la clef GSM,
+** problème avec la version du firmware de la clef.
 --
