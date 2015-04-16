@@ -1,13 +1,13 @@
 [panel,danger]
 .Le démon refuse de démarrer...
 --
-Essayez de le démarrer en mode debug pour voir l'erreur
+Essayez de le démarrer en mode debug pour voir l'erreur.
 --
 
 [panel,danger]
 .Lors du démarrage en mode debug j'ai : "socket already in use"...
 --
-Cela veut dire que le démon est démarré mais que Jeedom n'arrive pas à le stopper. Vous pouvez soit redémarrer tout le système, soit en ssh faire "killall -9 refxcmd.py"
+Cela veut dire que le démon est démarré mais que Jeedom n'arrive pas à le stopper. Vous pouvez soit redémarrer tout le système, soit en ssh faire "killall -9 refxcmd.py".
 --
 
 [panel,danger]
