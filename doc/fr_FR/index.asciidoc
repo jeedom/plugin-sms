@@ -2,7 +2,7 @@
 == SMS
 
 === Description
-Plugin permetant à l'aide d'une clef GSM, d'envoyer et recevoir des SMS
+Plugin permettant d'envoyer et recevoir des SMS à l'aide d'une clef GSM.
 
 '''
 === Configuration
