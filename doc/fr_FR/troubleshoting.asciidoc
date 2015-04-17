@@ -18,3 +18,51 @@ Cette erreur arrive quand la clef ne répond pas dans les 10 secondes qui suiven
 ** incompatibilité de la clef GSM,
 ** problème avec la version du firmware de la clef.
 --
+
+[panel,danger]
+.Configuration de la clef Alcatel one touch X220L
+--
+Lorsque l'on insère la clé on a ceci :
+----
+root@jeedom:# lsusb 
+Bus 002 Device 003: ID 1bbb:f000 T & A Mobile Phones 
+----
+
+il faut ajouter les lignes suivantes à la fin du fichier /etc/usb_modeswitch.conf :
+----
+########################################################
+# Alcatel X220L
+
+DefaultVendor= 0x1bbb
+DefaultProduct= 0xf000
+
+MessageContent="55534243123456788000000080000606f50402527000000000000000000000"
+########################################################
+----
+
+Puis lancer la commande suivante pour tester : 
+----
+/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf
+----
+
+On obtient ceci :
+----
+root@jeedom:~# lsusb
+Bus 002 Device 003: ID 1bbb:0017 T & A Mobile Phones 
+----
+
+et les liens sous /dev sont bien ajoutés :
+----
+root@jeedom:~# ls /dev/ttyUSB*
+/dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyUSB4
+-----
+
+Maintenant il faut automatiser le lancement de la commande précédente via udev :
+----
+root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules 
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"
+----
+
+Sous jeedom dans le plugin SMS il faut (dans mon cas) utiliser le "port SMS" suivant : /dev/ttyUSB3 en gros il faut essayer chaque port pour trouver le bon...
+
+--
