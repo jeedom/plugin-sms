@@ -66,23 +66,23 @@ image::../images/sms5.png[]
 
 Vous retrouvez ici toute la configuration de votre équipement : 
 
-* Nom de l'équipement SMS : nom de votre équipement SMS,
-* Activer : permet de rendre votre équipement actif,
-* Visible : le rend visible sur le dashboard,
-* Objet parent : indique l'objet parent auquel appartient l'équipement.
+* *Nom de l'équipement SMS* : nom de votre équipement SMS,
+* *Activer* : permet de rendre votre équipement actif,
+* *Visible* : le rend visible sur le dashboard,
+* *Objet parent* : indique l'objet parent auquel appartient l'équipement.
 
 En dessous vous retrouvez la liste des commandes : 
 
-* le nom affiché sur le dashboard,
-* utilisateur : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
-* numéro : numéro de téléphone à qui envoyer les messages,
+* *le nom affiché sur le dashboard,
+* *utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
+* *numéro* : numéro de téléphone à qui envoyer les messages,
 [icon="../images/plugin/important.png"]
 [IMPORTANT]
 Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux sont autorisés.
-* afficher : permet d'afficher la donnée sur le dashboard,
-* configuration avancée (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),
-* tester : permet de tester la commande,
-* supprimer (signe -) : permet de supprimer la commande.
+* *afficher* : permet d'afficher la donnée sur le dashboard,
+* *configuration avancée* (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),
+* *tester* : permet de tester la commande,
+* *supprimer* (signe -) : permet de supprimer la commande.
 
 
 
