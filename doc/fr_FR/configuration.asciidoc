@@ -2,11 +2,11 @@ Le plugin SMS permet de dialoguer avec Jeedom par l'intermediaire des SMS, il pe
 
 [icon="../images/plugin/important.png"]
 [IMPORTANT]
-Pour dialoguer avec Jeedom il faut avoir configurer des interactions.
+Pour dialoguer avec Jeedom il faut avoir configuré des interactions.
 
 ==== Configuration du plugin
 
-Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port, après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
+Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port. Après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
 Voici le détail (certains paramètres peuvent n'être visibles qu'en mode expert) :
 
 image::../images/sms1.png[]
@@ -26,9 +26,9 @@ Si vous ne savez pas quel port USB est utilisé, vous pouvez simplement indiquer
 [IMPORTANT]
 Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut à l'aide du logiciel de votre fabricant de clef, changer le mode de la clef sur GSM (ou texte, ou série).
 ** _Code pin_ : Permet d'indiquer le code pin de la carte SIM, à laisser vide si vous n'en avez pas.
-** _Texte mode_ : Mode de compatibilité étendu, à n'utiliser que si l'envoi ou la réception de messages ne marche pas.
+** _Texte mode_ : Mode de compatibilité étendu, à n'utiliser que si l'envoi ou la réception des messages ne marche pas.
 ** _Découper les messages par paquet de caractères_ : Indique le nombre de caractères maximum par texto.
-** _Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)_ : A ne changer que si vous avez l'erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique.
+** _Passerelle SMS / SMS Gateway (modifier en cas d'erreur : CMS 330 SMSC number not set)_ : A ne changer que si vous avez l'erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique.
 ** _Force du signal_ : Force de réception du signal de votre clef GSM.
 ** _Réseau_ : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n'arrive pas à le récupérer).
 ** _Port socket interne (modification dangereuse, doit être la même valeur sur tous les Jeedom déportés SMS)_ : permet de modifier le port de communication interne du démon.
@@ -57,7 +57,7 @@ image::../images/sms3.png[]
 
 [icon="../images/plugin/tip.png"]
 [TIP]
-Comme à beaucoup d'endroits sur Jeedom, mettre la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez, à partir de votre profil, le laisser toujours visible).
+Comme à beaucoup d'endroits sur Jeedom, placer la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez, à partir de votre profil, le laisser toujours visible).
 
 Une fois que vous cliquez sur l'un d'eux, vous obtenez : 
 
@@ -68,66 +68,41 @@ Vous retrouvez ici toute la configuration de votre équipement :
 
 * *Nom de l'équipement SMS* : nom de votre équipement SMS,
 * *Activer* : permet de rendre votre équipement actif,
-* *Visible* : le rend visible sur le dashboard,
+* *Visible* : rend votre équipement visible sur le dashboard,
 * *Objet parent* : indique l'objet parent auquel appartient l'équipement.
 
 En dessous vous retrouvez la liste des commandes : 
 
-* *le nom affiché sur le dashboard,
-* *utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
-* *numéro* : numéro de téléphone à qui envoyer les messages,
+* *Nom* : le nom affiché sur le dashboard,
+* *Utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
+* *Numéro* : numéro de téléphone à qui envoyer les messages,
 [icon="../images/plugin/important.png"]
 [IMPORTANT]
-Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux sont autorisés.
-* *afficher* : permet d'afficher la donnée sur le dashboard,
-* *configuration avancée* (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),
-* *tester* : permet de tester la commande,
-* *supprimer* (signe -) : permet de supprimer la commande.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés.
+* *Afficher* : permet d'afficher la donnée sur le dashboard,
+* *Configuration avancée* (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),
+* *Tester* : permet de tester la commande,
+* *Supprimer* (signe -) : permet de supprimer la commande.
 
 
 ==== Utilisation du plugin
 
 Celui-ci est assez standard dans son fonctionnement, sur la page Général -> Plugin puis en sélectionnant le plugin SMS : 
 
-- Le port (chemin) jusqu’au périphérique qui sert de modem (chez moi c’est /dev/ttyUSB0, pour le voir il suffit de lancer “dmesg” puis de brancher le modem)
+- Le port (chemin) jusqu’au périphérique qui sert de modem (par exemple ce peut être /dev/ttyUSB0, pour le voir il suffit de lancer “dmesg” puis de brancher le modem)
 - Le code pin de la carte sim
  
-
++ 
 Il faut donc ajouter un nouvel équipement puis le configurer :
 
 image::../images/sms_screenshot1.JPG[]
 
 - Le nom de celui-ci,
 - S’il est actif ou non,
++ 
+Puis il faut ajouter les commandes qui seront composées d’un nom et d’un numéro, seuls les numéros listés dans la liste des commandes peuvent recevoir une réponse de Jeedom (ça permet de sécuriser, tout en évitant de mettre un mot de passe à chaque début de SMS envoyé à Jeedom). Vous pouvez aussi indiquer quel utilisateur est lié à ce numéro (pour la gestion des droits au niveau des interactions).
 
-Puis il faut ajouter les commandes qui seront composées d’un nom et d’un numéro, seuls les numéros listés dans la liste des commandes peuvent recevoir une réponse de Jeedom (ça permet de sécuriser, tout en évitant de mettre un mot de passe à chaque début de SMS que j’envoie à Jeedom). Vous pouvez aussi indiquer quel utilisateur est lié à ce numéro (pour la gestion des droits au niveau des interactions).
-
-Pour communiquer avec Jeedom il suffira ensuite de lui envoyer juste un message à partir d’un numéro autorisé, toutes les interactions venant du système d’interactions.
+Pour communiquer avec Jeedom, il suffira ensuite de lui envoyer un message à partir d’un numéro autorisé, toutes les interactions venant du système d’interactions.
 
 Petit exemple d’interaction :
 Question : “Quelle est la température de la chambre ?”
