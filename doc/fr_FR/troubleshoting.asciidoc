@@ -22,7 +22,7 @@ Cette erreur arrive quand la clef ne répond pas dans les 10 secondes qui suiven
 [panel,danger]
 .Configuration de la clef Alcatel one touch X220L
 --
-Lorsque l'on insère la clé on a ceci :
+Lorsque l'on insère la clef, on a ceci :
 ----
 root@jeedom:# lsusb 
 Bus 002 Device 003: ID 1bbb:f000 T & A Mobile Phones 
@@ -63,6 +63,6 @@ root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules
 SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"
 ----
 
-Sous jeedom dans le plugin SMS il faut (dans mon cas) utiliser le "port SMS" suivant : /dev/ttyUSB3 en gros il faut essayer chaque port pour trouver le bon...
+Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port SMS" suivant : /dev/ttyUSB3 en gros il faut essayer chaque port pour trouver le bon...
 
 --
