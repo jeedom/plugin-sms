@@ -73,7 +73,7 @@ Vous retrouvez ici toute la configuration de votre équipement :
 
 En dessous vous retrouvez la liste des commandes : 
 
-* *le nom affiché sur le dashboard,
+* *nom* : nom affiché sur le dashboard,
 * *utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
 * *numéro* : numéro de téléphone à qui envoyer les messages,
 [icon="../images/plugin/important.png"]
