@@ -61,7 +61,7 @@ Comme à beaucoup d'endroits sur Jeedom, placer la souris tout à gauche permet 
 
 Une fois que vous cliquez sur l'un d'eux, vous obtenez : 
 
-image::../images/sms5.png[]
+image::../images/sms6.png[]
 
 
 Vous retrouvez ici toute la configuration de votre équipement : 
