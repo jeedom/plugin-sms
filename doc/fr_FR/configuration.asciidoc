@@ -75,7 +75,7 @@ En dessous vous retrouvez la liste des commandes :
 
 * le nom affiché sur le dashboard,
 * utilisateur : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
-* numéro : numéro de téléphone à qui envoyer les messages,
+* numéro : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; (ex : 0612345678;0698765432)
 [icon="../images/plugin/important.png"]
 [IMPORTANT]
 Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux sont autorisés.

@@ -190,6 +190,10 @@ class smsCmd extends cmd {
 	}
 
 	public function execute($_options = null) {
+		$number = $this->getConfiguration('phonenumber');
+		if (isset($_options['number'])) {
+			$number = $_options['number'];
+		}
 		$values = array();
 		$message = trim($_options['title'] . ' ' . $_options['message']);
 		if (config::byKey('text_mode', 'sms') == 1) {
@@ -198,11 +202,25 @@ class smsCmd extends cmd {
 		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
 			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
 			foreach ($messages as $message_split) {
-				$values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message_split));
+				$values[] = json_encode(array('number' => $number, 'message' => $message_split));
 			}
 		} else {
-			$values[] = json_encode(array('number' => $this->getConfiguration('phonenumber'), 'message' => $message));
+			$values[] = json_encode(array('number' => $number, 'message' => $message));
 		}
+		if (!isset($_options['number'])) {
+			$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
+			if (is_array($phonenumbers) && count($phonenumbers) > 1) {
+				$tmp_values = array();
+				foreach ($values as $value) {
+					foreach ($phonenumbers as $phonenumber) {
+						$value = json_decode($value, true);
+						$tmp_values[] = json_encode(array('number' => $phonenumber, 'message' => $message));
+					}
+				}
+				$values = $tmp_values;
+			}
+		}
+
 		if (config::byKey('jeeNetwork::mode') == 'master') {
 			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
 				foreach ($values as $value) {

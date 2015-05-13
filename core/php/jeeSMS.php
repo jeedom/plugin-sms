@@ -76,23 +76,24 @@ $reply = '';
 $smsOk = false;
 foreach ($eqLogics as $eqLogic) {
 	foreach ($eqLogic->getCmd() as $cmd) {
-		if ($cmd->getConfiguration('phonenumber') == $number || $cmd->getConfiguration('phonenumber') == $formatedPhoneNumber) {
-			$params = array();
-			$smsOk = true;
-			log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
-			if ($cmd->getConfiguration('user') != '') {
-				$user = user::byId($cmd->getConfiguration('user'));
-				if (is_object($user)) {
-					$params['profile'] = $user->getLogin();
-				}
-			}
-			$reply = interactQuery::tryToReply(trim($message), $params);
-			if (trim($reply) != '') {
-				$cmd->execute(array('title' => $reply, 'message' => ''));
-				log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
-			}
-			break;
+		if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
+			continue;
 		}
+		$params = array();
+		$smsOk = true;
+		log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
+		if ($cmd->getConfiguration('user') != '') {
+			$user = user::byId($cmd->getConfiguration('user'));
+			if (is_object($user)) {
+				$params['profile'] = $user->getLogin();
+			}
+		}
+		$reply = interactQuery::tryToReply(trim($message), $params);
+		if (trim($reply) != '') {
+			$cmd->execute(array('title' => $reply, 'message' => '', 'number' => $number));
+			log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
+		}
+		break;
 	}
 }
 
