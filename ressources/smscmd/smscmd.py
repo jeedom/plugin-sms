@@ -262,7 +262,7 @@ def option_listen():
 		else:
 			logger.debug("Cannot start socket interface")
 
-		signal_strength_store = 0				
+	signal_strength_store = 0				
 	try:
 		while 1:
 			# Let it breath
