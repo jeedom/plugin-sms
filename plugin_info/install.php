@@ -19,15 +19,18 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function sms_update() {
-	$pid_file = dirname(__FILE__) .'/../../../tmp/sms.pid';
+	$pid_file = dirname(__FILE__) . '/../../../tmp/sms.pid';
 	if (file_exists($pid_file)) {
-		rename($pid_file,'/tmp/sms.pid');
+		rename($pid_file, '/tmp/sms.pid');
 	}
 	try {
 		sms::stopDeamon();
 		sms::runDeamon();
-	} catch (Exception  $e) {
-		
+	} catch (Exception $e) {
+
+	}
+	foreach (sms::byType('sms') as $sms) {
+		$sms->save();
 	}
 }
 
