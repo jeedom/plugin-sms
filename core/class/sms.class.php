@@ -160,6 +160,19 @@ class sms extends eqLogic {
 		$signal->setEventOnly(1);
 		$signal->setEqLogic_id($this->getId());
 		$signal->save();
+
+		$sms = $this->getCmd(null, 'sms');
+		if (!is_object($sms)) {
+			$sms = new smsCmd();
+			$sms->setLogicalId('sms');
+			$sms->setIsVisible(0);
+			$sms->setName(__('Message', __FILE__));
+		}
+		$sms->setType('info');
+		$sms->setSubType('string');
+		$sms->setEventOnly(1);
+		$sms->setEqLogic_id($this->getId());
+		$sms->save();
 	}
 }
 

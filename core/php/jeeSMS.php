@@ -93,6 +93,8 @@ foreach ($eqLogics as $eqLogic) {
 			$cmd->execute(array('title' => $reply, 'message' => '', 'number' => $number));
 			log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
 		}
+		$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
+		$cmd_sms->event(trim($message));
 		break;
 	}
 }
