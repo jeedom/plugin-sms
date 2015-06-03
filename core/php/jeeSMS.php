@@ -95,6 +95,8 @@ foreach ($eqLogics as $eqLogic) {
 		}
 		$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
 		$cmd_sms->event(trim($message));
+		$cmd_sender = $cmd->getEqlogic()->getCmd('info', 'sender');
+		$cmd_sender->event($cmd->getName());
 		break;
 	}
 }
