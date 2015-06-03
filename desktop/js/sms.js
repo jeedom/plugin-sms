@@ -16,70 +16,72 @@
  */
 
  function addCmdToTable(_cmd) {
-    if (!isset(_cmd)) {
-        var _cmd = {configuration: {}};
-    }
-    if (!isset(_cmd.type) || _cmd.type == 'action') {
-        var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
-        tr += '<td>';
-        tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-        tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
-        tr += '<td>';
-        tr += '<select class="form-control cmdAttr input-sm" data-l1key="configuration" data-l2key="user"></select>';
-        tr += '</td>';
-        tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="phonenumber"></td>';
-        tr += '<td>';
-        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
-        tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
-        tr += '</td>';
-        tr += '<td>';
-        tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="action" style="display : none;">';
-        tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="message" style="display : none;">';
-        if (is_numeric(_cmd.id)) {
-            tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
-            tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
-        }
-        tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
-        tr += '</tr>';
-        $('#table_cmd tbody').append(tr);
-        var tr = $('#table_cmd tbody tr:last');
-        jeedom.user.all({
-            error: function (error) {
-                $('#div_alert').showAlert({message: error.message, level: 'danger'});
-            },
-            success: function (data) {
-                var option = '<option value="">Aucun</option>';
-                for (var i in data) {
-                    option += '<option value="' + data[i].id + '">' + data[i].login + '</option>';
-                }
-                tr.find('.cmdAttr[data-l1key=configuration][data-l2key=user]').empty().append(option);
-                tr.setValues(_cmd, '.cmdAttr');
-                modifyWithoutSave = false;
-            }
-        });
-    }else if (_cmd.type == 'info') {
-       var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
-       tr += '<td>';
-       tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-       tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
-       tr += '<td>';
-       tr += '</td>';
-       tr += '<td></td>';
-       tr += '<td>';
-       tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
-       tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
-       tr += '</td>';
-       tr += '<td>';
-       tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="info" style="display : none;">';
-       tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="numeric" style="display : none;">';
-       if (is_numeric(_cmd.id)) {
-        tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
-        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
+  if (!isset(_cmd)) {
+    var _cmd = {configuration: {}};
+  }
+  if (!isset(_cmd.type) || _cmd.type == 'action') {
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+    tr += '<td>';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
+    tr += '<td>';
+    tr += '<select class="form-control cmdAttr input-sm" data-l1key="configuration" data-l2key="user"></select>';
+    tr += '</td>';
+    tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="phonenumber"></td>';
+    tr += '<td>';
+    tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
+    tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
+    tr += '</td>';
+    tr += '<td>';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="action" style="display : none;">';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="message" style="display : none;">';
+    if (is_numeric(_cmd.id)) {
+      tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
+      tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
     }
     tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
     var tr = $('#table_cmd tbody tr:last');
-    tr.setValues(_cmd, '.cmdAttr');
+    jeedom.user.all({
+      error: function (error) {
+        $('#div_alert').showAlert({message: error.message, level: 'danger'});
+      },
+      success: function (data) {
+        var option = '<option value="">Aucun</option>';
+        for (var i in data) {
+          option += '<option value="' + data[i].id + '">' + data[i].login + '</option>';
+        }
+        tr.find('.cmdAttr[data-l1key=configuration][data-l2key=user]').empty().append(option);
+        tr.setValues(_cmd, '.cmdAttr');
+        modifyWithoutSave = false;
+      }
+    });
+  }else if (_cmd.type == 'info') {
+   var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+   tr += '<td>';
+   tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+   tr += '<input class="cmdAttr form-control input-sm" data-l1key="name"></td>';
+   tr += '<td>';
+   tr += '</td>';
+   tr += '<td></td>';
+   tr += '<td>';
+   if (_cmd.subType == 'numeric') {
+     tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" /> {{Historiser}}<br/></span>';
+   }
+   tr += '<span><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/> {{Afficher}}<br/></span>';
+   tr += '</td>';
+   tr += '<td>';
+   tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" value="info" style="display : none;">';
+   tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" value="numeric" style="display : none;">';
+   if (is_numeric(_cmd.id)) {
+    tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
+    tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
+  }
+  tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
+  tr += '</tr>';
+  $('#table_cmd tbody').append(tr);
+  var tr = $('#table_cmd tbody tr:last');
+  tr.setValues(_cmd, '.cmdAttr');
 }
 }
