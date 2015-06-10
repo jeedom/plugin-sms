@@ -28,6 +28,8 @@ root@jeedom:# lsusb
 Bus 002 Device 003: ID 1bbb:f000 T & A Mobile Phones 
 ----
 
+*Attention* si vous n'avez pas 1bbb:f000 il ne faut surtout pas faire la suite de cette documentation
+
 il faut ajouter les lignes suivantes à la fin du fichier /etc/usb_modeswitch.conf :
 ----
 ########################################################
