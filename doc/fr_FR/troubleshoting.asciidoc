@@ -68,3 +68,9 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/
 Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port SMS" suivant : /dev/ttyUSB3 en gros il faut essayer chaque port pour trouver le bon...
 
 --
+
+[panel,danger]
+.J'ai une erreur CME XX
+--
+Vous pouvez trouver link:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors[ici] la description des differente erreurs CME
+--
