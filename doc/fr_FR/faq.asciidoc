@@ -3,3 +3,10 @@
 --
 Ceci arrive en général si la clef GSM n'arrive plus à se connecter au réseau. Essayer de la déplacer et de voir si ça revient au bout de quelques minutes.
 --
+
+
+[panel,primary]
+.J'ai une erreur CME XX
+--
+Vous pouvez trouver link::http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors[ici] la description des differente erreurs CME
+--
