@@ -88,7 +88,7 @@ foreach (ls('/dev/', 'tty*') as $value) {
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Texte mode}}</label>
         <div class="col-lg-4">
-            <input type="checkbox" class="configKey tooltips" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
+            <input type="checkbox" class="configKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
         </div>
     </div>
     <div class="form-group">
@@ -162,7 +162,7 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Texte mode}}</label>
                     <div class="col-lg-4">
-                        <input type="checkbox" class="slaveConfigKey tooltips" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
+                        <input type="checkbox" class="slaveConfigKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
                     </div>
                 </div>
                 <div class="form-group">
