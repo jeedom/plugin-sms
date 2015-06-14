@@ -251,6 +251,7 @@ def option_listen():
 
 	if config.socketserver:
 		try:
+			logger.debug("Start socket server")
 			serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
 		except Exception, e:
 			logger.error("Error starting socket server. Line: " + _line())
@@ -261,6 +262,8 @@ def option_listen():
 			logger.debug("Socket interface started")
 		else:
 			logger.debug("Cannot start socket interface")
+	else:
+		logger.debug("No socket server needed")
 
 	signal_strength_store = 0				
 	try:
