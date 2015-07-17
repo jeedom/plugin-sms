@@ -215,6 +215,12 @@ class smsCmd extends cmd {
 		return false;
 	}
 
+	public function preSave() {
+		if ($this->getSubtype() == 'message') {
+			$this->setDisplay('title_disable', 1);
+		}
+	}
+
 	public function execute($_options = null) {
 		$number = $this->getConfiguration('phonenumber');
 		if (isset($_options['number'])) {
