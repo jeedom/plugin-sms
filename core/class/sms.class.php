@@ -25,6 +25,33 @@ class sms extends eqLogic {
 		self::stopDeamon();
 	}
 
+	public static function health() {
+		$return = array();
+		$demon_state = self::deamonRunning();
+		$return[] = array(
+			'test' => __('Démon local', __FILE__),
+			'result' => ($demon_state) ? __('OK', __FILE__) : __('NOK', __FILE__),
+			'advice' => ($demon_state) ? '' : __('Peut être normal si vous êtes en déporté', __FILE__),
+			'state' => $demon_state,
+		);
+		if (config::byKey('jeeNetwork::mode') == 'master') {
+			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
+				try {
+					$demon_state = $jeeNetwork->sendRawRequest('deamonRunning', array('plugin' => 'sms'));
+				} catch (Exception $e) {
+					$demon_state = false;
+				}
+				$return[] = array(
+					'test' => __('Démon sur', __FILE__) . $jeeNetwork->getName(),
+					'result' => ($demon_state) ? __('OK', __FILE__) : __('NOK', __FILE__),
+					'advice' => '',
+					'state' => $demon_state,
+				);
+			}
+		}
+		return $return;
+	}
+
 	public static function cron() {
 		$port = config::byKey('port', 'sms', 'none');
 		if ($port != 'none') {
