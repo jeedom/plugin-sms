@@ -91,6 +91,7 @@ foreach ($eqLogics as $eqLogic) {
 			$dataStore->save();
 			$cmd->setConfiguration('storeVariable', 'none');
 			$cmd->save();
+			die();
 		}
 		if ($cmd->getConfiguration('user') != '') {
 			$user = user::byId($cmd->getConfiguration('user'));
