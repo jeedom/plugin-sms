@@ -254,6 +254,13 @@ class smsCmd extends cmd {
 		if (isset($_options['number'])) {
 			$number = $_options['number'];
 		}
+		if (isset($_options['variable'])) {
+			$this->setConfiguration('storeVariable', $_options['variable']);
+			$this->save();
+		}
+		if (isset($_options['answer'])) {
+			$_options['message'] .= ' (' . implode(';', $_options['answer']) . ')';
+		}
 		$values = array();
 		$message = trim($_options['title'] . ' ' . $_options['message']);
 		if (config::byKey('text_mode', 'sms') == 1) {

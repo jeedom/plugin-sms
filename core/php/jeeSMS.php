@@ -82,6 +82,16 @@ foreach ($eqLogics as $eqLogic) {
 		$params = array();
 		$smsOk = true;
 		log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
+		if ($cmd->getConfiguration('storeVariable', 'none') != 'none') {
+			$dataStore = new dataStore();
+			$dataStore->setType('scenario');
+			$dataStore->setKey($cmd->getConfiguration('storeVariable', 'none'));
+			$dataStore->setValue($message);
+			$dataStore->setLink_id(-1);
+			$dataStore->save();
+			$cmd->setConfiguration('storeVariable', 'none');
+			$cmd->save();
+		}
 		if ($cmd->getConfiguration('user') != '') {
 			$user = user::byId($cmd->getConfiguration('user'));
 			if (is_object($user)) {
