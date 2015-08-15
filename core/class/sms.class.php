@@ -52,24 +52,14 @@ class sms extends eqLogic {
 		return $return;
 	}
 
-	public static function cron() {
-		$port = config::byKey('port', 'sms', 'none');
-		if ($port != 'none') {
-			if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
-				if (!self::deamonRunning()) {
-					self::runDeamon();
-				}
-				message::removeAll('sms', 'noSMSComPort');
-			} else {
-				log::add('sms', 'error', __('Le port du SMS est vide ou n\'éxiste pas', __FILE__), 'noSMSComPort');
-			}
+	public static function cron15() {
+		if (config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
+			self::runDeamon();
 		}
 	}
 
 	public static function cronDaily() {
-		sleep(30);
-		$port = config::byKey('port', 'sms', 'none');
-		if ($port == 'auto' || file_exists(jeedom::getUsbMapping($port))) {
+		if (config::byKey('port', 'sms', 'none') != 'none') {
 			self::runDeamon();
 		}
 	}
