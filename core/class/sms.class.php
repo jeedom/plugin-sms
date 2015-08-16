@@ -52,19 +52,28 @@ class sms extends eqLogic {
 		return $return;
 	}
 
+	public static function start() {
+		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
+			self::runDeamon();
+		}
+	}
+
 	public static function cron15() {
-		if (config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
+		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
 			self::runDeamon();
 		}
 	}
 
 	public static function cronDaily() {
-		if (config::byKey('port', 'sms', 'none') != 'none') {
+		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none') {
 			self::runDeamon();
 		}
 	}
 
 	public static function runDeamon($_debug = false) {
+		if (config::byKey('allowStartDeamon', 'edisio', 1) == 0) {
+			return;
+		}
 		self::stopDeamon();
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {

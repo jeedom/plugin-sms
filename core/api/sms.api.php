@@ -29,10 +29,12 @@ if ($jsonrpc->getMethod() == 'deamonRunning') {
 }
 
 if ($jsonrpc->getMethod() == 'stopDeamon') {
+	config::save('allowStartDeamon', 0, 'sms');
 	$jsonrpc->makeSuccess(sms::stopDeamon());
 }
 
 if ($jsonrpc->getMethod() == 'restartDeamon') {
+	config::save('allowStartDeamon', 1, 'sms');
 	$port = config::byKey('port', 'sms', 'none');
 	if ($port == 'none') {
 		$jsonrpc->makeSuccess('ok');

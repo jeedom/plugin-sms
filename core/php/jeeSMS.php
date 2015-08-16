@@ -42,7 +42,7 @@ if ($message == '' || $number == '') {
 if ($number == 'none') {
 	message::add('sms', 'Error : ' . $message, '', 'smscmderror');
 	if (strpos($message, 'PIN') !== false) {
-		config::save('port', 'none', 'sms');
+		config::save('allowStartDeamon', 0, 'sms');
 	}
 	die();
 }

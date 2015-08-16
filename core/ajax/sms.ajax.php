@@ -25,6 +25,7 @@ try {
 	}
 
 	if (init('action') == 'restartDeamon') {
+		config::save('allowStartDeamon', 1, 'sms');
 		$port = config::byKey('port', 'sms', 'none');
 		if ($port == 'none') {
 			ajax::success();
@@ -43,7 +44,7 @@ try {
 		if (sms::deamonRunning()) {
 			throw new Exception(__('Impossible d\'arrêter le démon', __FILE__));
 		}
-		config::save('port', 'none', 'sms');
+		config::save('allowStartDeamon', 0, 'sms');
 		ajax::success();
 	}
 
