@@ -417,7 +417,7 @@ def read_configfile():
 		logger.debug("Daemon_active: " + str(config.daemon_active))
 		logger.debug("Daemon_pidfile: " + str(config.daemon_pidfile))
 
-				# TRIGGER
+		# TRIGGER
 		config.trigger_url = read_config( cmdarg.configfile, "trigger_url")
 		config.apikey = read_config( cmdarg.configfile, "apikey")
 		config.trigger_timeout = read_config( cmdarg.configfile, "trigger_timeout")
@@ -498,13 +498,12 @@ def find_tty_usb(idVendor, idProduct):
 
 # ----------------------------------------------------------------------------
 
-def logger_init(configfile, name, debug):
+def logger_init(configFile, name, debug):
 	program_path = os.path.dirname(os.path.realpath(__file__))
 	dom = None
-	
-	if os.path.exists( os.path.join(program_path, "config.xml") ):
-		# Read config file
-		f = open(os.path.join(program_path, "config.xml"),'r')
+	if os.path.exists( configFile ):
+		#open the xml file for reading:
+		f = open( configFile,'r')
 		data = f.read()
 		f.close()
 		try:
@@ -526,7 +525,7 @@ def logger_init(configfile, name, debug):
 				xmlTag = dom.getElementsByTagName( 'logfile' )[0].toxml()
 				logfile = xmlTag.replace('<logfile>','').replace('</logfile>','')
 			except:
-				logfile = os.path.join(program_path, "enoceancmd.log")
+				logfile = os.path.join(program_path, "edisiocmd.log")
 			
 			loglevel = loglevel.upper()
 			
@@ -550,7 +549,6 @@ def logger_init(configfile, name, debug):
 
 # ----------------------------------------------------------------------------
 def main():
-
 	global logger
 
 	# Get directory of the enoceancmd script
@@ -661,7 +659,6 @@ def check_pythonversion():
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-
 	# Init shutdown handler
 	signal.signal(signal.SIGINT, handler)
 	signal.signal(signal.SIGTERM, handler)
