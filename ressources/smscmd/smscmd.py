@@ -11,10 +11,11 @@ __email__ = "loic@jeedom.com"
 __status__ = "Development-Alpha-1"
 __date__ = "$Date: 2014-10-02$"
 
-
+import requests
 import time
 import logging
 import threading
+from threading import Event, Thread
 import subprocess
 import signal
 import json
@@ -99,17 +100,15 @@ gsm = False
 ##############################COMMAND###########################################
 
 class Command(object):
-	def __init__(self, cmd):
-		self.cmd = cmd
+	def __init__(self, url,data):
+		self.url = url
+		self.data = data
 		self.process = None
 	
 	def run(self, timeout):
 		def target():
 			logger.debug("Thread started, timeout = " + str(timeout))
-			self.process = subprocess.Popen(self.cmd, shell=True)
-			self.process.communicate()
-			logger.debug("Return code: " + str(self.process.returncode))
-			logger.debug("Thread finished")
+			requests.get(self.url, params=self.data)
 			self.timer.cancel()
 		
 		def timer_callback():
@@ -184,9 +183,7 @@ def remove_accents(input_str):
 def handleSms(sms):
 	logger.debug("Got SMS message : "+str(sms))
 	message = remove_accents(sms.text.replace('"', ''))
-	action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",sms.number).replace("$message$", message )
-	logger.debug("Execute shell : "+action)
-	command = Command(action)
+	command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : sms.number, 'message' : message })
 	command.run(timeout=config.trigger_timeout)
 
 def option_listen():
@@ -221,9 +218,7 @@ def option_listen():
 		logger.debug("Ok")
 
 		try:
-			action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'network_name').replace("$message$", str(gsm.networkName) )
-			logger.debug("Execute shell : "+action)
-			command = Command(action)
+			command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'network_name', 'message' : str(gsm.networkName) })
 			command.run(timeout=config.trigger_timeout)
 		except Exception, e:
 			print("Exception: %s" % str(e))
@@ -243,9 +238,8 @@ def option_listen():
 	except Exception, e:
 		print("Exception: %s" % str(e))
 		logger.error("Exception: %s" % str(e))
-		action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'none').replace("$message$", str(e) )
 		logger.debug("Execute shell : "+action)
-		command = Command(action)
+		command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'none', 'message' : str(e) })
 		command.run(timeout=config.trigger_timeout)
 		exit(1)
 
@@ -277,9 +271,7 @@ def option_listen():
 
 				if signal_strength_store != gsm.signalStrength:
 					signal_strength_store = gsm.signalStrength
-					action = config.trigger.replace('&quot;', '"').replace('&amp;', '&').replace("$number$",'signal_strength').replace("$message$", str(gsm.signalStrength) )
-					logger.debug("Execute shell : "+action)
-					command = Command(action)
+					command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'signal_strength', 'message' : str(gsm.signalStrength) })
 					command.run(timeout=config.trigger_timeout)
 
 			except Exception, e:
@@ -426,8 +418,12 @@ def read_configfile():
 		logger.debug("Daemon_pidfile: " + str(config.daemon_pidfile))
 
 				# TRIGGER
-		config.trigger = read_config( cmdarg.configfile, "trigger").replace('&quot;', '"').replace('&amp;', '&')
+		config.trigger_url = read_config( cmdarg.configfile, "trigger_url")
+		config.apikey = read_config( cmdarg.configfile, "apikey")
 		config.trigger_timeout = read_config( cmdarg.configfile, "trigger_timeout")
+		logger.debug("trigger_url: " + str(config.trigger_url))
+		logger.debug("apikey: " + str(config.apikey))
+		logger.debug("trigger_timeout: " + str(config.trigger_timeout))
 		
 		# ------------------------
 		# LOG MESSAGES
@@ -447,18 +443,13 @@ def read_config( configFile, configItem):
 	"""
 	Read item from the configuration file
 	"""
-	logger.debug('Open configuration file')
-	logger.debug('File: ' + configFile)
-	
 	if os.path.exists( configFile ):
 
 		#open the xml file for reading:
 		f = open( configFile,'r')
 		data = f.read()
 		f.close()
-	
-		# xml parse file data
-		logger.debug('Parse config XML data')
+
 		try:
 			dom = minidom.parseString(data)
 		except:
@@ -476,8 +467,6 @@ def read_config( configFile, configItem):
 		except:
 			logger.debug('The item tag not found in the config file')
 			xmlData = ""
-			
-		logger.debug('Return')
 		
 	else:
 		logger.error("Error: Config file does not exists. Line: " + _line())
@@ -608,10 +597,6 @@ def main():
 		config.device = config.serial_device
 	else:
 		config.device = None
-
-	# ----------------------------------------------------------
-	
-	logger.debug("Trigger : " + config.trigger)
 
 	# ----------------------------------------------------------
 	# DAEMON

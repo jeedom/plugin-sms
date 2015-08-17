@@ -85,8 +85,8 @@ class sms extends eqLogic {
 		}
 		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
-		if (file_exists($sms_path . '/config.xml')) {
-			unlink($sms_path . '/config.xml');
+		if (file_exists('/tmp/config_sms.xml')) {
+			unlink('/tmp/config_sms.xml');
 		}
 		$replace_config = array(
 			'#device#' => $port,
@@ -95,24 +95,23 @@ class sms extends eqLogic {
 			'#pin#' => config::byKey('pin', 'sms', 'None'),
 			'#smsc#' => config::byKey('smsc', 'sms', 'None'),
 			'#log_path#' => log::getPathToLog('sms'),
-			'#trigger_path#' => $sms_path . '/../../core/php/jeeSMS.php',
 			'#pid_path#' => '/tmp/sms.pid',
 		);
 		if (config::byKey('jeeNetwork::mode') == 'slave') {
 			$replace_config['#sockethost#'] = network::getNetworkAccess('internal', 'ip', '127.0.0.1');
+			$replace_config['#trigger_url#'] = config::byKey('jeeNetwork::master::ip') . '/plugins/sms/core/php/jeeSMS.php';
+			$replace_config['#apikey#'] = config::byKey('jeeNetwork::master::apikey');
 		} else {
 			$replace_config['#sockethost#'] = '127.0.0.1';
+			$replace_config['#trigger_url#'] = network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+			$replace_config['#apikey#'] = config::byKey('api');
 		}
-		if (config::byKey('jeeNetwork::mode') == 'slave') {
-			$config = str_replace(array('#ip_master#', '#apikey#'), array(config::byKey('jeeNetwork::master::ip'), config::byKey('jeeNetwork::master::apikey')), file_get_contents($sms_path . '/config_tmpl_remote.xml'));
-		} else {
-			$config = file_get_contents($sms_path . '/config_tmpl.xml');
-		}
+		$config = file_get_contents($sms_path . '/config_tmpl.xml');
 		$config = template_replace($replace_config, $config);
-		file_put_contents($sms_path . '/config.xml', $config);
-		chmod($sms_path . '/config.xml', 0777);
+		file_put_contents('/tmp/config_sms.xml', $config);
+		chmod('/tmp/config_sms.xml', 0777);
 
-		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o ' . $sms_path . '/config.xml';
+		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o /tmp/config_sms.xml';
 		if ($_debug) {
 			$cmd .= ' -D';
 		}
