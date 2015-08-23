@@ -17,12 +17,10 @@
  */
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
-if (php_sapi_name() != 'cli' || isset($_SERVER['REQUEST_METHOD']) || !isset($_SERVER['argc'])) {
-	if (config::byKey('api') != init('apikey') && init('apikey') != '') {
-		connection::failed();
-		echo 'Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeZwave)';
-		die();
-	}
+if (config::byKey('api') != init('apikey')) {
+	connection::failed();
+	echo 'Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeZwave)';
+	die();
 }
 
 if (isset($argv)) {
