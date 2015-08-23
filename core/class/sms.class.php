@@ -165,7 +165,6 @@ class sms extends eqLogic {
 				exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
 			}
 		}
-		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd/smscmd.py');
 		exec('fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
 		exec('sudo fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
 		return self::deamonRunning();
