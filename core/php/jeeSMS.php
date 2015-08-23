@@ -23,14 +23,11 @@ if (config::byKey('api') != init('apikey')) {
 	die();
 }
 
-if (isset($argv)) {
-	foreach ($argv as $arg) {
-		$argList = explode('=', $arg);
-		if (isset($argList[0]) && isset($argList[1])) {
-			$_GET[$argList[0]] = $argList[1];
-		}
-	}
+if (isset($_GET['test'])) {
+	echo 'OK';
+	die();
 }
+
 $message = trim(init('message'));
 $number = trim(init('number'));
 if ($message == '' || $number == '') {

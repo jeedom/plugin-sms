@@ -33,12 +33,43 @@ if (config::byKey('jeeNetwork::mode') == 'master') {
 		}
 	}
 }
-?>
+$urlMasterLocal = false;
+try {
+	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
+	if ($request_http->exec(1, 1) == 'OK') {
+		$urlMasterLocal = true;
+	}
+} catch (Exception $e) {
 
+}
+$urlMasterDistant = false;
+try {
+	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:ip:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
+	if ($request_http->exec(1, 1) == 'OK') {
+		$urlMasterDistant = true;
+	}
+} catch (Exception $e) {
+
+}
+?>
 
 <form class="form-horizontal">
     <fieldset>
         <?php
+echo '<div class="form-group">';
+echo '<label class="col-sm-4 control-label">{{Retour local}}</label>';
+if (!$urlMasterLocal) {
+	echo '<div class="col-sm-1"><span class="label label-danger tooltips" style="font-size : 1em;" title="{{Vérifiez votre configuration sur la page de configuration réseaux, celle-ci est incorrecte et le démon ne pourra communiquer avec Jeedom}}">NOK</span></div>';
+} else {
+	echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
+}
+echo '<label class="col-sm-2 control-label">{{Retour distant}}</label>';
+if (!$urlMasterDistant) {
+	echo '<div class="col-sm-1"><span class="label label-danger tooltips" style="font-size : 1em;" title="{{Vérifiez votre configuration sur la page de configuration réseaux, celle-ci est incorrecte et le démon ne pourra communiquer avec Jeedom}}">NOK</span></div>';
+} else {
+	echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
+}
+echo '</div>';
 echo '<div class="form-group">';
 echo '<label class="col-sm-4 control-label">{{Démon local}}</label>';
 if (!$deamonRunningMaster) {
