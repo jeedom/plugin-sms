@@ -48,13 +48,11 @@ class config_data:
 		loglevel = "info",
 		logfile = "gsmcmd.log",
 		program_path = "",
-		socketserver = False,
 		sockethost = "",
 		socketport = "",
 		pin = "None",
 		text_mode = "no",
 		smsc = "None",
-		daemon_active = False,
 		daemon_pidfile = "gsm.pid",
 				debug = False
 		):
@@ -68,11 +66,9 @@ class config_data:
 		self.pin = pin
 		self.smsc = smsc
 		self.program_path = program_path
-		self.socketserver = socketserver
 		self.sockethost = sockethost
 		self.socketport = socketport
 		self.debug = debug
-		self.daemon_active = daemon_active
 		self.daemon_pidfile = daemon_pidfile
 
 class cmdarg_data:
@@ -229,21 +225,19 @@ def option_listen():
 		command.run(timeout=config.trigger_timeout)
 		exit(1)
 
-	if config.socketserver:
-		try:
-			logger.debug("Start socket server")
-			serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
-		except Exception, e:
-			logger.error("Error starting socket server. Line: " + _line())
-			logger.error("Error: %s" % str(e))
-			print("Error: can not start server socket, another instance already running?")
-			exit(1)
-		if serversocket.netAdapterRegistered:
-			logger.debug("Socket interface started")
-		else:
-			logger.debug("Cannot start socket interface")
+	
+	try:
+		logger.debug("Start socket server")
+		serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
+	except Exception, e:
+		logger.error("Error starting socket server. Line: " + _line())
+		logger.error("Error: %s" % str(e))
+		print("Error: can not start server socket, another instance already running?")
+		exit(1)
+	if serversocket.netAdapterRegistered:
+		logger.debug("Socket interface started")
 	else:
-		logger.debug("No socket server needed")
+		logger.debug("Cannot start socket interface")
 
 	signal_strength_store = 0				
 	try:
@@ -262,11 +256,9 @@ def option_listen():
 
 			except Exception, e:
 				print("Exception: %s" % str(e))
-				#logger.debug("Exception: %s" % str(e))
 
 			try:
-				if config.socketserver:
-					read_socket()
+				read_socket()
 			except Exception, e:
 				print("Exception: %s" % str(e))
 				logger.error("Exception: %s" % str(e))
@@ -275,10 +267,8 @@ def option_listen():
 		logger.debug("Received keyboard interrupt")
 		logger.debug("Close server socket")
 		serversocket.netAdapter.shutdown()
-		
-		if config.serial_active:
-			logger.debug("Close serial port")
-			close_serialport()
+		logger.debug("Close serial port")
+		close_serialport()
 		
 		print("\nExit...")
 		pass
@@ -363,10 +353,6 @@ def read_configfile():
 
 		# ----------------------
 		# Serial device
-		if (read_config(cmdarg.configfile, "serial_active") == "yes"):
-			config.serial_active = True
-		else:
-			config.serial_active = False
 		config.serial_device = read_config( cmdarg.configfile, "serial_device")
 		if config.serial_device == 'auto':
 			config.serial_device = find_tty_usb('12d1','1003')
@@ -383,24 +369,14 @@ def read_configfile():
 			
 		# ----------------------
 		# SOCKET SERVER
-		if (read_config(cmdarg.configfile, "socketserver") == "yes"):
-			config.socketserver = True
-		else:
-			config.socketserver = False
 		config.sockethost = read_config( cmdarg.configfile, "sockethost")
 		config.socketport = read_config( cmdarg.configfile, "socketport")
-		logger.debug("SocketServer: " + str(config.socketserver))
 		logger.debug("SocketHost: " + str(config.sockethost))
 		logger.debug("SocketPort: " + str(config.socketport))
 
 		# -----------------------
 		# DAEMON
-		if (read_config(cmdarg.configfile, "daemon_active") == "yes"):
-			config.daemon_active = True
-		else:
-			config.daemon_active = False
 		config.daemon_pidfile = read_config( cmdarg.configfile, "daemon_pidfile")
-		logger.debug("Daemon_active: " + str(config.daemon_active))
 		logger.debug("Daemon_pidfile: " + str(config.daemon_pidfile))
 
 		# TRIGGER
@@ -584,44 +560,43 @@ def main():
 
 	# ----------------------------------------------------------
 	# DAEMON
-	if config.daemon_active and options.listen:
-		logger.debug("Daemon")
-		logger.debug("Check PID file")
-		
-		if config.daemon_pidfile:
-			cmdarg.pidfile = config.daemon_pidfile
-			cmdarg.createpid = True
-			logger.debug("PID file '" + cmdarg.pidfile + "'")
-		
-			if os.path.exists(cmdarg.pidfile):
-				print("PID file '" + cmdarg.pidfile + "' already exists. Exiting.")
-				logger.debug("PID file '" + cmdarg.pidfile + "' already exists.")
-				logger.debug("Exit 1")
-				sys.exit(1)
-			else:
-				logger.debug("PID file does not exists")
-
-		else:
-			print("You need to set the --pidfile parameter at the startup")
-			logger.error("Command argument --pidfile missing. Line: " + _line())
+	logger.debug("Daemon")
+	logger.debug("Check PID file")
+	
+	if config.daemon_pidfile:
+		cmdarg.pidfile = config.daemon_pidfile
+		cmdarg.createpid = True
+		logger.debug("PID file '" + cmdarg.pidfile + "'")
+	
+		if os.path.exists(cmdarg.pidfile):
+			print("PID file '" + cmdarg.pidfile + "' already exists. Exiting.")
+			logger.debug("PID file '" + cmdarg.pidfile + "' already exists.")
 			logger.debug("Exit 1")
 			sys.exit(1)
+		else:
+			logger.debug("PID file does not exists")
 
-		logger.debug("Check platform")
-		logger.debug("Platform: " + sys.platform)
-		try:
-			logger.debug("Write PID file")
-			file(cmdarg.pidfile, 'w').write("pid\n")
-		except IOError, e:
-			logger.error("Line: " + _line())
-			logger.error("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
-			raise SystemExit("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
+	else:
+		print("You need to set the --pidfile parameter at the startup")
+		logger.error("Command argument --pidfile missing. Line: " + _line())
+		logger.debug("Exit 1")
+		sys.exit(1)
 
-		logger.debug("Deactivate screen printouts")
-		cmdarg.printout_complete = False
+	logger.debug("Check platform")
+	logger.debug("Platform: " + sys.platform)
+	try:
+		logger.debug("Write PID file")
+		file(cmdarg.pidfile, 'w').write("pid\n")
+	except IOError, e:
+		logger.error("Line: " + _line())
+		logger.error("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
+		raise SystemExit("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
 
-		logger.debug("Start daemon")
-		daemonize()
+	logger.debug("Deactivate screen printouts")
+	cmdarg.printout_complete = False
+
+	logger.debug("Start daemon")
+	daemonize()
 
 		# ----------------------------------------------------------
 	# LISTEN

@@ -1,7 +1,6 @@
 <config>
     <version>1</version>
     <!-- Serial -->
-    <serial_active>yes</serial_active>
     <serial_device>#device#</serial_device>
     <pin>#pin#</pin>
     <text_mode>#text_mode#</text_mode>
@@ -11,13 +10,11 @@
     <apikey>#apikey#</apikey>
     <trigger_timeout>10</trigger_timeout>
     <!-- Daemon -->
-    <daemon_active>yes</daemon_active>
     <daemon_pidfile>#pid_path#</daemon_pidfile>
     <!-- Logging -->
     <loglevel>error</loglevel>
     <logfile>#log_path#.error</logfile>
     <!-- Socket server -->
-    <socketserver>yes</socketserver>
     <sockethost>#sockethost#</sockethost>
     <socketport>#socketport#</socketport>
 </config>
