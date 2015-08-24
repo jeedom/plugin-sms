@@ -1,5 +1,9 @@
-[panel,primary]
-.Jeedom n'envoie plus et ne reçoit plus de SMS
---
+'''
+
+Jeedom n'envoie plus et ne reçoit plus de SMS::
 Ceci arrive en général si la clef GSM n'arrive plus à se connecter au réseau. Essayer de la déplacer et de voir si ça revient au bout de quelques minutes.
---
+
+'''
+
+J'ai plusieurs port USB pour ma clef GSM alors que je n'en ai qu'une::
+C'est normale, pour une raison inconnue les clef GSM crée 2 (et meme plus) port USB au niveau système. Il suffit d'en choisir un peut importe lequel.
