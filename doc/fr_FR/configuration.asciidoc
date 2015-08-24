@@ -1,10 +1,9 @@
 Le plugin SMS permet de dialoguer avec Jeedom par l'intermediaire des SMS, il permet aussi à Jeedom de vous envoyer un SMS en cas d'alerte (plugin alarme, scénario...)
 
-[icon="../images/plugin/important.png"]
 [IMPORTANT]
 Pour dialoguer avec Jeedom il faut avoir configuré des interactions.
 
-==== Configuration du plugin
+=== Configuration du plugin
 
 Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port. Après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
 Voici le détail (certains paramètres peuvent n'être visibles qu'en mode expert) :
@@ -12,17 +11,17 @@ Voici le détail (certains paramètres peuvent n'être visibles qu'en mode exper
 image::../images/sms1.png[]
 
 * *Configuration* : cette partie vous donne le statut du démon (aussi bien en local qu'en déporté).
-[icon="../images/plugin/tip.png"]
+
 [TIP]
 Si vous êtes en mode déporté, le démon local peut être arrêté, c'est tout à fait normal.
 
 * *Général* : cette partie permet de configurer les paramètres généraux du plugin.
 * *Démon local* ou *Démon XXX* : les paramètres de configuration locale (ou déportée, en fonction de l'intitulé) du démon.
 ** _Port SMS_ : le port USB sur lequel votre clef GSM est connectée.
-[icon="../images/plugin/tip.png"]
+
 [TIP]
 Si vous ne savez pas quel port USB est utilisé, vous pouvez simplement indiquer "Auto". Attention le mode auto ne marche qu'avec les clefs Huawai E220. 
-[icon="../images/plugin/important.png"]
+
 [IMPORTANT]
 Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut à l'aide du logiciel de votre fabricant de clef, changer le mode de la clef sur GSM (ou texte, ou série).
 ** _Code pin_ : Permet d'indiquer le code pin de la carte SIM, à laisser vide si vous n'en avez pas.
@@ -32,20 +31,20 @@ Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut 
 ** _Force du signal_ : Force de réception du signal de votre clef GSM.
 ** _Réseau_ : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n'arrive pas à le récupérer).
 ** _Port socket interne (modification dangereuse, doit être la même valeur sur tous les Jeedom déportés SMS)_ : permet de modifier le port de communication interne du démon.
-[icon="../images/plugin/important.png"]
+
 [IMPORTANT]
 A ne changer que si vous savez ce que vous faites.
 ** _Gestion du démon_ : vous retrouvez ici les boutons de gestion du démon : 
 *** Redémarrer : permet de redémarrer le démon en mode normal.
 *** Arrêter : force l'arrêt du démon (attention cette option place le port sur l'option "Aucun" également).
 *** Lancer en mode debug : cette option lance le démon en mode debug. Cette option peut être utile pour voir, si c'est le cas, pourquoi le démon plante ou ne remonte pas une valeur.
-[icon="../images/plugin/important.png"]
+
 [IMPORTANT]
 Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut pas oublier de cliquer sur "Redémarrer" pour sortir du mode debug !! : 
 
 image::../images/sms2.png[]
 
-==== Configuration des équipements
+=== Configuration des équipements
 
 La configuration des équipements SMS est accessible à partir du menu plugin : 
 
@@ -55,7 +54,6 @@ Voilà à quoi ressemble la page du plugin SMS (ici avec déjà 1 équipement) :
 
 image::../images/sms3.png[]
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Comme à beaucoup d'endroits sur Jeedom, placer la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez, à partir de votre profil, le laisser toujours visible).
 
@@ -85,7 +83,7 @@ Seul les numéros de téléphone déclarés dans un équipement pouront utiliser
 * *Supprimer* (signe -) : permet de supprimer la commande.
 
 
-==== Utilisation du plugin
+=== Utilisation du plugin
 
 Celui-ci est assez standard dans son fonctionnement, sur la page Général -> Plugin puis en sélectionnant le plugin SMS : 
 

@@ -1,21 +1,14 @@
-:icons:
-== SMS
-
-=== Description
+= SMS
 Plugin permettant d'envoyer et recevoir des SMS à l'aide d'une clef GSM.
 
-'''
-=== Configuration
+== Configuration
 include::configuration.asciidoc[]
 
-'''
 === Liste des clefs compatibles
 include::compatibility.asciidoc[]
 
-'''
-=== FAQ
+== FAQ
 include::faq.asciidoc[]
 
-'''
-=== Troubleshoting
+== Troubleshoting
 include::troubleshoting.asciidoc[]
