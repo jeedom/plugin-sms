@@ -220,7 +220,6 @@ def option_listen():
 	except Exception, e:
 		print("Exception: %s" % str(e))
 		logger.error("Exception: %s" % str(e))
-		logger.debug("Execute shell : "+action)
 		command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'none', 'message' : str(e) })
 		command.run(timeout=config.trigger_timeout)
 		exit(1)
