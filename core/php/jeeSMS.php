@@ -108,5 +108,5 @@ foreach ($eqLogics as $eqLogic) {
 }
 
 if (!$smsOk) {
-	log::add('sms', 'info', __('Message venant d\un numéro non autorisé : ', __FILE__) . $number . ' (' . $formatedPhoneNumber . ') : ' . trim($message));
+	log::add('sms', 'info', __('Message venant d\un numéro non autorisé : ', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS(trim($message)));
 }
