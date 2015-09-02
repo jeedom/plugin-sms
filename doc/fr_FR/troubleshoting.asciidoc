@@ -85,5 +85,5 @@ Au bout de quelques heures/jours je ne recois plus de SMS et ne peux plus en env
 Vérifiez votre cable USB (un mauvais cable USB entraine souvent ce genre de soucis, il ne faut pas qu'il soit trop long non plus), verifiez aussi votre alimentation, un hub USB est fortement conseillé
 
 ''''
-Je ne vois pas le port USB du rfxcom::
+Je ne vois pas le port USB de ma clef::
 Vérifiez que vous n'avez pas brltty d'installer (`sudo apt-get remove brltty` pour le supprimer)
