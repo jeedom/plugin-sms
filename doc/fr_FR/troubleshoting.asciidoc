@@ -83,3 +83,7 @@ Vous pouvez trouver link:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gs
 
 Au bout de quelques heures/jours je ne recois plus de SMS et ne peux plus en envoyer, une relance du démon corrige::
 Vérifiez votre cable USB (un mauvais cable USB entraine souvent ce genre de soucis, il ne faut pas qu'il soit trop long non plus), verifiez aussi votre alimentation, un hub USB est fortement conseillé
+
+''''
+Je ne vois pas le port USB du rfxcom::
+Vérifiez que vous n'avez pas brltty d'installer (`sudo apt-get remove brltty` pour le supprimer)
