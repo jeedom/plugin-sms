@@ -36,7 +36,6 @@ if (config::byKey('jeeNetwork::mode') == 'master') {
 $urlMasterLocal = false;
 try {
 	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
-	$request_http->setNoSslCheck(false);
 	if ($request_http->exec(1, 1) == 'OK') {
 		$urlMasterLocal = true;
 	}
@@ -46,7 +45,6 @@ try {
 $urlMasterDistant = false;
 try {
 	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:ip:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
-	$request_http->setNoSslCheck(false);
 	if ($request_http->exec(1, 1) == 'OK') {
 		$urlMasterDistant = true;
 	}
@@ -94,7 +92,7 @@ foreach ($deamonRunningSlave as $name => $status) {
 </form>
 <form class="form-horizontal">
     <fieldset>
-        <legend>{{Démon local}}</legend>
+        <legend><i class="icon loisir-darth"></i> {{Démon local}}</legend>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Port SMS}}</label>
             <div class="col-lg-4">
@@ -171,7 +169,7 @@ if (config::byKey('jeeNetwork::mode') == 'master') {
 		?>
         <form class="form-horizontal slaveConfig" data-slave_id="<?php echo $jeeNetwork->getId();?>">
             <fieldset>
-                <legend>{{Démon sur l'esclave}} <?php echo $jeeNetwork->getName()?></legend>
+                <legend><i class="icon loisir-darth"></i> {{Démon sur l'esclave}} <?php echo $jeeNetwork->getName()?></legend>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Port SMS}}</label>
                     <div class="col-lg-4">
