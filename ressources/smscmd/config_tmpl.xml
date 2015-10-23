@@ -5,6 +5,7 @@
     <pin>#pin#</pin>
     <text_mode>#text_mode#</text_mode>
     <smsc>#smsc#</smsc>
+    <serial_rate>#serial_rate#</serial_rate>
     <!-- Trigger -->
     <trigger_url>#trigger_url#</trigger_url>
     <apikey>#apikey#</apikey>

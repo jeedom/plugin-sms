@@ -96,6 +96,7 @@ class sms extends eqLogic {
 			'#smsc#' => config::byKey('smsc', 'sms', 'None'),
 			'#log_path#' => log::getPathToLog('sms'),
 			'#pid_path#' => '/tmp/sms.pid',
+			'#serial_rate#' => config::byKey('serial_rate', 'sms', 115200),
 		);
 		if (config::byKey('jeeNetwork::mode') == 'slave') {
 			$replace_config['#sockethost#'] = network::getNetworkAccess('internal', 'ip', '127.0.0.1');

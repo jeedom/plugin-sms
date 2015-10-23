@@ -41,7 +41,8 @@ from SocketServer import (TCPServer, StreamRequestHandler)
 class config_data:
 	def __init__(
 		self,
-		serial_device = None,
+		serial_device = 'auto',
+		serial_rate = 115200,
 		trigger_active = False,
 		trigger_file = "",
 		trigger_timeout = 10,
@@ -54,9 +55,10 @@ class config_data:
 		text_mode = "no",
 		smsc = "None",
 		daemon_pidfile = "gsm.pid",
-				debug = False
+		debug = False
 		):
 
+		self.serial_rate = serial_rate
 		self.serial_device = serial_device
 		self.trigger_file = trigger_file
 		self.trigger_timeout = trigger_timeout
@@ -180,7 +182,7 @@ def option_listen():
 		if config.debug :
 			logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-		gsm = GsmModem(config.serial_device, 115200, smsReceivedCallbackFunc=handleSms)
+		gsm = GsmModem(config.serial_device, int(config.serial_rate), smsReceivedCallbackFunc=handleSms)
 		if config.text_mode == 'yes' : 
 			gsm.smsTextMode = True 
 		else :
@@ -354,8 +356,12 @@ def read_configfile():
 		# Serial device
 		config.serial_device = read_config( cmdarg.configfile, "serial_device")
 		if config.serial_device == 'auto':
+			logger.debug("Search for serial device")
 			config.serial_device = find_tty_usb('12d1','1003')
 		logger.debug("Serial device: " + str(config.serial_device))
+
+		config.serial_rate = read_config( cmdarg.configfile, "serial_rate")
+		logger.debug("Serial rate: " + str(config.serial_rate))
 
 		config.pin = read_config( cmdarg.configfile, "pin")
 		logger.debug("Code pin: " + str(config.pin))

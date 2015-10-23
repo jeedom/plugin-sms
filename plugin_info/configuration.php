@@ -111,6 +111,15 @@ foreach (ls('/dev/', 'tty*') as $value) {
            </div>
        </div>
        <div class="form-group">
+        <label class="col-sm-4 control-label">{{Vitesse de communication (bauds)}}</label>
+        <div class="col-sm-2">
+            <select class="configKey form-control" data-l1key="serial_rate" >
+                <option value="115200">115200</option>
+                <option value="9600">9600</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-lg-4 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
         <div class="col-lg-4">
             <input type="password" class="configKey form-control" data-l1key="pin" />
@@ -140,7 +149,7 @@ foreach (ls('/dev/', 'tty*') as $value) {
             <span class="configKey" data-l1key="signal_strengh" ></span> / 30
         </div>
     </div>
-     <div class="form-group">
+    <div class="form-group">
         <label class="col-lg-4 control-label">{{Réseaux}}</label>
         <div class="col-lg-4">
             <span class="configKey" data-l1key="network_name" ></span>
@@ -181,57 +190,57 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
 			echo '<option value="' . $name . '">' . $name . ' (' . $value . ')</option>';
 		}
 		?>
-                        </select>
-                    </div>
+                     </select>
+                 </div>
+             </div>
+             <div class="form-group">
+                <label class="col-lg-4 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
+                <div class="col-lg-4">
+                    <input type="password" class="slaveConfigKey form-control" data-l1key="pin" />
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
-                    <div class="col-lg-4">
-                        <input type="password" class="slaveConfigKey form-control" data-l1key="pin" />
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Texte mode}}</label>
+                <div class="col-lg-4">
+                    <input type="checkbox" class="slaveConfigKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Texte mode}}</label>
-                    <div class="col-lg-4">
-                        <input type="checkbox" class="slaveConfigKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)}}</label>
+                <div class="col-lg-4">
+                    <input class="slaveConfigKey form-control" data-l1key="smsc" title='{{Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur}}'/>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)}}</label>
-                    <div class="col-lg-4">
-                        <input class="slaveConfigKey form-control" data-l1key="smsc" title='{{Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur}}'/>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Force du signal}}</label>
+                <div class="col-lg-4">
+                    <span class="slaveConfigKey" data-l1key="signal_strengh" ></span> / 30
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Force du signal}}</label>
-                    <div class="col-lg-4">
-                        <span class="slaveConfigKey" data-l1key="signal_strengh" ></span> / 30
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Réseaux}}</label>
+                <div class="col-lg-4">
+                    <span class="slaveConfigKey" data-l1key="network_name" ></span>
                 </div>
-                   <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Réseaux}}</label>
-                    <div class="col-lg-4">
-                        <span class="slaveConfigKey" data-l1key="network_name" ></span>
-                    </div>
+            </div>
+            <div class="form-group expertModeVisible">
+                <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
+                <div class="col-lg-2">
+                    <input class="slaveConfigKey form-control" data-l1key="socketport" value='55002' />
                 </div>
-                <div class="form-group expertModeVisible">
-                    <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
-                    <div class="col-lg-2">
-                        <input class="slaveConfigKey form-control" data-l1key="socketport" value='55002' />
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
+                <div class="col-lg-8">
+                    <a class="btn btn-success bt_restartSMSDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a>
+                    <a class="btn btn-danger bt_stopSMSDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a>
+                    <a class="btn btn-warning bt_launchSMSInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
-                    <div class="col-lg-8">
-                        <a class="btn btn-success bt_restartSMSDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a>
-                        <a class="btn btn-danger bt_stopSMSDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a>
-                        <a class="btn btn-warning bt_launchSMSInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+            </div>
+        </fieldset>
+    </form>
 
-        <?php
+    <?php
 }
 }
 ?>
@@ -260,7 +269,7 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
     });
     });
 
-$('.bt_stopSMSDeamon').on('click', function () {
+    $('.bt_stopSMSDeamon').on('click', function () {
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
@@ -283,15 +292,15 @@ $('.bt_stopSMSDeamon').on('click', function () {
     });
     });
 
-$('.bt_launchSMSInDebug').on('click', function () {
-    var slave_id = $(this).closest('.slaveConfig').attr('data-slave_id');
-    bootbox.confirm('{{Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé}}', function (result) {
-        if (result) {
-            $('#md_modal').dialog({title: "{{SMS en mode debug}}"});
-            $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug&slave_id='+slave_id).dialog('open');
-        }
+    $('.bt_launchSMSInDebug').on('click', function () {
+        var slave_id = $(this).closest('.slaveConfig').attr('data-slave_id');
+        bootbox.confirm('{{Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé}}', function (result) {
+            if (result) {
+                $('#md_modal').dialog({title: "{{SMS en mode debug}}"});
+                $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug&slave_id='+slave_id).dialog('open');
+            }
+        });
     });
-});
 
 
 
@@ -370,7 +379,7 @@ $('.bt_launchSMSInDebug').on('click', function () {
          }
 
 
-           function sms_postSaveSlaveConfiguration(_slave_id){
+         function sms_postSaveSlaveConfiguration(_slave_id){
              $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
