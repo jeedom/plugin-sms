@@ -274,8 +274,10 @@ class smsCmd extends cmd {
 				$tmp_values = array();
 				foreach ($values as $value) {
 					foreach ($phonenumbers as $phonenumber) {
-						$value = json_decode($value, true);
-						$tmp_values[] = json_encode(array('number' => $phonenumber, 'message' => $message));
+						if (is_array($value)) {
+							$value = json_decode($value, true);
+							$tmp_values[] = json_encode(array('number' => $phonenumber, 'message' => $message));
+						}
 					}
 				}
 				$values = $tmp_values;
