@@ -273,8 +273,8 @@ class smsCmd extends cmd {
 			if (is_array($phonenumbers) && count($phonenumbers) > 1) {
 				$tmp_values = array();
 				foreach ($values as $value) {
+					$value = json_decode($value, true);
 					foreach ($phonenumbers as $phonenumber) {
-						$value = json_decode($value, true);
 						if (is_array($value)) {
 							$tmp_values[] = json_encode(array('number' => $phonenumber, 'message' => $value['message']));
 						}
@@ -283,7 +283,6 @@ class smsCmd extends cmd {
 				$values = $tmp_values;
 			}
 		}
-
 		if (config::byKey('jeeNetwork::mode') == 'master') {
 			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
 				foreach ($values as $value) {
