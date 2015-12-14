@@ -67,7 +67,7 @@ root@jeedom:~# ls /dev/ttyUSB*
 
 Maintenant il faut automatiser le lancement de la commande précédente via udev :
 ----
-root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules
+root@jeedom:# vi /etc/udev/rules.d/99-usb_modeswitch.rules
 SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"
 ----
 
