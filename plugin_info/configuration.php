@@ -21,75 +21,7 @@ if (!isConnect()) {
 	include_file('desktop', '404', 'php');
 	die();
 }
-$port = config::byKey('port', 'sms');
-$deamonRunningMaster = sms::deamonRunning();
-$deamonRunningSlave = array();
-if (config::byKey('jeeNetwork::mode') == 'master') {
-	foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
-		try {
-			$deamonRunningSlave[$jeeNetwork->getName()] = $jeeNetwork->sendRawRequest('deamonRunning', array('plugin' => 'sms'));
-		} catch (Exception $e) {
-			$deamonRunningSlave[$jeeNetwork->getName()] = false;
-		}
-	}
-}
-$urlMasterLocal = false;
-try {
-	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
-	if ($request_http->exec(1, 1) == 'OK') {
-		$urlMasterLocal = true;
-	}
-} catch (Exception $e) {
-
-}
-$urlMasterDistant = false;
-try {
-	$request_http = new com_http(network::getNetworkAccess('internal', 'proto:ip:port:comp') . '/plugins/sms/core/php/jeeSMS.php?apikey=' . config::byKey('api') . '&test=1');
-	if ($request_http->exec(1, 1) == 'OK') {
-		$urlMasterDistant = true;
-	}
-} catch (Exception $e) {
-
-}
 ?>
-
-<form class="form-horizontal">
-    <fieldset>
-        <?php
-echo '<div class="form-group">';
-echo '<label class="col-sm-4 control-label">{{Retour local}}</label>';
-if (!$urlMasterLocal) {
-	echo '<div class="col-sm-1"><span class="label label-danger tooltips" style="font-size : 1em;" title="{{Vérifiez votre configuration sur la page de configuration réseaux, celle-ci est incorrecte et le démon ne pourra communiquer avec Jeedom}}">NOK</span></div>';
-} else {
-	echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
-}
-echo '<label class="col-sm-2 control-label">{{Retour distant}}</label>';
-if (!$urlMasterDistant) {
-	echo '<div class="col-sm-1"><span class="label label-danger tooltips" style="font-size : 1em;" title="{{Vérifiez votre configuration sur la page de configuration réseaux, celle-ci est incorrecte et le démon ne pourra communiquer avec Jeedom}}">NOK</span></div>';
-} else {
-	echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
-}
-echo '</div>';
-echo '<div class="form-group">';
-echo '<label class="col-sm-4 control-label">{{Démon local}}</label>';
-if (!$deamonRunningMaster) {
-	echo '<div class="col-sm-1"><span class="label label-danger tooltips" style="font-size : 1em;" title="{{Peut être normale si vous etes en deporté}}">NOK</span></div>';
-} else {
-	echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
-}
-echo '</div>';
-foreach ($deamonRunningSlave as $name => $status) {
-	echo ' <div class="form-group"><label class="col-sm-4 control-label">{{Sur l\'esclave}} ' . $name . '</label>';
-	if (!$status) {
-		echo '<div class="col-sm-1"><span class="label label-danger" style="font-size : 1em;">NOK</span></div>';
-	} else {
-		echo '<div class="col-sm-1"><span class="label label-success" style="font-size : 1em;">OK</span></div>';
-	}
-	echo '</div>';
-}
-?>
-  </fieldset>
-</form>
 <form class="form-horizontal">
     <fieldset>
         <legend><i class="icon loisir-darth"></i> {{Démon local}}</legend>
@@ -161,14 +93,6 @@ foreach (ls('/dev/', 'tty*') as $value) {
             <input class="configKey form-control" data-l1key="socketport" value='55002' />
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
-        <div class="col-lg-8">
-            <a class="btn btn-success" id="bt_restartSmsDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a>
-            <a class="btn btn-danger" id="bt_stopSmsDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a>
-            <a class="btn btn-warning" id="bt_launchSmsInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a>
-        </div>
-    </div>
 </fieldset>
 </form>
 
@@ -176,9 +100,9 @@ foreach (ls('/dev/', 'tty*') as $value) {
 if (config::byKey('jeeNetwork::mode') == 'master') {
 	foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
 		?>
-        <form class="form-horizontal slaveConfig" data-slave_id="<?php echo $jeeNetwork->getId();?>">
+        <form class="form-horizontal slaveConfig" data-slave_id="<?php echo $jeeNetwork->getId(); ?>">
             <fieldset>
-                <legend><i class="icon loisir-darth"></i> {{Démon sur l'esclave}} <?php echo $jeeNetwork->getName()?></legend>
+                <legend><i class="icon loisir-darth"></i> {{Démon sur l'esclave}} <?php echo $jeeNetwork->getName() ?></legend>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">{{Port SMS}}</label>
                     <div class="col-lg-4">
@@ -229,174 +153,9 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
                     <input class="slaveConfigKey form-control" data-l1key="socketport" value='55002' />
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-lg-4 control-label">{{Gestion du démon}}</label>
-                <div class="col-lg-8">
-                    <a class="btn btn-success bt_restartSMSDeamon"><i class='fa fa-play'></i> {{(Re)démarrer}}</a>
-                    <a class="btn btn-danger bt_stopSMSDeamon"><i class='fa fa-stop'></i> {{Arrêter}}</a>
-                    <a class="btn btn-warning bt_launchSMSInDebug"><i class="fa fa-exclamation-triangle"></i> {{Lancer en mode debug}}</a>
-                </div>
-            </div>
         </fieldset>
     </form>
-
     <?php
 }
 }
 ?>
-
-<script>
-    $('.bt_restartSMSDeamon').on('click', function () {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "restartSlaveDeamon",
-                id : $(this).closest('.slaveConfig').attr('data-slave_id')
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Le démon a été correctement (re)demarré}}', level: 'success'});
-            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
-        }
-    });
-    });
-
-    $('.bt_stopSMSDeamon').on('click', function () {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "stopSlaveDeamon",
-                id : $(this).closest('.slaveConfig').attr('data-slave_id')
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Le démon a été correctement arreté}}', level: 'success'});
-            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
-        }
-    });
-    });
-
-    $('.bt_launchSMSInDebug').on('click', function () {
-        var slave_id = $(this).closest('.slaveConfig').attr('data-slave_id');
-        bootbox.confirm('{{Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé}}', function (result) {
-            if (result) {
-                $('#md_modal').dialog({title: "{{SMS en mode debug}}"});
-                $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug&slave_id='+slave_id).dialog('open');
-            }
-        });
-    });
-
-
-
-    $('#bt_restartSmsDeamon').on('click', function () {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "restartDeamon",
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Le démon a été correctement (re)démaré}}', level: 'success'});
-            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
-        }
-    });
-    });
-
-    $('#bt_stopSmsDeamon').on('click', function () {
-        $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "stopDeamon",
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#div_alert').showAlert({message: '{{Le démon a été correctement arreté}}', level: 'success'});
-            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
-        }
-    });
-    });
-
-    $('#bt_launchSmsInDebug').on('click', function () {
-        bootbox.confirm('{{Etes-vous sur de vouloir lancer le démon en mode debug ? N\'oubliez pas de le relancer en mode normale une fois terminé}}', function (result) {
-            if (result) {
-                $('#md_modal').dialog({title: "{{SMS en mode debug}}"});
-                $('#md_modal').load('index.php?v=d&plugin=sms&modal=show.debug').dialog('open');
-            }
-        });
-    });
-
-    function sms_postSaveConfiguration(){
-             $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "restartDeamon",
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-            $('#ul_plugin .li_plugin[data-plugin_id=sms]').click();
-        }
-    });
-         }
-
-
-         function sms_postSaveSlaveConfiguration(_slave_id){
-             $.ajax({// fonction permettant de faire de l'ajax
-            type: "POST", // methode de transmission des données au fichier php
-            url: "plugins/sms/core/ajax/sms.ajax.php", // url du fichier php
-            data: {
-                action: "restartSlaveDeamon",
-                id : _slave_id
-            },
-            dataType: 'json',
-            error: function (request, status, error) {
-                handleAjaxError(request, status, error);
-            },
-            success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({message: data.result, level: 'danger'});
-                return;
-            }
-        }
-    });
-         }
-     </script>

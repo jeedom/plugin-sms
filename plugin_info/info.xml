@@ -11,5 +11,6 @@
     <version>2.0</version>
     <category>communication</category>
     <allowRemote>1</allowRemote>
+    <hasOwnDeamon>1</hasOwnDeamon>
 </info>
 

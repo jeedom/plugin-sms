@@ -21,68 +21,43 @@
 class sms extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 
-	public static function slaveReload() {
-		self::stopDeamon();
-	}
-
-	public static function health() {
+	public static function deamon_info() {
 		$return = array();
-		$demon_state = self::deamonRunning();
-		$return[] = array(
-			'test' => __('Démon local', __FILE__),
-			'result' => ($demon_state) ? __('OK', __FILE__) : __('NOK', __FILE__),
-			'advice' => ($demon_state) ? '' : __('Peut être normal si vous êtes en déporté', __FILE__),
-			'state' => $demon_state,
-		);
-		if (config::byKey('jeeNetwork::mode') == 'master') {
-			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
-				try {
-					$demon_state = $jeeNetwork->sendRawRequest('deamonRunning', array('plugin' => 'sms'));
-				} catch (Exception $e) {
-					$demon_state = false;
-				}
-				$return[] = array(
-					'test' => __('Démon sur', __FILE__) . $jeeNetwork->getName(),
-					'result' => ($demon_state) ? __('OK', __FILE__) : __('NOK', __FILE__),
-					'advice' => '',
-					'state' => $demon_state,
-				);
+		$return['log'] = 'smscmd';
+		$return['state'] = 'nok';
+		$pid_file = '/tmp/sms.pid';
+		if (file_exists($pid_file)) {
+			if (posix_getsid(trim(file_get_contents($pid_file)))) {
+				$return['state'] = 'ok';
+			} else {
+				unlink($pid_file);
 			}
 		}
-		return $return;
-	}
-
-	public static function start() {
-		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
-			self::runDeamon();
-		}
-	}
-
-	public static function cron15() {
-		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none' && !self::deamonRunning()) {
-			self::runDeamon();
-		}
-	}
-
-	public static function cronDaily() {
-		if (config::byKey('allowStartDeamon', 'sms', 1) == 1 && config::byKey('port', 'sms', 'none') != 'none') {
-			self::runDeamon();
-		}
-	}
-
-	public static function runDeamon($_debug = false) {
-		if (config::byKey('allowStartDeamon', 'edisio', 1) == 0) {
-			return;
-		}
-		self::stopDeamon();
+		$return['launchable'] = 'ok';
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
 			if (@!file_exists($port)) {
-				throw new Exception(__('Le port : ', __FILE__) . print_r($port, true) . __(' n\'éxiste pas', __FILE__));
+				$return['launchable'] = 'nok';
+				$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
 			}
 			exec('sudo chmod 777 ' . $port . ' > /dev/null 2>&1');
 		}
+		return $return;
+	}
+
+	public static function deamon_start($_debug = false) {
+		self::deamon_stop();
+		$deamon_info = self::deamon_info();
+		if ($deamon_info['launchable'] != 'ok') {
+			throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
+		}
+		log::remove('smscmd');
+		$port = config::byKey('port', 'sms');
+		if ($port != 'auto') {
+			$port = jeedom::getUsbMapping($port);
+		}
+
 		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
 		if (file_exists('/tmp/config_sms.xml')) {
@@ -116,59 +91,48 @@ class sms extends eqLogic {
 		if ($_debug) {
 			$cmd .= ' -D';
 		}
-		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
+		log::add('smscmd', 'info', 'Lancement démon sms : ' . $cmd);
 		$result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
 		if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
-			log::add('sms', 'error', $result);
+			log::add('smscmd', 'error', $result);
 			return false;
 		}
 		$i = 0;
 		while ($i < 30) {
-			if (self::deamonRunning()) {
+			$deamon_info = self::deamon_info();
+			if ($deamon_info['state'] == 'ok') {
 				break;
 			}
 			sleep(1);
 			$i++;
 		}
 		if ($i >= 30) {
-			log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+			log::add('smscmd', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
 			return false;
 		}
 		message::removeAll('sms', 'unableStartDeamon');
-		log::add('sms', 'info', 'Démon sms lancé');
+		log::add('smscmd', 'info', 'Démon sms lancé');
 		return true;
 	}
 
-	public static function deamonRunning() {
-		$pid_file = '/tmp/sms.pid';
-		if (!file_exists($pid_file)) {
-			return false;
-		}
-		$pid = trim(file_get_contents($pid_file));
-		if (posix_getsid($pid)) {
-			return true;
-		}
-		unlink($pid_file);
-		return false;
-	}
-
-	public static function stopDeamon() {
+	public static function deamon_stop() {
 		$pid_file = '/tmp/sms.pid';
 		if (file_exists($pid_file)) {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			posix_kill($pid, 15);
-			if (self::deamonRunning()) {
+			$deamon_info = self::deamon_info();
+			if ($deamon_info['state'] == 'ok') {
 				sleep(1);
 				posix_kill($pid, 9);
 			}
-			if (self::deamonRunning()) {
+			$deamon_info = self::deamon_info();
+			if ($deamon_info['state'] == 'ok') {
 				sleep(1);
 				exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
 			}
 		}
 		exec('fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
 		exec('sudo fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
-		return self::deamonRunning();
 	}
 
 /*     * *********************Methode d'instance************************* */
