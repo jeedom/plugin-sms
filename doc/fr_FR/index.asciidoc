@@ -6,9 +6,3 @@ include::configuration.asciidoc[]
 
 === Liste des clefs compatibles
 include::compatibility.asciidoc[]
-
-== FAQ
-include::faq.asciidoc[]
-
-== Troubleshoting
-include::troubleshoting.asciidoc[]
