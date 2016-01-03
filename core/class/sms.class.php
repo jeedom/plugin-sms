@@ -119,20 +119,9 @@ class sms extends eqLogic {
 		$pid_file = '/tmp/sms.pid';
 		if (file_exists($pid_file)) {
 			$pid = intval(trim(file_get_contents($pid_file)));
-			posix_kill($pid, 15);
-			$deamon_info = self::deamon_info();
-			if ($deamon_info['state'] == 'ok') {
-				sleep(1);
-				posix_kill($pid, 9);
-			}
-			$deamon_info = self::deamon_info();
-			if ($deamon_info['state'] == 'ok') {
-				sleep(1);
-				exec('kill -9 ' . $pid . ' > /dev/null 2>&1');
-			}
+			system::kill($pid);
 		}
-		exec('fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
-		exec('sudo fuser -k ' . config::byKey('socketport', 'sms', 55002) . '/tcp > /dev/null 2>&1');
+		system::fuserk(config::byKey('socketport', 'sms', 55002));
 	}
 
 /*     * *********************Methode d'instance************************* */
