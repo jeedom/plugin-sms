@@ -209,7 +209,11 @@ class smsCmd extends cmd {
 			$_options['message'] .= ' (' . implode(';', $_options['answer']) . ')';
 		}
 		$values = array();
-		$message = trim($_options['title'] . ' ' . $_options['message']);
+		if (isset($_options['message']) && $_options['message'] != '') {
+			$message = trim($_options['message']);
+		} else {
+			$message = trim($_options['title'] . ' ' . $_options['message']);
+		}
 		if (config::byKey('text_mode', 'sms') == 1) {
 			$message = self::cleanSMS(trim($message), true);
 		}
