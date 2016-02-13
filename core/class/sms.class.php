@@ -136,7 +136,6 @@ class sms extends eqLogic {
 		}
 		$signal->setType('info');
 		$signal->setSubType('numeric');
-		$signal->setEventOnly(1);
 		$signal->setEqLogic_id($this->getId());
 		$signal->save();
 
@@ -149,7 +148,6 @@ class sms extends eqLogic {
 		}
 		$sms->setType('info');
 		$sms->setSubType('string');
-		$sms->setEventOnly(1);
 		$sms->setEqLogic_id($this->getId());
 		$sms->save();
 
@@ -162,7 +160,6 @@ class sms extends eqLogic {
 		}
 		$sender->setType('info');
 		$sender->setSubType('string');
-		$sender->setEventOnly(1);
 		$sender->setEqLogic_id($this->getId());
 		$sender->save();
 	}
