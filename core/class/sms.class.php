@@ -122,6 +122,10 @@ class sms extends eqLogic {
 			system::kill($pid);
 		}
 		system::fuserk(config::byKey('socketport', 'sms', 55002));
+		$port = config::byKey('port', 'sms');
+		if ($port != 'auto') {
+			system::fuserk(jeedom::getUsbMapping($port));
+		}
 	}
 
 /*     * *********************Methode d'instance************************* */
