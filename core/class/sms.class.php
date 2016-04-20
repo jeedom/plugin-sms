@@ -22,7 +22,7 @@ class sms extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 
 	public static function cronDaily() {
-		slef::deamon_start();
+		self::deamon_start();
 	}
 
 	public static function dependancy_info() {
