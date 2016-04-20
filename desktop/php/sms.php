@@ -88,7 +88,7 @@ foreach (object::all() as $object) {
  </fieldset>
 </form>
 
-<legend>{{Commandes}}</legend>
+<legend><i class="fa fa-list-alt"></i>  {{Commandes}}</legend>
 <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter d'un numéro}}</a><br/><br/>
 <table id="table_cmd" class="table table-bordered table-condensed">
   <thead>
