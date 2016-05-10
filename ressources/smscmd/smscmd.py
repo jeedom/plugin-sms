@@ -1,644 +1,228 @@
-#!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4
-# see LICENSE file (it's BSD)
+# This file is part of Jeedom.
+#
+# Jeedom is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# Jeedom is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 
-__author__ = "Gevrey Loic"
-__copyright__ = "Copyright 2014-2015, Gevrey Loic"
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Gevrey Loic"
-__email__ = "loic@jeedom.com"
-__status__ = "Development-Alpha-1"
-__date__ = "$Date: 2014-10-02$"
-
-import requests
-import time
 import logging
-import threading
-from threading import Event, Thread
-import subprocess
-import signal
-import json
+import requests
+import pdb
+import string
 import sys
 import os
-import socket
-import inspect
+import time
+import datetime
+import binascii
+import traceback
+import subprocess
+import threading
+from threading import Thread, Event, Timer
+import re
+import signal
 import xml.dom.minidom as minidom
 from optparse import OptionParser
-from gsmmodem.modem import GsmModem
-import unicodedata
+import socket
+import select
+import inspect
 from os.path import join
+import serial
+import json
+from gsmmodem.modem import GsmModem
 
-from Queue import Queue
-messageQueue = Queue()
-
-import SocketServer
-SocketServer.TCPServer.allow_reuse_address = True
-from SocketServer import (TCPServer, StreamRequestHandler)
+try:
+	from jeedom.jeedom import *
+except ImportError:
+	print "Error: importing module from jeedom folder"
+	sys.exit(1)
 
 ################################PARAMETERS######################################
 
-class config_data:
-	def __init__(
-		self,
-		serial_device = 'auto',
-		serial_rate = 115200,
-		trigger_active = False,
-		trigger_file = "",
-		trigger_timeout = 10,
-		loglevel = "info",
-		logfile = "gsmcmd.log",
-		program_path = "",
-		sockethost = "",
-		socketport = "",
-		pin = "None",
-		text_mode = "no",
-		smsc = "None",
-		daemon_pidfile = "gsm.pid",
-		debug = False
-		):
-
-		self.serial_rate = serial_rate
-		self.serial_device = serial_device
-		self.trigger_file = trigger_file
-		self.trigger_timeout = trigger_timeout
-		self.loglevel = loglevel
-		self.logfile = logfile
-		self.text_mode = text_mode
-		self.pin = pin
-		self.smsc = smsc
-		self.program_path = program_path
-		self.sockethost = sockethost
-		self.socketport = socketport
-		self.debug = debug
-		self.daemon_pidfile = daemon_pidfile
-
-class cmdarg_data:
-	def __init__(
-		self,
-		configfile = "",
-		action = "",
-		rawcmd = "",
-		device = "",
-		createpid = False,
-		pidfile = "",
-		printout_complete = True,
-		printout_csv = False
-		):
-
-		self.configfile = configfile
-		self.action = action
-		self.rawcmd = rawcmd
-		self.device = device
-		self.createpid = createpid
-		self.pidfile = pidfile
-
 gsm = False
 
-##############################COMMAND###########################################
-
-class Command(object):
-	def __init__(self, url,data):
-		self.url = url
-		self.data = data
-		self.process = None
-	
-	def run(self, timeout):
-		def target():
-			logger.debug("Send data to jeedom : "+self.url+' => '+str(self.data))
-			requests.get(self.url, params=self.data,timeout= (0.5,float(timeout)),verify=False)
-			
-		thread = threading.Thread(target=target)
-		thread.start()
-
-##############################READ SOCKET#######################################
-# ----------------------------------------------------------------------------
-
-class NetRequestHandler(StreamRequestHandler):
-	
-	def handle(self):
-		logger.debug("Client connected to [%s:%d]" % self.client_address)
-		lg = self.rfile.readline()
-		messageQueue.put(lg)
-		logger.debug("Message read from socket: " + lg.strip())
-		self.netAdapterClientConnected = False
-		logger.debug("Client disconnected from [%s:%d]" % self.client_address)
-	
-class GSMcmdSocketAdapter(object, StreamRequestHandler):
-	def __init__(self, address='localhost', port=55002):
-		self.Address = address
-		self.Port = port
-
-		self.netAdapter = TCPServer((self.Address, self.Port), NetRequestHandler)
-		if self.netAdapter:
-			self.netAdapterRegistered = True
-			threading.Thread(target=self.loopNetServer, args=()).start()
-
-	def loopNetServer(self):
-		logger.debug("LoopNetServer Thread started")
-		logger.debug("Listening on: [%s:%d]" % (self.Address, self.Port))
-		self.netAdapter.serve_forever()
-		logger.debug("LoopNetServer Thread stopped")
-
-# ----------------------------------------------------------------------------
-# C __LINE__ equivalent in Python by Elf Sternberg
-# http://www.elfsternberg.com/2008/09/23/c-__line__-equivalent-in-python/
-# ----------------------------------------------------------------------------
-
-def _line():
-	info = inspect.getframeinfo(inspect.currentframe().f_back)[0:3]
-	return '[%s:%d]' % (info[2], info[1])
-
-# ----------------------------------------------------------------------------
-
-def stripped(str):
-	"""
-	Strip all characters that are not valid
-	Credit: http://rosettacode.org/wiki/Strip_control_codes_and_extended_characters_from_a_string
-	"""
-	return "".join([i for i in str if ord(i) in range(32, 127)])
-
-# ----------------------------------------------------------------------------
-
-def remove_accents(input_str):
-	nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
-	return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
-
 def handleSms(sms):
-	logger.debug("Got SMS message : "+str(sms))
-	message = remove_accents(sms.text.replace('"', ''))
-	command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : sms.number, 'message' : message })
-	command.run(timeout=config.trigger_timeout)
+	logging.debug("Got SMS message : "+str(sms))
+	if not sms.text:
+		logging.debug("No text so nothing to do")
+		return
+	message = jeedom_utils.remove_accents(sms.text.replace('"', ''))
+	jeedom_com.add_changes('devices::'+str(sms.number),{'number' : sms.number, 'message' : message });
 
-def option_listen():
-	"""
-	Listen to GSM device and process data, exit with CTRL+C
-	"""
+def listen():
 	global gsm
-	logger.debug("Start listening...")
-		
+	jeedom_socket.open()
+	logging.debug("Start listening...")
 	try:
-		logger.debug("Connecting to GSM Modem...")
-		if config.debug :
-			logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-
-		gsm = GsmModem(config.serial_device, int(config.serial_rate), smsReceivedCallbackFunc=handleSms)
-		if config.text_mode == 'yes' : 
+		logging.debug("Connecting to GSM Modem...")
+		gsm = GsmModem(_device, int(_serial_rate), smsReceivedCallbackFunc=handleSms)
+		if _text_mode == 'yes' : 
+			logging.debug("Text mode true")
 			gsm.smsTextMode = True 
 		else :
+			logging.debug("Text mode false")
 			gsm.smsTextMode = False 
-
-		if config.pin != 'None' :
-			gsm.connect(config.pin)
+		if _pin != 'None':
+			logging.debug("Enter pin code : "+_pin)
+			gsm.connect(_pin)
 		else :
 			gsm.connect()
-		if config.smsc != 'None' :
-			logger.debug("Configure smsc : "+config.smsc)
-			gsm.write('AT+CSCA="{0}"'.format(config.smsc))
-			
-
-		logger.debug("Waiting for network...")
+		if _smsc != 'None' :
+			logging.debug("Configure smsc : "+_smsc)
+			gsm.write('AT+CSCA="{0}"'.format(_smsc))
+		logging.debug("Waiting for network...")
 		gsm.waitForNetworkCoverage()
-		logger.debug("Ok")
-
+		logging.debug("Ok")
 		try:
-			command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'network_name', 'message' : str(gsm.networkName) })
-			command.run(timeout=config.trigger_timeout)
+			jeedom_com.send_change_immediate({'number' : 'network_name', 'message' : str(gsm.networkName) });
 		except Exception, e:
-			print("Exception: %s" % str(e))
+			logging.error("Exception: %s" % str(e))
 
 		try:
 			gsm.write('AT+CPMS="ME","ME","ME"')
 			gsm.write('AT+CMGD=1,4')
 		except Exception, e:
-			print("Exception: %s" % str(e))
+			logging.error("Exception: %s" % str(e))
 
 		try:
 			gsm.write('AT+CPMS="SM","SM","SM"')
 			gsm.write('AT+CMGD=1,4')
 		except Exception, e:
-			print("Exception: %s" % str(e))
-
+			logging.error("Exception: %s" % str(e))
 	except Exception, e:
-		print("Exception: %s" % str(e))
-		logger.error("Exception: %s" % str(e))
-		command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'none', 'message' : str(e) })
-		command.run(timeout=config.trigger_timeout)
+		logging.error("Exception: %s" % str(e))
+		jeedom_com.send_change_immediate({'number' : 'none', 'message' : str(e) });
 		exit(1)
-
-	
-	try:
-		logger.debug("Start socket server")
-		serversocket = GSMcmdSocketAdapter(config.sockethost,int(config.socketport))
-	except Exception, e:
-		logger.error("Error starting socket server. Line: " + _line())
-		logger.error("Error: %s" % str(e))
-		print("Error: can not start server socket, another instance already running?")
-		exit(1)
-	if serversocket.netAdapterRegistered:
-		logger.debug("Socket interface started")
-	else:
-		logger.debug("Cannot start socket interface")
-
 	signal_strength_store = 0				
 	try:
 		while 1:
-			# Let it breath
-			# Without this sleep it will cause 100% CPU in windows
 			time.sleep(1)
 			try:
 				gsm.waitForNetworkCoverage()
 				gsm.processStoredSms(True)
-
 				if signal_strength_store != gsm.signalStrength:
 					signal_strength_store = gsm.signalStrength
-					command = Command(config.trigger_url,{ 'apikey' : config.apikey,'number' : 'signal_strength', 'message' : str(gsm.signalStrength) })
-					command.run(timeout=config.trigger_timeout)
-
+					jeedom_com.send_change_immediate({'number' : 'signal_strength', 'message' : str(gsm.signalStrength)});
 			except Exception, e:
-				print("Exception: %s" % str(e))
-
+				logging.error("Exception: %s" % str(e))
 			try:
 				read_socket()
 			except Exception, e:
-				print("Exception: %s" % str(e))
-				logger.error("Exception: %s" % str(e))
-			
+				logging.error("Exception: %s" % str(e))
 	except KeyboardInterrupt:
-		logger.debug("Received keyboard interrupt")
-		logger.debug("Close server socket")
-		serversocket.netAdapter.shutdown()
-		logger.debug("Close serial port")
-		close_serialport()
-		
-		print("\nExit...")
-		pass
-
-
-# ----------------------------------------------------------------------------
-# DEAMONIZE
-# Credit: George Henze
-# ----------------------------------------------------------------------------
-
-def shutdown():
-	# clean up PID file after us
-	logger.debug("Shutdown")
-
-	if cmdarg.createpid:
-		logger.debug("Removing PID file " + str(cmdarg.pidfile))
-		os.remove(cmdarg.pidfile)
-
-	logger.debug("Exit 0")
-	sys.stdout.flush()
-	os._exit(0)
-	
-def handler(signum=None, frame=None):
-	if type(signum) != type(None):
-		logger.debug("Signal %i caught, exiting..." % int(signum))
 		shutdown()
 
-def daemonize():
-
-	try:
-		pid = os.fork()
-		if pid != 0:
-			sys.exit(0)
-	except OSError, e:
-		raise RuntimeError("1st fork failed: %s [%d]" % (e.strerror, e.errno))
-
-	os.setsid() 
-
-	prev = os.umask(0)
-	os.umask(prev and int('077', 8))
-
-	try:
-		pid = os.fork() 
-		if pid != 0:
-			sys.exit(0)
-	except OSError, e:
-		raise RuntimeError("2nd fork failed: %s [%d]" % (e.strerror, e.errno))
-
-	dev_null = file('/dev/null', 'r')
-	os.dup2(dev_null.fileno(), sys.stdin.fileno())
-
-	if cmdarg.createpid == True:
-		pid = str(os.getpid())
-		logger.debug("Writing PID " + pid + " to " + str(cmdarg.pidfile))
-		file(cmdarg.pidfile, 'w').write("%s\n" % pid)
-
 def read_socket():
-	"""
-	Check socket for messages
-	
-	Credit: Olivier Djian
-	"""
-	global messageQueue
-
-	if not messageQueue.empty():
-		logger.debug("Message received in socket messageQueue")
-		message = stripped(messageQueue.get())
-		logger.debug("Message  : "+str(message))
-		try :
-			message = json.loads(message)
+	try:
+		global JEEDOM_SOCKET_MESSAGE
+		if not JEEDOM_SOCKET_MESSAGE.empty():
+			logging.debug("Message received in socket JEEDOM_SOCKET_MESSAGE")
+			message = json.loads(jeedom_utils.stripped(JEEDOM_SOCKET_MESSAGE.get()))
+			if message['apikey'] != _apikey:
+				logging.error("Invalid apikey from socket : " + str(message))
+				return
 			gsm.waitForNetworkCoverage()
 			gsm.sendSms(message['number'],message['message'])
-		except Exception, e:
-				print("Exception: %s" % str(e))
-						
+	except Exception,e:
+		logging.error(str(e))
 
-def read_configfile():
-	"""
-	Read items from the configuration file
-	"""
-	if os.path.exists( cmdarg.configfile ):
-
-		# ----------------------
-		# Serial device
-		config.serial_device = read_config( cmdarg.configfile, "serial_device")
-		if config.serial_device == 'auto':
-			logger.debug("Search for serial device")
-			config.serial_device = find_tty_usb('12d1','1003')
-		logger.debug("Serial device: " + str(config.serial_device))
-
-		config.serial_rate = read_config( cmdarg.configfile, "serial_rate")
-		logger.debug("Serial rate: " + str(config.serial_rate))
-
-		config.pin = read_config( cmdarg.configfile, "pin")
-		logger.debug("Code pin: " + str(config.pin))
-		config.smsc = read_config( cmdarg.configfile, "smsc")
-		logger.debug("Smsc: " + str(config.smsc))
-
-		config.text_mode = read_config( cmdarg.configfile, "text_mode")
-		logger.debug("Code text_mode: " + str(config.text_mode))
-
-			
-		# ----------------------
-		# SOCKET SERVER
-		config.sockethost = read_config( cmdarg.configfile, "sockethost")
-		config.socketport = read_config( cmdarg.configfile, "socketport")
-		logger.debug("SocketHost: " + str(config.sockethost))
-		logger.debug("SocketPort: " + str(config.socketport))
-
-		# -----------------------
-		# DAEMON
-		config.daemon_pidfile = read_config( cmdarg.configfile, "daemon_pidfile")
-		logger.debug("Daemon_pidfile: " + str(config.daemon_pidfile))
-
-		# TRIGGER
-		config.trigger_url = read_config( cmdarg.configfile, "trigger_url")
-		config.apikey = read_config( cmdarg.configfile, "apikey")
-		config.trigger_timeout = read_config( cmdarg.configfile, "trigger_timeout")
-		logger.debug("trigger_url: " + str(config.trigger_url))
-		logger.debug("apikey: " + str(config.apikey))
-		logger.debug("trigger_timeout: " + str(config.trigger_timeout))
-		
-		# ------------------------
-		# LOG MESSAGES
-		if (read_config(cmdarg.configfile, "log_msg") == "yes"):
-			config.log_msg = True
-		else:
-			config.log_msg = False
-		config.log_msgfile = read_config(cmdarg.configfile, "log_msgfile")
-		
-	else:
-		# config file not found, set default values
-		print "Error: Configuration file not found (" + cmdarg.configfile + ")"
-		logger.error("Error: Configuration file not found (" + cmdarg.configfile + ") Line: " + _line())
-
-# ----------------------------------------------------------------------------
-def read_config( configFile, configItem):
-	"""
-	Read item from the configuration file
-	"""
-	if os.path.exists( configFile ):
-
-		#open the xml file for reading:
-		f = open( configFile,'r')
-		data = f.read()
-		f.close()
-
-		try:
-			dom = minidom.parseString(data)
-		except:
-			print "Error: problem in the config.xml file, cannot process it"
-			logger.debug('Error in config.xml file')
-			
-		# Get config item
-		logger.debug('Get the configuration item: ' + configItem)
-		
-		try:
-			xmlTag = dom.getElementsByTagName( configItem )[0].toxml()
-			logger.debug('Found: ' + xmlTag)
-			xmlData = xmlTag.replace('<' + configItem + '>','').replace('</' + configItem + '>','')
-			logger.debug('--> ' + xmlData)
-		except:
-			logger.debug('The item tag not found in the config file')
-			xmlData = ""
-		
-	else:
-		logger.error("Error: Config file does not exists. Line: " + _line())
-		
-	return xmlData
-
-# ----------------------------------------------------------------------------
-
-def find_tty_usb(idVendor, idProduct):
-    """find_tty_usb('067b', '2302') -> '/dev/ttyUSB0'"""
-    # Note: if searching for a lot of pairs, it would be much faster to search
-    # for the enitre lot at once instead of going over all the usb devices
-    # each time.
-    for dnbase in os.listdir('/sys/bus/usb/devices'):
-        dn = join('/sys/bus/usb/devices', dnbase)
-        if not os.path.exists(join(dn, 'idVendor')):
-            continue
-        idv = open(join(dn, 'idVendor')).read().strip()
-        if idv != idVendor:
-            continue
-        idp = open(join(dn, 'idProduct')).read().strip()
-        if idp != idProduct:
-            continue
-        for subdir in os.listdir(dn):
-            if subdir.startswith(dnbase+':'):
-                for subsubdir in os.listdir(join(dn, subdir)):
-                    if subsubdir.startswith('ttyUSB'):
-                        return join('/dev', subsubdir)
-
-# ----------------------------------------------------------------------------
-
-def logger_init(configFile, name, debug):
-	program_path = os.path.dirname(os.path.realpath(__file__))
-	dom = None
-	if os.path.exists( configFile ):
-		#open the xml file for reading:
-		f = open( configFile,'r')
-		data = f.read()
-		f.close()
-		try:
-			dom = minidom.parseString(data)
-		except Exception, e:
-			print "Error: problem in the config.xml file, cannot process it"
-			print "Exception: %s" % str(e)
-		if dom:
-		
-			# Get loglevel from config file
-			try:
-				xmlTag = dom.getElementsByTagName( 'loglevel' )[0].toxml()
-				loglevel = xmlTag.replace('<loglevel>','').replace('</loglevel>','')
-			except:
-				loglevel = "INFO"
-
-			# Get logfile from config file
-			try:
-				xmlTag = dom.getElementsByTagName( 'logfile' )[0].toxml()
-				logfile = xmlTag.replace('<logfile>','').replace('</logfile>','')
-			except:
-				logfile = os.path.join(program_path, "smscmd.log")
-			
-			loglevel = loglevel.upper()
-			
-			#formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
-			formatter = logging.Formatter('%(asctime)s - %(threadName)s - %(module)s:%(lineno)d - %(levelname)s - %(message)s')
-			
-			if debug:
-				loglevel = "DEBUG"
-				handler = logging.StreamHandler()
-			else:
-				handler = logging.FileHandler(logfile)
-							
-			handler.setFormatter(formatter)
-			
-			logger = logging.getLogger(name)
-			logger.setLevel(logging.getLevelName(loglevel))
-			logger.addHandler(handler)
-			
-			return logger
-
-
-# ----------------------------------------------------------------------------
-def main():
-	global logger
-
-	# Get directory of the enoceancmd script
-	config.program_path = os.path.dirname(os.path.realpath(__file__))
-
-	parser = OptionParser()
-	parser.add_option("-d", "--device", action="store", type="string", dest="device", help="The serial device of the SMSCMD, example /dev/ttyUSB0")
-	parser.add_option("-l", "--listen", action="store_true", dest="listen", help="Listen for messages from GSM device")
-	parser.add_option("-o", "--config", action="store", type="string", dest="config", help="Specify the configuration file")
-	parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Output all messages to stdout")
-	parser.add_option("-V", "--version", action="store_true", dest="version", help="Print enoceancmd version information")
-	parser.add_option("-D", "--debug", action="store_true", dest="debug", default=False, help="Debug printout on stdout")
-	(options, args) = parser.parse_args()
-
-	# ----------------------------------------------------------
-	# CONFIG FILE
-	if options.config:
-		cmdarg.configfile = options.config
-	else:
-		cmdarg.configfile = os.path.join(config.program_path, "config.xml")
-				
-	# ----------------------------------------------------------
-	# LOGHANDLER
-	if options.debug:
-		config.debug = True
-		logger = logger_init(cmdarg.configfile,'smscmd', True)
-	else:
-		logger = logger_init(cmdarg.configfile,'smscmd', False)
+def handler(signum=None, frame=None):
+	logging.debug("Signal %i caught, exiting..." % int(signum))
+	shutdown()
 	
-	logger.debug("Python version: %s.%s.%s" % sys.version_info[:3])
-	logger.debug(__date__.replace('$', ''))
-
-	# ----------------------------------------------------------
-	# PROCESS CONFIG.XML
-	logger.debug("Configfile: " + cmdarg.configfile)
-	logger.debug("Read configuration file")
-	read_configfile()
-
-		# ----------------------------------------------------------
-	# SERIAL
-	if options.device:
-		config.device = options.device
-	elif config.serial_device:
-		config.device = config.serial_device
-	else:
-		config.device = None
-
-	# ----------------------------------------------------------
-	# DAEMON
-	logger.debug("Daemon")
-	logger.debug("Check PID file")
-	
-	if config.daemon_pidfile:
-		cmdarg.pidfile = config.daemon_pidfile
-		cmdarg.createpid = True
-		logger.debug("PID file '" + cmdarg.pidfile + "'")
-	
-		if os.path.exists(cmdarg.pidfile):
-			print("PID file '" + cmdarg.pidfile + "' already exists. Exiting.")
-			logger.debug("PID file '" + cmdarg.pidfile + "' already exists.")
-			logger.debug("Exit 1")
-			sys.exit(1)
-		else:
-			logger.debug("PID file does not exists")
-
-	else:
-		print("You need to set the --pidfile parameter at the startup")
-		logger.error("Command argument --pidfile missing. Line: " + _line())
-		logger.debug("Exit 1")
-		sys.exit(1)
-
-	logger.debug("Check platform")
-	logger.debug("Platform: " + sys.platform)
+def shutdown():
+	logging.debug("Shutdown")
+	logging.debug("Removing PID file " + str(_pidfile))
 	try:
-		logger.debug("Write PID file")
-		file(cmdarg.pidfile, 'w').write("pid\n")
-	except IOError, e:
-		logger.error("Line: " + _line())
-		logger.error("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
-		raise SystemExit("Unable to write PID file: %s [%d]" % (e.strerror, e.errno))
+		os.remove(_pidfile)
+	except:
+		pass
+	try:
+		jeedom_socket.close()
+	except:
+		pass
+	logging.debug("Exit 0")
+	sys.stdout.flush()
+	os._exit(0)
 
-	logger.debug("Deactivate screen printouts")
-	cmdarg.printout_complete = False
-
-	logger.debug("Start daemon")
-	daemonize()
-
-		# ----------------------------------------------------------
-	# LISTEN
-	if options.listen:
-		option_listen()
-
-
-	logger.debug("Exit 0")
-	sys.exit(0)
-	
 # ----------------------------------------------------------------------------
 
-def check_pythonversion():
-	"""
-	Check python version
-	"""
-	if sys.hexversion < 0x02060000:
-		print "Error: Your Python need to be 2.6 or newer, please upgrade."
-		sys.exit(1)
+_log_level = "error"
+_socket_port = 55002
+_socket_host = 'localhost'
+_device = 'auto'
+_pidfile = '/tmp/sms.pid'
+_apikey = ''
+_callback = ''
+_cycle = 0.5;
+_serial_rate = 9600
+_pin = 'None'
+_text_mode = 'no'
+_smsc = 'None'
 
-# ------------------------------------------------------------------------------
+for arg in sys.argv:
+	if arg.startswith("--loglevel="):
+		temp, _log_level = arg.split("=")
+		jeedom_utils.set_log_level(_log_level)
+	elif arg.startswith("--socketport="):
+		temp, _socket_port = arg.split("=")
+	elif arg.startswith("--sockethost="):
+		temp, _socket_host = arg.split("=")
+	elif arg.startswith("--pidfile="):
+		temp, _pidfile = arg.split("=")
+	elif arg.startswith("--device="):
+		temp, _device = arg.split("=")
+	elif arg.startswith("--apikey="):
+		temp, _apikey = arg.split("=")
+	elif arg.startswith("--callback="):
+		temp, _callback = arg.split("=")
+	elif arg.startswith("--cycle="):
+		temp, _cycle = arg.split("=")
+	elif arg.startswith("--serialrate="):
+		temp, _serial_rate = arg.split("=")
+	elif arg.startswith("--pin="):
+		temp, _pin = arg.split("=")
+	elif arg.startswith("--textmode="):
+		temp, _text_mode = arg.split("=")
+	elif arg.startswith("--smsc="):
+		temp, _smsc = arg.split("=")
 
-if __name__ == '__main__':
-	# Init shutdown handler
-	signal.signal(signal.SIGINT, handler)
-	signal.signal(signal.SIGTERM, handler)
+_socket_port = int(_socket_port)
+_cycle = float(_cycle)
 
-	# Init objects
-	config = config_data()
-	cmdarg = cmdarg_data()
+logging.info('Start SMSCMD')
+logging.info('Log level : '+str(_log_level))
+logging.info('Socket port : '+str(_socket_port))
+logging.info('Socket host : '+str(_socket_host))
+logging.info('PID file : '+str(_pidfile))
+logging.info('Device : '+str(_device))
+logging.info('Apikey : '+str(_apikey))
+logging.info('Callback : '+str(_callback))
+logging.info('Cycle : '+str(_cycle))
+logging.info('Serial rate : '+str(_serial_rate))
+logging.info('Pin : '+str(_pin))
+logging.info('Text mode : '+str(_text_mode))
+logging.info('SMSC : '+str(_smsc))
 
-	# Check python version
-	check_pythonversion()
-	
-	main()
+if _device == 'auto':
+	_device = jeedom_utils.find_tty_usb('12d1','1003')
+	logging.info('Find device : '+str(_device))
 
-# ------------------------------------------------------------------------------
-# END
-# ------------------------------------------------------------------------------
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)	
 
+try:
+	jeedom_utils.wrtie_pid(str(_pidfile))
+	jeedom_com = jeedom_com(apikey = _apikey,url = _callback,cycle=_cycle)
+	jeedom_socket = jeedom_socket(port=_socket_port,address=_socket_host)
+	listen()
+except Exception,e:
+	logging.error('Fatal error : '+str(e))
+	shutdown()
