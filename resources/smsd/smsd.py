@@ -170,7 +170,6 @@ _smsc = 'None'
 for arg in sys.argv:
 	if arg.startswith("--loglevel="):
 		temp, _log_level = arg.split("=")
-		jeedom_utils.set_log_level(_log_level)
 	elif arg.startswith("--socketport="):
 		temp, _socket_port = arg.split("=")
 	elif arg.startswith("--sockethost="):
@@ -196,6 +195,8 @@ for arg in sys.argv:
 
 _socket_port = int(_socket_port)
 _cycle = float(_cycle)
+
+jeedom_utils.set_log_level(_log_level)
 
 logging.info('Start SMSCMD')
 logging.info('Log level : '+str(_log_level))
