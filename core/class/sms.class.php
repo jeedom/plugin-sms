@@ -46,7 +46,7 @@ class sms extends eqLogic {
 
 	public static function deamon_info() {
 		$return = array();
-		$return['log'] = 'smscmd';
+		$return['log'] = 'sms';
 		$return['state'] = 'nok';
 		$pid_file = '/tmp/sms.pid';
 		if (file_exists($pid_file)) {
@@ -75,7 +75,6 @@ class sms extends eqLogic {
 		if ($deamon_info['launchable'] != 'ok') {
 			throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
 		}
-		log::remove('smscmd');
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
@@ -83,43 +82,27 @@ class sms extends eqLogic {
 
 		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
 
-		if (file_exists('/tmp/config_sms.xml')) {
-			unlink('/tmp/config_sms.xml');
-		}
-		$replace_config = array(
-			'#device#' => $port,
-			'#text_mode#' => (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no',
-			'#socketport#' => config::byKey('socketport', 'sms', 55002),
-			'#pin#' => config::byKey('pin', 'sms', 'None'),
-			'#smsc#' => config::byKey('smsc', 'sms', 'None'),
-			'#log_path#' => log::getPathToLog('sms'),
-			'#pid_path#' => '/tmp/sms.pid',
-			'#serial_rate#' => config::byKey('serial_rate', 'sms', 115200),
-		);
+		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py';
+		$cmd .= ' --device=' . $port;
+		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
+		$cmd .= ' --pidfile=' . '/tmp/sms.pid';
+		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms', 55005);
+		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms', 115200);
+		$cmd .= ' --pin=' . config::byKey('pin', 'sms', 'None');
+		$cmd .= ' --textmode=';
+		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
+		$cmd .= ' --smsc=' . config::byKey('smsc', 'sms', 'None');
 		if (config::byKey('jeeNetwork::mode') == 'slave') {
-			$replace_config['#sockethost#'] = network::getNetworkAccess('internal', 'ip', '127.0.0.1');
-			$replace_config['#trigger_url#'] = config::byKey('jeeNetwork::master::ip') . '/plugins/sms/core/php/jeeSMS.php';
-			$replace_config['#apikey#'] = config::byKey('jeeNetwork::master::apikey');
+			$cmd .= ' --sockethost=' . network::getNetworkAccess('internal', 'ip', '127.0.0.1');
+			$cmd .= ' --callback=' . config::byKey('jeeNetwork::master::ip') . '/plugins/sms/core/php/jeeSMS.php';
+			$cmd .= ' --apikey=' . config::byKey('jeeNetwork::master::apikey');
 		} else {
-			$replace_config['#sockethost#'] = '127.0.0.1';
-			$replace_config['#trigger_url#'] = network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
-			$replace_config['#apikey#'] = config::byKey('api');
+			$cmd .= ' --sockethost=127.0.0.1';
+			$cmd .= ' --callback=' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+			$cmd .= ' --apikey=' . config::byKey('api');
 		}
-		$config = file_get_contents($sms_path . '/config_tmpl.xml');
-		$config = template_replace($replace_config, $config);
-		file_put_contents('/tmp/config_sms.xml', $config);
-		chmod('/tmp/config_sms.xml', 0777);
-
-		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py -l -o /tmp/config_sms.xml';
-		if ($_debug) {
-			$cmd .= ' -D';
-		}
-		log::add('smscmd', 'info', 'Lancement démon sms : ' . $cmd);
-		$result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('smscmd') . ' 2>&1 &');
-		if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
-			log::add('smscmd', 'error', $result);
-			return false;
-		}
+		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
+		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
 		$i = 0;
 		while ($i < 30) {
 			$deamon_info = self::deamon_info();
@@ -130,11 +113,10 @@ class sms extends eqLogic {
 			$i++;
 		}
 		if ($i >= 30) {
-			log::add('smscmd', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
+			log::add('sms', 'error', 'Impossible de lancer le démon sms, vérifiez le port', 'unableStartDeamon');
 			return false;
 		}
 		message::removeAll('sms', 'unableStartDeamon');
-		log::add('smscmd', 'info', 'Démon sms lancé');
 		return true;
 	}
 
@@ -144,6 +126,7 @@ class sms extends eqLogic {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			system::kill($pid);
 		}
+		system::kill('smscmd.py');
 		system::fuserk(config::byKey('socketport', 'sms', 55002));
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
@@ -244,10 +227,10 @@ class smsCmd extends cmd {
 		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
 			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
 			foreach ($messages as $message_split) {
-				$values[] = json_encode(array('number' => $number, 'message' => $message_split));
+				$values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $number, 'message' => $message_split));
 			}
 		} else {
-			$values[] = json_encode(array('number' => $number, 'message' => $message));
+			$values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $number, 'message' => $message));
 		}
 		if (!isset($_options['number'])) {
 			$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
@@ -257,7 +240,7 @@ class smsCmd extends cmd {
 					$value = json_decode($value, true);
 					foreach ($phonenumbers as $phonenumber) {
 						if (is_array($value)) {
-							$tmp_values[] = json_encode(array('number' => $phonenumber, 'message' => $value['message']));
+							$tmp_values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $phonenumber, 'message' => $value['message']));
 						}
 					}
 				}

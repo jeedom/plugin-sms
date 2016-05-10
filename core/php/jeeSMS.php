@@ -23,90 +23,97 @@ if (!jeedom::apiAccess(init('apikey'))) {
 	die();
 }
 
-if (isset($_GET['test'])) {
+if (init('test') != '') {
 	echo 'OK';
 	die();
 }
-
-$message = trim(init('message'));
-$number = trim(init('number'));
-if ($message == '' || $number == '') {
+$result = json_decode(file_get_contents("php://input"), true);
+if (!is_array($result)) {
 	die();
 }
 
-if ($number == 'none') {
-	message::add('sms', 'Error : ' . $message, '', 'smscmderror');
-	if (strpos($message, 'PIN') !== false) {
-		config::save('allowStartDeamon', 0, 'sms');
-	}
-	die();
-}
-
-if ($number == 'signal_strength') {
-	config::save('signal_strengh', $message, 'sms');
-	foreach (eqLogic::byType('sms') as $eqLogic) {
-		$cmd = $eqLogic->getCmd(null, 'signal');
-		if (is_object($cmd)) {
-			$cmd->event($message);
-		}
-	}
-	die();
-}
-
-if ($number == 'network_name') {
-	config::save('network_name', $message, 'sms');
-	die();
-}
-
-$eqLogics = eqLogic::byType('sms');
-if (count($eqLogics) < 1) {
-	die();
-}
-$eqLogics = eqLogic::byType('sms');
-if (strlen($number) == 11) {
-	$number = '+' . $number;
-}
-$formatedPhoneNumber = '0' . substr($number, 3);
-$reply = '';
-$smsOk = false;
-foreach ($eqLogics as $eqLogic) {
-	foreach ($eqLogic->getCmd() as $cmd) {
-		if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
+if (isset($result['devices'])) {
+	foreach ($result['devices'] as $key => $datas) {
+		$message = $datas['message'];
+		$number = $datas['number'];
+		if ($message == '' || $number == '') {
 			continue;
 		}
-		$params = array();
-		$smsOk = true;
-		log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
-		if ($cmd->getConfiguration('storeVariable', 'none') != 'none') {
-			$dataStore = new dataStore();
-			$dataStore->setType('scenario');
-			$dataStore->setKey($cmd->getConfiguration('storeVariable', 'none'));
-			$dataStore->setValue($message);
-			$dataStore->setLink_id(-1);
-			$dataStore->save();
-			$cmd->setConfiguration('storeVariable', 'none');
-			$cmd->save();
-			die();
+		if ($number == 'none') {
+			message::add('sms', 'Error : ' . $message, '', 'smscmderror');
+			if (strpos($message, 'PIN') !== false) {
+				config::save('allowStartDeamon', 0, 'sms');
+			}
+			continue;
 		}
-		if ($cmd->getConfiguration('user') != '') {
-			$user = user::byId($cmd->getConfiguration('user'));
-			if (is_object($user)) {
-				$params['profile'] = $user->getLogin();
+
+		if ($number == 'signal_strength') {
+			config::save('signal_strengh', $message, 'sms');
+			foreach (eqLogic::byType('sms') as $eqLogic) {
+				$cmd = $eqLogic->getCmd(null, 'signal');
+				if (is_object($cmd)) {
+					$cmd->event($message);
+				}
+			}
+			continue;
+		}
+
+		if ($number == 'network_name') {
+			config::save('network_name', $message, 'sms');
+			continue;
+		}
+
+		$eqLogics = eqLogic::byType('sms');
+		if (count($eqLogics) < 1) {
+			continue;
+		}
+		$eqLogics = eqLogic::byType('sms');
+		if (strlen($number) == 11) {
+			$number = '+' . $number;
+		}
+		$formatedPhoneNumber = '0' . substr($number, 3);
+		$reply = '';
+		$smsOk = false;
+		foreach ($eqLogics as $eqLogic) {
+			foreach ($eqLogic->getCmd() as $cmd) {
+				if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
+					continue;
+				}
+				$params = array();
+				$smsOk = true;
+				log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
+				if ($cmd->getConfiguration('storeVariable', 'none') != 'none') {
+					$dataStore = new dataStore();
+					$dataStore->setType('scenario');
+					$dataStore->setKey($cmd->getConfiguration('storeVariable', 'none'));
+					$dataStore->setValue($message);
+					$dataStore->setLink_id(-1);
+					$dataStore->save();
+					$cmd->setConfiguration('storeVariable', 'none');
+					$cmd->save();
+					continue (3);
+				}
+				if ($cmd->getConfiguration('user') != '') {
+					$user = user::byId($cmd->getConfiguration('user'));
+					if (is_object($user)) {
+						$params['profile'] = $user->getLogin();
+					}
+				}
+				$reply = interactQuery::tryToReply(trim($message), $params);
+				if (trim($reply) != '') {
+					$cmd->execute(array('title' => $reply, 'message' => '', 'number' => $number));
+					log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
+				}
+				$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
+				$cmd_sms->event(trim($message));
+				$cmd_sender = $cmd->getEqlogic()->getCmd('info', 'sender');
+				$cmd_sender->event($cmd->getName());
+				break;
 			}
 		}
-		$reply = interactQuery::tryToReply(trim($message), $params);
-		if (trim($reply) != '') {
-			$cmd->execute(array('title' => $reply, 'message' => '', 'number' => $number));
-			log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
-		}
-		$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
-		$cmd_sms->event(trim($message));
-		$cmd_sender = $cmd->getEqlogic()->getCmd('info', 'sender');
-		$cmd_sender->event($cmd->getName());
-		break;
-	}
-}
 
-if (!$smsOk) {
-	log::add('sms', 'info', __('Message venant d\un numéro non autorisé : ', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS(trim($message)));
+		if (!$smsOk) {
+			log::add('sms', 'info', __('Message venant d\un numéro non autorisé : ', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS(trim($message)));
+		}
+	}
 }
