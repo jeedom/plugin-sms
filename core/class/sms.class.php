@@ -39,7 +39,7 @@ class sms extends eqLogic {
 
 	public static function dependancy_install() {
 		log::remove('sms_update');
-		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../ressources/install.sh';
+		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh';
 		$cmd .= ' >> ' . log::getPathToLog('sms_update') . ' 2>&1 &';
 		exec($cmd);
 	}
@@ -80,7 +80,7 @@ class sms extends eqLogic {
 			$port = jeedom::getUsbMapping($port);
 		}
 
-		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smsd');
+		$sms_path = realpath(dirname(__FILE__) . '/../../resources/smsd');
 
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device=' . $port;
