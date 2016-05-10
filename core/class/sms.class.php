@@ -85,7 +85,6 @@ class sms extends eqLogic {
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device=' . $port;
 		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
-		$cmd .= ' --pidfile=' . '/tmp/smsd.pid';
 		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms', 55005);
 		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms', 115200);
 		$cmd .= ' --pin=' . config::byKey('pin', 'sms', 'None');
