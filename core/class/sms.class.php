@@ -48,7 +48,7 @@ class sms extends eqLogic {
 		$return = array();
 		$return['log'] = 'sms';
 		$return['state'] = 'nok';
-		$pid_file = '/tmp/sms.pid';
+		$pid_file = '/tmp/smsd.pid';
 		if (file_exists($pid_file)) {
 			if (posix_getsid(trim(file_get_contents($pid_file)))) {
 				$return['state'] = 'ok';
@@ -85,7 +85,7 @@ class sms extends eqLogic {
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device=' . $port;
 		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
-		$cmd .= ' --pidfile=' . '/tmp/sms.pid';
+		$cmd .= ' --pidfile=' . '/tmp/smsd.pid';
 		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms', 55005);
 		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms', 115200);
 		$cmd .= ' --pin=' . config::byKey('pin', 'sms', 'None');
@@ -121,7 +121,7 @@ class sms extends eqLogic {
 	}
 
 	public static function deamon_stop() {
-		$pid_file = '/tmp/sms.pid';
+		$pid_file = '/tmp/smsd.pid';
 		if (file_exists($pid_file)) {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			system::kill($pid);
