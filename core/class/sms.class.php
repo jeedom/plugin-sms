@@ -80,9 +80,9 @@ class sms extends eqLogic {
 			$port = jeedom::getUsbMapping($port);
 		}
 
-		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smscmd');
+		$sms_path = realpath(dirname(__FILE__) . '/../../ressources/smsd');
 
-		$cmd = '/usr/bin/python ' . $sms_path . '/smscmd.py';
+		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device=' . $port;
 		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
 		$cmd .= ' --pidfile=' . '/tmp/sms.pid';
@@ -126,7 +126,7 @@ class sms extends eqLogic {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			system::kill($pid);
 		}
-		system::kill('smscmd.py');
+		system::kill('smsd.py');
 		system::fuserk(config::byKey('socketport', 'sms', 55002));
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
