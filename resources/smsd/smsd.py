@@ -21,14 +21,9 @@ import os
 import time
 import datetime
 import binascii
-import traceback
-import subprocess
-import threading
-from threading import Thread, Event, Timer
 import re
 import signal
 from optparse import OptionParser
-import inspect
 from os.path import join
 import json
 from gsmmodem.modem import GsmModem
