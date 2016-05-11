@@ -15,7 +15,6 @@
 
 import logging
 import requests
-import pdb
 import string
 import sys
 import os
@@ -28,13 +27,9 @@ import threading
 from threading import Thread, Event, Timer
 import re
 import signal
-import xml.dom.minidom as minidom
 from optparse import OptionParser
-import socket
-import select
 import inspect
 from os.path import join
-import serial
 import json
 from gsmmodem.modem import GsmModem
 
