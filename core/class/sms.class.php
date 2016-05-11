@@ -25,25 +25,6 @@ class sms extends eqLogic {
 		self::deamon_start();
 	}
 
-	public static function dependancy_info() {
-		$return = array();
-		$return['log'] = 'sms_update';
-		$return['progress_file'] = '/tmp/dependancy_sms_in_progress';
-		if (exec('sudo dpkg --get-selections | grep python-serial | grep install | wc -l') != 0) {
-			$return['state'] = 'ok';
-		} else {
-			$return['state'] = 'nok';
-		}
-		return $return;
-	}
-
-	public static function dependancy_install() {
-		log::remove('sms_update');
-		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh';
-		$cmd .= ' >> ' . log::getPathToLog('sms_update') . ' 2>&1 &';
-		exec($cmd);
-	}
-
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'sms';
