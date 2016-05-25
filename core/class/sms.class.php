@@ -64,8 +64,8 @@ class sms extends eqLogic {
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device=' . $port;
 		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
-		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms', 55005);
-		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms', 115200);
+		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms');
+		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms');
 		$cmd .= ' --pin=' . config::byKey('pin', 'sms', 'None');
 		$cmd .= ' --textmode=';
 		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
@@ -105,7 +105,7 @@ class sms extends eqLogic {
 			system::kill($pid);
 		}
 		system::kill('smsd.py');
-		system::fuserk(config::byKey('socketport', 'sms', 55002));
+		system::fuserk(config::byKey('socketport', 'sms'));
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			system::fuserk(jeedom::getUsbMapping($port));
