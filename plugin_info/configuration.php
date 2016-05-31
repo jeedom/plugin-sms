@@ -90,7 +90,7 @@ foreach (ls('/dev/', 'tty*') as $value) {
     <div class="form-group expertModeVisible">
         <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
         <div class="col-lg-2">
-            <input class="configKey form-control" data-l1key="socketport" value='55002' />
+            <input class="configKey form-control" data-l1key="socketport" />
         </div>
     </div>
 </fieldset>
@@ -150,7 +150,7 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
             <div class="form-group expertModeVisible">
                 <label class="col-lg-4 control-label">{{Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)}}</label>
                 <div class="col-lg-2">
-                    <input class="slaveConfigKey form-control" data-l1key="socketport" value='55002' />
+                    <input class="slaveConfigKey form-control" data-l1key="socketport" />
                 </div>
             </div>
         </fieldset>
