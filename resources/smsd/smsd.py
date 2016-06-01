@@ -102,7 +102,7 @@ def listen():
 					jeedom_com.send_change_immediate({'number' : 'signal_strength', 'message' : str(gsm.signalStrength)});
 			except Exception, e:
 				logging.error("Exception on GSM : %s" % str(e))
-				if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout':
+				if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
 					logging.error("Exit 1 because this exeption is fatal")
 					sys.exit(1)
 			try:
