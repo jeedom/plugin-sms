@@ -88,7 +88,8 @@ def listen():
 	except Exception, e:
 		logging.error("Exception: %s" % str(e))
 		jeedom_com.send_change_immediate({'number' : 'none', 'message' : str(e) });
-		sys.exit(1)
+		logging.error("Exit 1 because this exeption is fatal")
+		shutdown()
 	signal_strength_store = 0				
 	try:
 		while 1:
@@ -103,7 +104,7 @@ def listen():
 				logging.error("Exception on GSM : %s" % str(e))
 				if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
 					logging.error("Exit 1 because this exeption is fatal")
-					sys.exit(1)
+					shutdown()
 			try:
 				read_socket()
 			except Exception, e:
