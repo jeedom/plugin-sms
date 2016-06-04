@@ -21,10 +21,6 @@
 class sms extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 
-	public static function cronDaily() {
-		self::deamon_start();
-	}
-
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'sms';
@@ -48,6 +44,23 @@ class sms extends eqLogic {
 			exec('sudo chmod 777 ' . $port . ' > /dev/null 2>&1');
 		}
 		return $return;
+	}
+
+	public static function dependancy_info() {
+		$return = array();
+		$return['progress_file'] = '/tmp/dependancy_sms_in_progress';
+		if (exec('sudo dpkg --get-selections | grep -E "python\-serial|python\-request" | grep -v desinstall | wc -l') >= 2) {
+			$return['state'] = 'ok';
+		} else {
+			$return['state'] = 'nok';
+		}
+		return $return;
+	}
+	public static function dependancy_install() {
+		log::remove('sms_update');
+		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh';
+		$cmd .= ' >> ' . log::getPathToLog('sms_dependancy') . ' 2>&1 &';
+		exec($cmd);
 	}
 
 	public static function deamon_start() {
