@@ -88,8 +88,9 @@ def listen():
 	except Exception, e:
 		logging.error("Exception: %s" % str(e))
 		jeedom_com.send_change_immediate({'number' : 'none', 'message' : str(e) });
-		logging.error("Exit 1 because this exeption is fatal")
-		shutdown()
+		if str(e).find('object has no attribute') == -1:
+			logging.error("Exit 1 because this exeption is fatal")
+			shutdown()
 	signal_strength_store = 0				
 	try:
 		while 1:
