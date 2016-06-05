@@ -32,6 +32,29 @@ if (!is_array($result)) {
 	die();
 }
 
+if (isset($result['number']) && $result['number'] == 'signal_strength') {
+	config::save('signal_strengh', $result['message'], 'sms');
+	foreach (eqLogic::byType('sms') as $eqLogic) {
+		$cmd = $eqLogic->getCmd(null, 'signal');
+		if (is_object($cmd)) {
+			$cmd->event($result['message']);
+		}
+	}
+	die();
+}
+
+if (isset($result['number']) && $result['number'] == 'network_name') {
+	config::save('network_name', $result['message'], 'sms');
+	die();
+}
+
+if (isset($result['number']) && $result['number'] == 'none') {
+	message::add('sms', 'Error : ' . $result['message'], '', 'smscmderror');
+	if (strpos($message, 'PIN') !== false) {
+		config::save('allowStartDeamon', 0, 'sms');
+	}
+}
+
 if (isset($result['devices'])) {
 	foreach ($result['devices'] as $key => $datas) {
 		$message = $datas['message'];
@@ -44,22 +67,6 @@ if (isset($result['devices'])) {
 			if (strpos($message, 'PIN') !== false) {
 				config::save('allowStartDeamon', 0, 'sms');
 			}
-			continue;
-		}
-
-		if ($number == 'signal_strength') {
-			config::save('signal_strengh', $message, 'sms');
-			foreach (eqLogic::byType('sms') as $eqLogic) {
-				$cmd = $eqLogic->getCmd(null, 'signal');
-				if (is_object($cmd)) {
-					$cmd->event($message);
-				}
-			}
-			continue;
-		}
-
-		if ($number == 'network_name') {
-			config::save('network_name', $message, 'sms');
 			continue;
 		}
 
