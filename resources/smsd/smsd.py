@@ -193,7 +193,7 @@ _cycle = float(_cycle)
 
 jeedom_utils.set_log_level(_log_level)
 
-logging.info('Start SMSCMD')
+logging.info('Start smsd')
 logging.info('Log level : '+str(_log_level))
 logging.info('Socket port : '+str(_socket_port))
 logging.info('Socket host : '+str(_socket_host))
