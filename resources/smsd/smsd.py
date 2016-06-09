@@ -110,7 +110,7 @@ def listen():
 			try:
 				read_socket()
 			except Exception, e:
-				logging.error("Exception on serial : %s" % str(e))
+				logging.error("Exception on socket : %s" % str(e))
 	except KeyboardInterrupt:
 		shutdown()
 
