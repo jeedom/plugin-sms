@@ -210,11 +210,15 @@ if _device == 'auto':
 	_device = jeedom_utils.find_tty_usb('12d1','1003')
 	logging.info('Find device : '+str(_device))
 
+if _device is None:
+	logging.error('No device found')
+	shutdown()
+
 signal.signal(signal.SIGINT, handler)
 signal.signal(signal.SIGTERM, handler)	
 
 try:
-	jeedom_utils.wrtie_pid(str(_pidfile))
+	jeedom_utils.write_pid(str(_pidfile))
 	jeedom_com = jeedom_com(apikey = _apikey,url = _callback,cycle=_cycle)
 	if not jeedom_com.test():
 		sys.exit(1)

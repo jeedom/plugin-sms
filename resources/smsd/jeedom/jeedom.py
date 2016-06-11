@@ -139,11 +139,7 @@ class jeedom_utils():
 		logging.basicConfig(level=jeedom_utils.convert_log_level(level),format=FORMAT, datefmt="%Y-%m-%d %H:%M:%S")
 
 	@staticmethod
-	def find_tty_usb(idVendor, idProduct):
-		"""find_tty_usb('067b', '2302') -> '/dev/ttyUSB0'"""
-		# Note: if searching for a lot of pairs, it would be much faster to search
-		# for the enitre lot at once instead of going over all the usb devices
-		# each time.
+	def find_tty_usb(idVendor, idProduct, product = None):
 		for dnbase in os.listdir('/sys/bus/usb/devices'):
 			dn = join('/sys/bus/usb/devices', dnbase)
 			if not os.path.exists(join(dn, 'idVendor')):
@@ -154,6 +150,10 @@ class jeedom_utils():
 			idp = open(join(dn, 'idProduct')).read().strip()
 			if idp != idProduct:
 				continue
+			if product is not None:
+				mfp = open(join(dn, 'product')).read().strip().lower()
+				if mfp.find(product.lower()) == -1:
+					continue
 			for subdir in os.listdir(dn):
 				if subdir.startswith(dnbase+':'):
 					for subsubdir in os.listdir(join(dn, subdir)):
@@ -173,6 +173,12 @@ class jeedom_utils():
 		return ''.join(str((x>>i)&1) for i in xrange(width-1,-1,-1))
 
 	@staticmethod
+	def dec2hex(dec):
+		if dec is None:
+			return 0
+		return hex(dec)[2:]
+
+	@staticmethod
 	def testBit(int_type, offset):
 		mask = 1 << offset
 		return(int_type & mask)
@@ -187,7 +193,7 @@ class jeedom_utils():
 		return [seq[i:i+length] for i in range(0, len(seq), length)]
 
 	@staticmethod
-	def wrtie_pid(path):
+	def write_pid(path):
 		pid = str(os.getpid())
 		logging.debug("Writing PID " + pid + " to " + str(path))
 		file(path, 'w').write("%s\n" % pid)
