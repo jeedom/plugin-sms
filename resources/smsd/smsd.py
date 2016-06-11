@@ -86,11 +86,12 @@ def listen():
 		except Exception, e:
 			logging.error("Exception: %s" % str(e))
 	except Exception, e:
+		if str(e).find('object has no attribute') <> -1:
+			pass
 		logging.error("Exception: %s" % str(e))
 		jeedom_com.send_change_immediate({'number' : 'none', 'message' : str(e) });
-		if str(e).find('object has no attribute') == -1:
-			logging.error("Exit 1 because this exeption is fatal")
-			shutdown()
+		logging.error("Exit 1 because this exeption is fatal")
+		shutdown()
 	signal_strength_store = 0				
 	try:
 		while 1:
@@ -109,7 +110,7 @@ def listen():
 			try:
 				read_socket()
 			except Exception, e:
-				logging.error("Exception on serial : %s" % str(e))
+				logging.error("Exception on socket : %s" % str(e))
 	except KeyboardInterrupt:
 		shutdown()
 
@@ -192,7 +193,7 @@ _cycle = float(_cycle)
 
 jeedom_utils.set_log_level(_log_level)
 
-logging.info('Start SMSCMD')
+logging.info('Start smsd')
 logging.info('Log level : '+str(_log_level))
 logging.info('Socket port : '+str(_socket_port))
 logging.info('Socket host : '+str(_socket_host))
