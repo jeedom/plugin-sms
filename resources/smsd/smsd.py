@@ -72,18 +72,24 @@ def listen():
 		try:
 			jeedom_com.send_change_immediate({'number' : 'network_name', 'message' : str(gsm.networkName) });
 		except Exception, e:
+			if str(e).find('object has no attribute') <> -1:
+				pass
 			logging.error("Exception: %s" % str(e))
 
 		try:
 			gsm.write('AT+CPMS="ME","ME","ME"')
 			gsm.write('AT+CMGD=1,4')
 		except Exception, e:
+			if str(e).find('object has no attribute') <> -1:
+				pass
 			logging.error("Exception: %s" % str(e))
 
 		try:
 			gsm.write('AT+CPMS="SM","SM","SM"')
 			gsm.write('AT+CMGD=1,4')
 		except Exception, e:
+			if str(e).find('object has no attribute') <> -1:
+				pass
 			logging.error("Exception: %s" % str(e))
 	except Exception, e:
 		if str(e).find('object has no attribute') <> -1:
@@ -209,6 +215,8 @@ logging.info('SMSC : '+str(_smsc))
 
 if _device == 'auto':
 	_device = jeedom_utils.find_tty_usb('12d1','1003')
+	if _device is None:
+		_device = jeedom_utils.find_tty_usb('12d1','1001')
 	logging.info('Find device : '+str(_device))
 
 if _device is None:
