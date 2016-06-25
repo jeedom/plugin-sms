@@ -213,11 +213,15 @@ logging.info('Pin : '+str(_pin))
 logging.info('Text mode : '+str(_text_mode))
 logging.info('SMSC : '+str(_smsc))
 
+
 if _device == 'auto':
-	_device = jeedom_utils.find_tty_usb('12d1','1003')
-	if _device is None:
-		_device = jeedom_utils.find_tty_usb('12d1','1001')
-	logging.info('Find device : '+str(_device))
+	know_sticks = [{'idVendor': '12d1', 'idProduct': '1003', 'name': 'Huawei'},
+					{'idVendor': '12d1', 'idProduct': '1001', 'name': 'Huawei'}]
+	for stick in know_sticks:
+		_device = jeedom_utils.find_tty_usb(stick['idVendor'], stick['idProduct'])
+		if _device is not None:
+			logging.info('Find device : '+str(_device))
+			break
 
 if _device is None:
 	logging.error('No device found')
