@@ -50,8 +50,8 @@ if (isset($result['number']) && $result['number'] == 'network_name' && isset($re
 
 if (isset($result['number']) && $result['number'] == 'none' && isset($result['message'])) {
 	message::add('sms', 'Error : ' . $result['message'], '', 'smscmderror');
-	if (strpos($message, 'PIN') !== false) {
-		config::save('allowStartDeamon', 0, 'sms');
+	if (strpos($result['message'], 'PIN') !== false) {
+		config::save('deamonAutoMode', 0, 'sms');
 	}
 }
 
