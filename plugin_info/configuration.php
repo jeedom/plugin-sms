@@ -60,13 +60,13 @@ foreach (ls('/dev/', 'tty*') as $value) {
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Texte mode}}</label>
         <div class="col-lg-4">
-            <input type="checkbox" class="configKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
+            <input type="checkbox" class="configKey" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Découper les messages par paquet de caractères}}</label>
         <div class="col-lg-2">
-            <input class="configKey tooltips form-control" data-l1key="maxChartByMessage" title='{{Par defaut 140}}' />
+            <input class="configKey form-control" data-l1key="maxChartByMessage" title='{{Par defaut 140}}' />
         </div>
     </div>
     <div class="form-group">
@@ -126,7 +126,7 @@ foreach ($jeeNetwork->sendRawRequest('jeedom::getUsbMapping') as $name => $value
             <div class="form-group">
                 <label class="col-lg-4 control-label">{{Texte mode}}</label>
                 <div class="col-lg-4">
-                    <input type="checkbox" class="slaveConfigKey tooltips bootstrapSwitch" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
+                    <input type="checkbox" class="slaveConfigKey" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
                 </div>
             </div>
             <div class="form-group">
