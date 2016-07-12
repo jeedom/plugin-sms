@@ -89,15 +89,14 @@ if (isset($result['devices'])) {
 				$params = array();
 				$smsOk = true;
 				log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
-				if ($cmd->getConfiguration('storeVariable', 'none') != 'none') {
+				if ($cmd->getCache('storeVariable', 'none') != 'none') {
 					$dataStore = new dataStore();
 					$dataStore->setType('scenario');
-					$dataStore->setKey($cmd->getConfiguration('storeVariable', 'none'));
+					$dataStore->setKey($cmd->getCache('storeVariable', 'none'));
 					$dataStore->setValue($message);
 					$dataStore->setLink_id(-1);
 					$dataStore->save();
-					$cmd->setConfiguration('storeVariable', 'none');
-					$cmd->save();
+					$cmd->setCache('storeVariable', 'none');
 					continue (3);
 				}
 				if ($cmd->getConfiguration('user') != '') {
