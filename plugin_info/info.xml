@@ -3,7 +3,7 @@
     <id>sms</id>
     <name>SMS</name>
     <licence>AGPL</licence>
-    <author>Loïc Gevrey</author>
+    <author>Loïc</author>
     <require>2.3</require>
     <category>communication</category>
     <allowRemote>1</allowRemote>
