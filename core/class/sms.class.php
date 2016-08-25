@@ -83,15 +83,9 @@ class sms extends eqLogic {
 		$cmd .= ' --textmode=';
 		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
 		$cmd .= ' --smsc=' . config::byKey('smsc', 'sms', 'None');
-		if (config::byKey('jeeNetwork::mode') == 'slave') {
-			$cmd .= ' --sockethost=' . network::getNetworkAccess('internal', 'ip', '127.0.0.1');
-			$cmd .= ' --callback=' . config::byKey('jeeNetwork::master::ip') . '/plugins/sms/core/php/jeeSMS.php';
-			$cmd .= ' --apikey=' . config::byKey('jeeNetwork::master::apikey');
-		} else {
-			$cmd .= ' --sockethost=127.0.0.1';
-			$cmd .= ' --callback=' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
-			$cmd .= ' --apikey=' . config::byKey('api');
-		}
+		$cmd .= ' --sockethost=127.0.0.1';
+		$cmd .= ' --callback=' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+		$cmd .= ' --apikey=' . config::byKey('api');
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
 		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
 		$i = 0;
@@ -237,16 +231,6 @@ class smsCmd extends cmd {
 					}
 				}
 				$values = $tmp_values;
-			}
-		}
-		if (config::byKey('jeeNetwork::mode') == 'master') {
-			foreach (jeeNetwork::byPlugin('sms') as $jeeNetwork) {
-				foreach ($values as $value) {
-					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-					socket_connect($socket, $jeeNetwork->getRealIp(), config::byKey('socketport', 'sms'));
-					socket_write($socket, $value, strlen($value));
-					socket_close($socket);
-				}
 			}
 		}
 		if (config::byKey('port', 'sms', 'none') != 'none') {
