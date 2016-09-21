@@ -95,4 +95,3 @@ foreach (ls('/dev/', 'tty*') as $value) {
     </div>
 </fieldset>
 </form>
-?>
