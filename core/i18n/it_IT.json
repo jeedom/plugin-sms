@@ -1,0 +1,43 @@
+{
+    "plugins/sms/plugin_info/configuration.php": {
+        "Le démon SMS est en marche": "Le démon SMS est en marche",
+        "Port SMS": "Port SMS",
+        "Aucun": "Nessuno",
+        "Auto": "Auto",
+        "Code pin (laisser vide s'il n'y en a pas)": "Code pin (laisser vide s'il n'y en a pas)",
+        "Texte mode": "Texte mode",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur",
+        "Force du signal": "Force du signal",
+        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Porta interna socket (attenzione: deve essere la stessa su tutti i secondari)",
+        "Gestion du démon": "Gestione demone",
+        "(Re)démarrer": "(Ri)avvia",
+        "Arrêter": "Ferma",
+        "Lancer en mode debug": "Esegui in modalità debug",
+        "Le démon a été correctement (re)démaré": "Le démon a été correctement (re)démaré",
+        "Le démon a été correctement arreté": "Demone fermato con successo",
+        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Sei sicuro di voler eseguire il demone in modalità debug? Ricordati di riavviarlo in modalità normale quando hai concluso.",
+        "SMS en mode debug": "SMS en mode debug"
+    },
+    "plugins/sms/desktop/php/sms.php": {
+        "Ajouter un équipement": "Aggiungi dispositivo",
+        "Rechercher": "Cerca",
+        "Mes SMS": "Mes SMS",
+        "Générale": "Principale",
+        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
+        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
+        "Activer": "Attiva",
+        "Visible": "Visibile",
+        "Objet parent": "Oggetto padre",
+        "Aucun": "Nessuno",
+        "Commandes": "Comandi",
+        "Ajouter d'un numéro": "Ajouter d'un numéro",
+        "Nom": "Nome",
+        "Utilisateur": "Utente",
+        "Numéro": "Numéro",
+        "Paramètres": "Impostazioni",
+        "Supprimer": "Elimina",
+        "Sauvegarder": "Salva"
+    }
+}

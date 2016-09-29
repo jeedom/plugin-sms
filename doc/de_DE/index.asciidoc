@@ -1,0 +1,10 @@
+= SMS
+Plugin permettant d'envoyer et recevoir des SMS à l'aide d'une clef GSM.
+
+== Konfiguration
+include::configuration.asciidoc[]
+
+=== Liste des clefs compatibles
+include::compatibility.asciidoc[]
+
+include::faq.asciidoc[]
