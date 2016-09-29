@@ -8,3 +8,7 @@ include::configuration.asciidoc[]
 include::compatibility.asciidoc[]
 
 include::faq.asciidoc[]
+
+'''
+
+include::changelog.asciidoc[]
