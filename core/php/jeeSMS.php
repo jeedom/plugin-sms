@@ -17,7 +17,7 @@
  */
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
-if (!jeedom::apiAccess(init('apikey'))) {
+if (!jeedom::apiAccess(init('apikey'), 'sms')) {
 	echo 'Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeZwave)';
 	die();
 }

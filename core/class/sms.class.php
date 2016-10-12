@@ -85,7 +85,7 @@ class sms extends eqLogic {
 		$cmd .= ' --smsc=' . config::byKey('smsc', 'sms', 'None');
 		$cmd .= ' --sockethost=127.0.0.1';
 		$cmd .= ' --callback=' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
-		$cmd .= ' --apikey=' . config::byKey('api');
+		$cmd .= ' --apikey=' . jeedom::getApiKey('sms');
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
 		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
 		$i = 0;
@@ -213,10 +213,10 @@ class smsCmd extends cmd {
 		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
 			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
 			foreach ($messages as $message_split) {
-				$values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $number, 'message' => $message_split));
+				$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message_split));
 			}
 		} else {
-			$values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $number, 'message' => $message));
+			$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message));
 		}
 		if (!isset($_options['number'])) {
 			$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
@@ -226,7 +226,7 @@ class smsCmd extends cmd {
 					$value = json_decode($value, true);
 					foreach ($phonenumbers as $phonenumber) {
 						if (is_array($value)) {
-							$tmp_values[] = json_encode(array('apikey' => config::byKey('api'), 'number' => $phonenumber, 'message' => $value['message']));
+							$tmp_values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $phonenumber, 'message' => $value['message']));
 						}
 					}
 				}
