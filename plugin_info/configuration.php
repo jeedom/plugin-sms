@@ -92,7 +92,7 @@ foreach (ls('/dev/', 'tty*') as $value) {
             <input class="configKey form-control" data-l1key="socketport" />
         </div>
     </div>
-        <div>
+    <div class="form-group expertModeVisible">
         <label class="col-sm-4 control-label">{{Cycle (s)}}</label>
         <div class="col-sm-2">
             <input class="configKey form-control" data-l1key="cycle" />
