@@ -75,16 +75,16 @@ class sms extends eqLogic {
 		}
 		$sms_path = realpath(dirname(__FILE__) . '/../../resources/smsd');
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
-		$cmd .= ' --device=' . $port;
-		$cmd .= ' --loglevel=' . log::convertLogLevel(log::getLogLevel('sms'));
-		$cmd .= ' --socketport=' . config::byKey('socketport', 'sms');
-		$cmd .= ' --serialrate=' . config::byKey('serial_rate', 'sms');
-		$cmd .= ' --pin=' . config::byKey('pin', 'sms', 'None');
-		$cmd .= ' --textmode=';
+		$cmd .= ' --device ' . $port;
+		$cmd .= ' --loglevel ' . log::convertLogLevel(log::getLogLevel('sms'));
+		$cmd .= ' --socketport ' . config::byKey('socketport', 'sms');
+		$cmd .= ' --serialrate ' . config::byKey('serial_rate', 'sms');
+		$cmd .= ' --pin ' . config::byKey('pin', 'sms', 'None');
+		$cmd .= ' --textmode ';
 		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
-		$cmd .= ' --smsc=' . config::byKey('smsc', 'sms', 'None');
-		$cmd .= ' --callback=' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
-		$cmd .= ' --apikey=' . jeedom::getApiKey('sms');
+		$cmd .= ' --smsc ' . config::byKey('smsc', 'sms', 'None');
+		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
 		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
 		$i = 0;

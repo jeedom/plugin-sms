@@ -19,6 +19,7 @@ import sys
 import os
 import time
 import datetime
+import argparse
 import binascii
 import re
 import signal
@@ -168,29 +169,40 @@ _pin = 'None'
 _text_mode = 'no'
 _smsc = 'None'
 
-for arg in sys.argv:
-	if arg.startswith("--loglevel="):
-		temp, _log_level = arg.split("=")
-	elif arg.startswith("--socketport="):
-		temp, _socket_port = arg.split("=")
-	elif arg.startswith("--pidfile="):
-		temp, _pidfile = arg.split("=")
-	elif arg.startswith("--device="):
-		temp, _device = arg.split("=")
-	elif arg.startswith("--apikey="):
-		temp, _apikey = arg.split("=")
-	elif arg.startswith("--callback="):
-		temp, _callback = arg.split("=")
-	elif arg.startswith("--cycle="):
-		temp, _cycle = arg.split("=")
-	elif arg.startswith("--serialrate="):
-		temp, _serial_rate = arg.split("=")
-	elif arg.startswith("--pin="):
-		temp, _pin = arg.split("=")
-	elif arg.startswith("--textmode="):
-		temp, _text_mode = arg.split("=")
-	elif arg.startswith("--smsc="):
-		temp, _smsc = arg.split("=")
+
+parser = argparse.ArgumentParser(description='SMS Daemon for Jeedom plugin')
+parser.add_argument("--device", help="Device", type=str)
+parser.add_argument("--socketport", help="Socketport for server", type=str)
+parser.add_argument("--loglevel", help="Log Level for the daemon", type=str)
+parser.add_argument("--callback", help="Callback", type=str)
+parser.add_argument("--apikey", help="Apikey", type=str)
+parser.add_argument("--cycle", help="Cycle to send event", type=str)
+parser.add_argument("--serialrate", help="Serial rate of device", type=str)
+parser.add_argument("--pin", help="Pin sim code", type=str)
+parser.add_argument("--textmode", help="Force text mode", type=str)
+parser.add_argument("--smsc", help="Smsc number", type=str)
+args = parser.parse_args()
+
+if args.device:
+	_device = args.device
+if args.socketport:
+	_socket_port = int(args.socketport)
+if args.loglevel:
+	_log_level = args.loglevel
+if args.callback:
+	_callback = args.callback
+if args.apikey:
+	_apikey = args.apikey
+if args.cycle:
+	_cycle = float(args.cycle)
+if args.serialrate:
+	_serial_rate = int(args.serialrate)
+if args.pin:
+	_pin = args.pin
+if args.textmode:
+	_text_mode = args.textmode
+if args.smsc:
+	_smsc = args.smsc
 
 _socket_port = int(_socket_port)
 _cycle = float(_cycle)
