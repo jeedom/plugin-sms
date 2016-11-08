@@ -17,6 +17,7 @@
 import time
 import logging
 import threading
+import thread
 import requests
 import datetime
 import collections
@@ -40,7 +41,8 @@ class jeedom_com():
 		self.cycle = cycle
 		self.retry = retry
 		self.changes = {}
-		self.send_changes_async()
+		if cycle > 0 :
+			self.send_changes_async()
 		logging.debug('Init request module v%s' % (str(requests.__version__),))
 
 	def send_changes_async(self):
@@ -86,11 +88,20 @@ class jeedom_com():
 				tmp_changes[k] = changes
 				changes = tmp_changes
 				tmp_changes = {}
-			self.merge_dict(self.changes,changes)
+			if self.cycle <= 0:
+				self.send_change_immediate(changes)
+			else:
+				self.merge_dict(self.changes,changes)
 		else:
-			self.changes[key] = value
+			if self.cycle <= 0:
+				self.send_change_immediate({key:value})
+			else:
+				self.changes[key] = value
 
 	def send_change_immediate(self,change):
+		thread.start_new_thread( self.thread_change, (change,))
+
+	def thread_change(self,change):
 		logging.debug('Send to jeedom :  %s' % (str(change),))
 		i=0
 		while i < self.retry:
