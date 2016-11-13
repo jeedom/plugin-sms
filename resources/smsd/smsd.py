@@ -23,6 +23,7 @@ import argparse
 import binascii
 import re
 import signal
+import traceback
 from optparse import OptionParser
 from os.path import join
 import json
@@ -250,4 +251,5 @@ try:
 	listen()
 except Exception,e:
 	logging.error('Fatal error : '+str(e))
+	logging.debug(traceback.format_exc())
 	shutdown()
