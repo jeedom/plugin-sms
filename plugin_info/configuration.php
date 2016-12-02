@@ -23,7 +23,7 @@ if (!isConnect('admin')) {
 ?>
 <form class="form-horizontal">
     <fieldset>
-        <legend><i class="icon loisir-darth"></i> {{Démon local}}</legend>
+        <legend><i class="icon loisir-darth"></i> {{Démon}}</legend>
         <div class="form-group">
             <label class="col-lg-4 control-label">{{Port SMS}}</label>
             <div class="col-lg-4">
