@@ -518,7 +518,7 @@ Si vous ne savez pas quel port USB est utilisé, vous pouvez simplement indiquer
 <td class="content">
 Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut à l&#8217;aide du logiciel de votre fabricant de clef, changer le mode de la clef sur GSM (ou texte, ou série).
 <strong> <em>Code pin</em> : Permet d&#8217;indiquer le code pin de la carte SIM, à laisser vide si vous n&#8217;en avez pas.
-</strong> <em>Texte mode</em> : Mode de compatibilité étendu, à n&#8217;utiliser que si l&#8217;envoi ou la réception des messages ne marche pas.
+</strong> <em>Texte mode</em> : Mode de compatibilité étendu, à n&#8217;utiliser que si l&#8217;envoi et/ou la réception des messages ne marchent pas.
 <strong> <em>Découper les messages par paquet de caractères</em> : Indique le nombre de caractères maximum par texto.
 </strong> <em>Passerelle SMS / SMS Gateway (modifier en cas d&#8217;erreur : CMS 330 SMSC number not set)</em> : A ne changer que si vous avez l&#8217;erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique.
 <strong> <em>Force du signal</em> : Force de réception du signal de votre clef GSM.
@@ -631,7 +631,7 @@ Comme à beaucoup d&#8217;endroits sur Jeedom, placer la souris tout à gauche p
 <p><strong>Utilisateur</strong> : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),</p>
 </li>
 <li>
-<p><strong>Numéro</strong> : numéro de téléphone à qui envoyer les messages.Vous pouvez mettre plusieurs numéros en les séparant avec des ; (ex : 0612345678;0698765432).</p>
+<p><strong>Numéro</strong> : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; (ex : 0612345678;0698765432).</p>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -691,7 +691,7 @@ Seul les numéros de téléphone déclarés dans un équipement pouront utiliser
 <li>
 <p>S’il est actif ou non,</p>
 <div class="paragraph">
-<p>Puis il faut ajouter les commandes qui seront composées d’un nom et d’un numéro, seuls les numéros listés dans la liste des commandes peuvent recevoir une réponse de Jeedom (ça permet de sécuriser, tout en évitant de mettre un mot de passe à chaque début de SMS envoyé à Jeedom). Vous pouvez aussi indiquer quel utilisateur est lié à ce numéro (pour la gestion des droits au niveau des interactions).</p>
+<p>Puis il faut ajouter les commandes qui seront composées d’un nom et d’un numéro, seuls les numéros listés dans la liste des commandes peuvent recevoir une réponse de Jeedom (cela permet de sécuriser, tout en évitant de mettre un mot de passe à chaque début de SMS envoyé à Jeedom). Vous pouvez aussi indiquer quel utilisateur est lié à ce numéro (pour la gestion des droits au niveau des interactions).</p>
 </div>
 </li>
 </ul>
