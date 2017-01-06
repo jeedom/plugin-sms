@@ -3,7 +3,7 @@ Le plugin SMS permet de dialoguer avec Jeedom par l'intermediaire des SMS, il pe
 [IMPORTANT]
 Pour dialoguer avec Jeedom il faut avoir configuré des interactions.
 
-=== Configuration du plugin
+=== Plugin Konfiguration
 
 Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port. Après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
 Voici le détail (certains paramètres peuvent n'être visibles qu'en mode expert) :
