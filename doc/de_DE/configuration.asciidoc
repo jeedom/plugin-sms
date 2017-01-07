@@ -44,9 +44,9 @@ Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut
 
 image::../images/sms2.png[]
 
-=== Configuration des équipements
+=== Geräte Konfiguration
 
-La configuration des équipements SMS est accessible à partir du menu plugin : 
+Die Konfiguration von SMS-Geräten ist in dem Plugin-Menü verfügbar : 
 
 image::../images/sms4.png[]
 
@@ -83,7 +83,7 @@ Seul les numéros de téléphone déclarés dans un équipement pouront utiliser
 * *Supprimer* (signe -) : permet de supprimer la commande.
 
 
-=== Utilisation du plugin
+=== Benutzung des Plugins
 
 Celui-ci est assez standard dans son fonctionnement, sur la page Général -> Plugin puis en sélectionnant le plugin SMS : 
 
