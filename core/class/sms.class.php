@@ -57,10 +57,8 @@ class sms extends eqLogic {
 		return $return;
 	}
 	public static function dependancy_install() {
-		log::remove('sms_update');
-		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh';
-		$cmd .= ' >> ' . log::getPathToLog('sms_dependancy') . ' 2>&1 &';
-		exec($cmd);
+		log::remove(__CLASS__ . '_update');
+		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh', 'log' => log::getPathToLog(__CLASS__ . '_update'));
 	}
 
 	public static function deamon_start() {
