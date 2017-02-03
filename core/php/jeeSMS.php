@@ -18,7 +18,11 @@
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
 if (!jeedom::apiAccess(init('apikey'), 'sms')) {
-	echo 'Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeZwave)';
+	echo __('Clef API non valide, vous n\'êtes pas autorisé à effectuer cette action (jeeSMS)', __FILE__);
+	die();
+}
+if (getClientIp() != '127.0.0.1') {
+	echo __('Clef API non valide, vous n\'êtes pas autorisé à effectuer cette action (jeeSMS)', __FILE__);
 	die();
 }
 
