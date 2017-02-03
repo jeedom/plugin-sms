@@ -18,8 +18,16 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-function sms_update() {
+function sms_install() {
+	if (config::byKey('api::sms::mode') == '') {
+		config::save('api::sms::mode', 'localhost');
+	}
+}
 
+function sms_update() {
+	if (config::byKey('api::sms::mode') == '') {
+		config::save('api::sms::mode', 'localhost');
+	}
 }
 
 function sms_remove() {
