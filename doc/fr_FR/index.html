@@ -428,6 +428,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_liste_des_clefs_compatibles">1.4. Liste des clefs compatibles</a></li>
 </ul>
 </li>
+<li><a href="#_faq">2. FAQ</a></li>
 </ul>
 </div>
 </div>
@@ -720,11 +721,210 @@ Réponse  : “16.3 C”</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_faq">2. FAQ</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Je ne reçois rien avec une clef huwaei e160.</dt>
+<dd>
+<p>Il faut installer minicom (sudo apt-get install -y minicom), lancer celui-ci et se connecter au modem, puis faire :</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">AT^CURC=0
+AT^U2DIAG=0</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Unresolved directive in index.asciidoc - include::faq.asciidoc[]</p>
+<p>Et sur le plugin faire :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Choisir premier port USB et non le second</p>
+</li>
+<li>
+<p>Vitesse : 9600</p>
+</li>
+<li>
+<p>Mode texte désactivé</p>
+</li>
+</ul>
 </div>
 <hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Je ne vois pas le port USB de ma clef</dt>
+<dd>
+<p>Vérifiez que vous n’avez pas brltty d’installer (<code>sudo apt-get remove brltty</code> pour le supprimer)</p>
+</dd>
+</dl>
 </div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Au bout de quelques heures/jours je ne recois plus de SMS et ne peux plus en envoyer, une relance du démon corrige</dt>
+<dd>
+<p>Vérifiez votre cable USB (un mauvais cable USB entraine souvent ce genre de soucis, il ne faut pas qu’il soit trop long non plus), verifiez aussi votre alimentation, un hub USB est fortement conseillé</p>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">J’ai une erreur CME XX</dt>
+<dd>
+<p>Vous pouvez trouver <a href=":http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors">ici</a> la description des differente erreurs CME</p>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Configuration de la clef Alcatel one touch X220L</dt>
+<dd>
+<p>Lorsque l’on insère la clef, on a ceci :</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">root@jeedom:# lsusb
+Bus 002 Device 003: ID 1bbb:f000 T &amp; A Mobile Phones</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Attention si vous n’avez pas 1bbb:f000 il ne faut surtout pas faire la suite de cette documentation</p>
+</div>
+<div class="paragraph">
+<p>il faut ajouter les lignes suivantes à la fin du fichier /etc/usb_modeswitch.conf :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">########################################################
+# Alcatel X220L
+DefaultVendor= 0x1bbb
+DefaultProduct= 0xf000
+MessageContent="55534243123456788000000080000606f50402527000000000000000000000"
+########################################################</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Puis lancer la commande suivante pour tester :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">/usr/sbin/usb_modeswitch -c
+/etc/usb_modeswitch.conf</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On obtient ceci :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">root@jeedom:~# lsusb
+Bus 002 Device 003: ID 1bbb:0017 T &amp; A Mobile Phones</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>et les liens sous /dev sont bien ajoutés :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">root@jeedom:~# ls /dev/ttyUSB*
+/dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyUSB4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Maintenant il faut automatiser le lancement de la commande précédente via udev :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port SMS" suivant : /dev/ttyUSB3. En gros il faut essayer chaque port pour trouver le bon…​</p>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Le démons SMS est bien démarré, mais vous ne recevez aucun SMS</dt>
+<dd>
+<p>Une des causes probables est la mauvaise configuration réseau. Dans "Général" &gt; "Configuration" &gt; "Administration" &gt; "Configuration réseaux", vérifier le contenu du champ "Adresse URL ou IP".</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Ce dernier ne doit pas être localhost ou 127.0.0.1 mais l&#8217;adresse IP de votre Jeedom ou son nom DNS.</p>
+</div>
+<div class="paragraph">
+<p>En cas de l&#8217;utilisation du plugin SMS sur un esclave Jeedom en mode déporté, vérifier aussi la configuration de ce dernier.</p>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">En mode debug j&#8217;ai l&#8217;erreur "timeout" qui apparaît</dt>
+<dd>
+<p>Cette erreur arrive quand la clef ne répond pas dans les 10 secondes qui suivent une demande. Les causes connues peuvent être :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>incompatibilité de la clef GSM,</p>
+</li>
+<li>
+<p>problème avec la version du firmware de la clef.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Lors du démarrage en mode debug j&#8217;ai : "socket already in use"</dt>
+<dd>
+<p>Cela veut dire que le démon est démarré mais que Jeedom n&#8217;arrive pas à le stopper. Vous pouvez soit redémarrer tout le système, soit en SSH faire "killall -9 refxcmd.py".</p>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Le démon refuse de démarrer</dt>
+<dd>
+<p>Essayez de le démarrer en mode debug pour voir l&#8217;erreur.</p>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">J&#8217;ai plusieurs port USB pour ma clef GSM alors que je n&#8217;en ai qu&#8217;une</dt>
+<dd>
+<p>C&#8217;est normal, pour une raison inconnue les clef GSM créent 2 (et même plus) ports USB au niveau système. Il suffit d&#8217;en choisir un, peut importe lequel.</p>
+</dd>
+</dl>
+</div>
+<hr>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Jeedom n&#8217;envoie plus et ne reçoit plus de SMS</dt>
+<dd>
+<p>Ceci arrive en général si la clef GSM n&#8217;arrive plus à se connecter au réseau. Essayer de la déplacer et de voir si ça revient au bout de quelques minutes.</p>
+</dd>
+</dl>
+</div>
+<hr>
 </div>
 </div>
 </div>
