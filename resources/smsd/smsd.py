@@ -182,6 +182,7 @@ parser.add_argument("--serialrate", help="Serial rate of device", type=str)
 parser.add_argument("--pin", help="Pin sim code", type=str)
 parser.add_argument("--textmode", help="Force text mode", type=str)
 parser.add_argument("--smsc", help="Smsc number", type=str)
+parser.add_argument("--pid", help="Pid file", type=str)
 args = parser.parse_args()
 
 if args.device:
@@ -204,6 +205,8 @@ if args.textmode:
 	_text_mode = args.textmode
 if args.smsc:
 	_smsc = args.smsc
+if args.pid:
+	_pidfile = args.pid
 
 _socket_port = int(_socket_port)
 _cycle = float(_cycle)

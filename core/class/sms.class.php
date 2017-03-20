@@ -25,7 +25,7 @@ class sms extends eqLogic {
 		$return = array();
 		$return['log'] = 'sms';
 		$return['state'] = 'nok';
-		$pid_file = '/tmp/smsd.pid';
+		$pid_file = jeedom::getTmpFolder('sms') . '/deamon.pid';
 		if (file_exists($pid_file)) {
 			if (@posix_getsid(trim(file_get_contents($pid_file)))) {
 				$return['state'] = 'ok';
@@ -84,6 +84,7 @@ class sms extends eqLogic {
 		$cmd .= ' --cycle ' . config::byKey('cycle', 'sms');
 		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
 		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
+		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
 		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
 		$i = 0;
@@ -104,7 +105,7 @@ class sms extends eqLogic {
 	}
 
 	public static function deamon_stop() {
-		$pid_file = '/tmp/smsd.pid';
+		$pid_file = jeedom::getTmpFolder('edisio') . '/deamon.pid';
 		if (file_exists($pid_file)) {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			system::kill($pid);

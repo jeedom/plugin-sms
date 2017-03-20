@@ -98,9 +98,9 @@ if (isset($result['devices'])) {
 					}
 				}
 				$reply = interactQuery::tryToReply(trim($message), $params);
-				if (trim($reply) != '') {
-					$cmd->execute(array('title' => $reply, 'message' => '', 'number' => $number));
-					log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply);
+				if (trim($reply['reply']) != '') {
+					$cmd->execute(array('title' => $reply['reply'], 'message' => '', 'number' => $number));
+					log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply['reply']);
 				}
 				$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
 				$cmd_sms->event(trim($message));
