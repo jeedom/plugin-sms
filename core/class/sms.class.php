@@ -48,7 +48,7 @@ class sms extends eqLogic {
 
 	public static function dependancy_info() {
 		$return = array();
-		$return['progress_file'] = '/tmp/dependancy_sms_in_progress';
+		$return['progress_file'] = jeedom::getTmpFolder('sms') . '/dependance';
 		if (exec(system::getCmdSudo() . system::get('cmd_check') . '-E "python\-serial|python\-request|python\-pyudev" | wc -l') >= 3) {
 			$return['state'] = 'ok';
 		} else {
@@ -58,7 +58,7 @@ class sms extends eqLogic {
 	}
 	public static function dependancy_install() {
 		log::remove(__CLASS__ . '_update');
-		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh', 'log' => log::getPathToLog(__CLASS__ . '_update'));
+		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('sms') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
 	}
 
 	public static function deamon_start() {
