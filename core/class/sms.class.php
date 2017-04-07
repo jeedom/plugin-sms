@@ -105,7 +105,7 @@ class sms extends eqLogic {
 	}
 
 	public static function deamon_stop() {
-		$pid_file = jeedom::getTmpFolder('edisio') . '/deamon.pid';
+		$pid_file = jeedom::getTmpFolder('sms') . '/deamon.pid';
 		if (file_exists($pid_file)) {
 			$pid = intval(trim(file_get_contents($pid_file)));
 			system::kill($pid);
