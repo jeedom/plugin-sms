@@ -96,6 +96,8 @@ def listen():
 	except Exception, e:
 		if str(e).find('object has no attribute') <> -1:
 			pass
+		if str(e).find('Attempting to use a port that is not open') <> -1:
+			pass	
 		logging.error("Exception: %s" % str(e))
 		jeedom_com.send_change_immediate({'number' : 'none', 'message' : str(e) });
 		logging.error("Exit 1 because this exeption is fatal")
