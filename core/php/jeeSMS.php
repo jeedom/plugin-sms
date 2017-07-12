@@ -97,6 +97,7 @@ if (isset($result['devices'])) {
 						$params['profile'] = $user->getLogin();
 					}
 				}
+				$parameters['reply_cmd'] = $cmd;
 				$reply = interactQuery::tryToReply(trim($message), $params);
 				if (trim($reply['reply']) != '') {
 					$cmd->execute(array('title' => $reply['reply'], 'message' => '', 'number' => $number));
