@@ -93,6 +93,12 @@ foreach (object::all() as $object) {
              </select>
            </div>
          </div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">{{Désactiver les intéractions}}</label>
+            	<div class="col-sm-9">
+			<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="disableInteract" />
+            	</div>
+	</div>		
        </fieldset>
      </form>
    </div>
