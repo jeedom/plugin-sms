@@ -91,17 +91,21 @@ if (isset($result['devices'])) {
 					$cmd->askResponse($message);
 					continue (3);
 				}
-				if ($cmd->getConfiguration('user') != '') {
-					$user = user::byId($cmd->getConfiguration('user'));
-					if (is_object($user)) {
-						$params['profile'] = $user->getLogin();
+				if ($cmd->getEqlogic()->getConfiguration('disableInteract','0') == '0') {
+					if ($cmd->getConfiguration('user') != '') {
+						$user = user::byId($cmd->getConfiguration('user'));
+						if (is_object($user)) {
+							$params['profile'] = $user->getLogin();
+						}
 					}
-				}
-				$parameters['reply_cmd'] = $cmd;
-				$reply = interactQuery::tryToReply(trim($message), $params);
-				if (trim($reply['reply']) != '') {
-					$cmd->execute(array('title' => $reply['reply'], 'message' => '', 'number' => $number));
-					log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply['reply']);
+					$parameters['reply_cmd'] = $cmd;
+					$reply = interactQuery::tryToReply(trim($message), $params);
+					if (trim($reply['reply']) != '') {
+						$cmd->execute(array('title' => $reply['reply'], 'message' => '', 'number' => $number));
+						log::add('sms', 'info', __("\nRéponse : ", __FILE__) . $reply['reply']);
+					}
+				} else {
+					log::add('sms', 'debug', __("Interaction désactivée.", __FILE__));
 				}
 				$cmd_sms = $cmd->getEqlogic()->getCmd('info', 'sms');
 				$cmd_sms->event(trim($message));
