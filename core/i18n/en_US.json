@@ -1,13 +1,13 @@
 {
     "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "The SMS daemon is running",
-        "Port SMS": "SMS port",
+        "Le démon SMS est en marche": "The TEXT daemon is running",
+        "Port SMS": "TEXT port",
         "Aucun": "None",
         "Auto": "Auto",
         "Code pin (laisser vide s'il n'y en a pas)": "PIN code (leave empty if none)",
         "Texte mode": "Text mode",
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Use this if you are not receiving messages. This ensures compatibility with most modems but removes multiple SMS support and special characters.",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "SMS Gateway (change in case of error CMS 330 - SMSC number not set)",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "TEXT Gateway (change in case of error CMS 330 - SMSC number not set)",
         "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser the code #*#*4636#*#* on a mobile device to obtain the SMSC of your operator",
         "Force du signal": "Signal strength",
         "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Internal socket port (Warning: must be the same on all slaves)",
@@ -18,14 +18,14 @@
         "Le démon a été correctement (re)démaré": "Daemon successfully (re)started ",
         "Le démon a été correctement arreté": "Daemon successfully stopped",
         "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Are you sure you want to run the daemon in debug mode? Remember to restart it in normal mode when you are finished.",
-        "SMS en mode debug": "SMS in debug mode"
+        "SMS en mode debug": "TEXT in debug mode"
     },
     "plugins/sms/desktop/php/sms.php": {
         "Ajouter un équipement": "Add a device",
         "Rechercher": "Search",
-        "Mes SMS": "My SMS messages",
+        "Mes SMS": "My TEXT messages",
         "Générale": "Main",
-        "Nom de l'équipement SMS": "Name of the SMS device",
+        "Nom de l'équipement SMS": "Name of the TEXT device",
         "Nom de l'équipement GSM": "Name of the GSM device",
         "Activer": "Enable",
         "Visible": "Visible",
