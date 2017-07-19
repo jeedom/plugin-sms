@@ -105,7 +105,7 @@ def listen():
 	signal_strength_store = 0				
 	try:
 		while 1:
-			time.sleep(1)
+			time.sleep(_cycle)
 			try:
 				gsm.waitForNetworkCoverage()
 				gsm.processStoredSms(True)
@@ -166,7 +166,7 @@ _device = 'auto'
 _pidfile = '/tmp/smsd.pid'
 _apikey = ''
 _callback = ''
-_cycle = 5;
+_cycle = 30;
 _serial_rate = 9600
 _pin = 'None'
 _text_mode = 'no'
