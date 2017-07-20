@@ -87,11 +87,10 @@ if (isset($result['devices'])) {
 				$params = array('plugin' => 'sms');
 				$smsOk = true;
 				log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . trim($message));
-				if ($cmd->getCache('storeVariable', 'none') != 'none') {
-					$cmd->askResponse($message);
+				if ($cmd->askResponse($message)) {
 					continue (3);
 				}
-				if ($cmd->getEqlogic()->getConfiguration('disableInteract','0') == '0') {
+				if ($cmd->getEqlogic()->getConfiguration('disableInteract', '0') == '0') {
 					if ($cmd->getConfiguration('user') != '') {
 						$user = user::byId($cmd->getConfiguration('user'));
 						if (is_object($user)) {
