@@ -8,13 +8,7 @@ Pour dialoguer avec Jeedom il faut avoir configuré des interactions.
 Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port. Après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
 Voici le détail (certains paramètres peuvent n'être visibles qu'en mode expert) :
 
-image::../images/sms1.png[]
-
 * *Configuration* : cette partie vous donne le statut du démon (aussi bien en local qu'en déporté).
-
-[TIP]
-Si vous êtes en mode déporté, le démon local peut être arrêté, c'est tout à fait normal.
-
 * *Général* : cette partie permet de configurer les paramètres généraux du plugin.
 * *Démon local* ou *Démon XXX* : les paramètres de configuration locale (ou déportée, en fonction de l'intitulé) du démon.
 ** _Port SMS_ : le port USB sur lequel votre clef GSM est connectée.
@@ -40,27 +34,11 @@ A ne changer que si vous savez ce que vous faites.
 *** Lancer en mode debug : cette option lance le démon en mode debug. Cette option peut être utile pour voir, si c'est le cas, pourquoi le démon plante ou ne remonte pas une valeur.
 
 [IMPORTANT]
-Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut pas oublier de cliquer sur "Redémarrer" pour sortir du mode debug !! : 
-
-image::../images/sms2.png[]
+Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut pas oublier de cliquer sur "Redémarrer" pour sortir du mode debug !!
 
 === Configuration des équipements
 
-La configuration des équipements SMS est accessible à partir du menu plugin : 
-
-image::../images/sms4.png[]
-
-Voilà à quoi ressemble la page du plugin SMS (ici avec déjà 1 équipement) : 
-
-image::../images/sms3.png[]
-
-[TIP]
-Comme à beaucoup d'endroits sur Jeedom, placer la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez, à partir de votre profil, le laisser toujours visible).
-
-Une fois que vous cliquez sur l'un d'eux, vous obtenez : 
-
-image::../images/sms6.png[]
-
+La configuration des équipements SMS est accessible à partir du menu plugin puis communication
 
 Vous retrouvez ici toute la configuration de votre équipement : 
 
@@ -74,14 +52,12 @@ En dessous vous retrouvez la liste des commandes :
 * *Nom* : le nom affiché sur le dashboard,
 * *Utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
 * *Numéro* : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; (ex : 0612345678;0698765432).
-[icon="../images/plugin/important.png"]
 [IMPORTANT]
 Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés.
 * *Afficher* : permet d'afficher la donnée sur le dashboard,
 * *Configuration avancée* (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),
 * *Tester* : permet de tester la commande,
 * *Supprimer* (signe -) : permet de supprimer la commande.
-
 
 === Utilisation du plugin
 
@@ -92,8 +68,6 @@ Celui-ci est assez standard dans son fonctionnement, sur la page Général -> Pl
  
 + 
 Il faut donc ajouter un nouvel équipement puis le configurer :
-
-image::../images/sms_screenshot1.JPG[]
 
 - Le nom de celui-ci,
 - S’il est actif ou non,
