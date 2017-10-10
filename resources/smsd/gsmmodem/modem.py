@@ -502,7 +502,7 @@ class GsmModem(SerialComms):
         try:
             # AT+CLAC responses differ between modems. Most respond with +CLAC: and then a comma-separated list of commands
             # while others simply return each command on a new line, with no +CLAC: prefix
-            response = self.write('AT+CLAC')
+            response = self.write('AT+CLAC',True,20)
             if len(response) == 2: # Single-line response, comma separated
                 commands = response[0]
                 if commands.startswith('+CLAC'):
