@@ -187,107 +187,112 @@ class GsmModem(SerialComms):
             pinCheckComplete = False
         self.write('ATE0') # echo off
         try:
-            cfun = int(lineStartingWith('+CFUN:', self.write('AT+CFUN?'))[7:]) # example response: +CFUN: 1
-            if cfun != 1:
-                self.write('AT+CFUN=1')
+            line = lineStartingWith('+CFUN:',self.write('AT+CFUN?'))
+            if line != None : 
+                cfun = int(line[7:]) # example response: +CFUN: 1
+                if cfun != 1:
+                    self.write('AT+CFUN=1')
         except CommandError:
-            pass # just ignore if the +CFUN command isn't supported
-                
+            pass # just ignore if the +CFUN command isn't supported       
         self.write('AT+CMEE=1') # enable detailed error messages (even if it has already been set - ATZ may reset this)
         if not pinCheckComplete:
             self._unlockSim(pin)
-
         # Get list of supported commands from modem
-        commands = self.supportedCommands
-
-        # Device-specific settings
-        callUpdateTableHint = 0 # unknown modem
-        enableWind = False
-        if commands != None:
-            if '^CVOICE' in commands:
-                self.write('AT^CVOICE=0', parseError=False) # Enable voice calls
-            if '+VTS' in commands: # Check for DTMF sending support
-                Call.dtmfSupport = True
-            elif '^DTMF' in commands:
-                # Huawei modems use ^DTMF to send DTMF tones
-                callUpdateTableHint = 1 # Huawei
-            if '^USSDMODE' in commands:
-                # Enable Huawei text-mode USSD
-                self.write('AT^USSDMODE=0', parseError=False)
-            if '+WIND' in commands:
-                callUpdateTableHint = 2 # Wavecom
-                enableWind = True
-            elif '+ZPAS' in commands:
-                callUpdateTableHint = 3 # ZTE
-        else:
-            # Try to enable general notifications on Wavecom-like device
-            enableWind = True
-
-        if enableWind:
-            try:
-                wind = lineStartingWith('+WIND:', self.write('AT+WIND?')) # Check current WIND value; example response: +WIND: 63
-            except CommandError:
-                # Modem does not support +WIND notifications. See if we can detect other known call update notifications
-                pass
-            else:
-                # Enable notifications for call setup, hangup, etc
-                if int(wind[7:]) != 50:
-                    self.write('AT+WIND=50')
-                callUpdateTableHint = 2 # Wavecom
-
-        # Attempt to identify modem type directly (if not already) - for outgoing call status updates
-        if callUpdateTableHint == 0:
-            if self.manufacturer.lower() == 'huawei':
-                callUpdateTableHint = 1 # huawei
-            else:
-                # See if this is a ZTE modem that has not yet been identified based on supported commands
-                try:
-                    self.write('AT+ZPAS?')
-                except CommandError:
-                    pass # Not a ZTE modem
-                else:
+        try:
+            commands = self.supportedCommands
+             # Device-specific settings
+            callUpdateTableHint = 0 # unknown modem
+            enableWind = False
+            if commands != None:
+                if '^CVOICE' in commands:
+                    self.write('AT^CVOICE=0', parseError=False) # Enable voice calls
+                if '+VTS' in commands: # Check for DTMF sending support
+                    Call.dtmfSupport = True
+                elif '^DTMF' in commands:
+                    # Huawei modems use ^DTMF to send DTMF tones
+                    callUpdateTableHint = 1 # Huawei
+                if '^USSDMODE' in commands:
+                    # Enable Huawei text-mode USSD
+                    self.write('AT^USSDMODE=0', parseError=False)
+                if '+WIND' in commands:
+                    callUpdateTableHint = 2 # Wavecom
+                    enableWind = True
+                elif '+ZPAS' in commands:
                     callUpdateTableHint = 3 # ZTE
-        # Load outgoing call status updates based on identified modem features
-        if callUpdateTableHint == 1:
-            # Use Hauwei's ^NOTIFICATIONs
-            self.log.info('Loading Huawei call state update table')
-            self._callStatusUpdates = ((re.compile(r'^\^ORIG:(\d),(\d)$'), self._handleCallInitiated),
-                                       (re.compile(r'^\^CONN:(\d),(\d)$'), self._handleCallAnswered),
-                                       (re.compile(r'^\^CEND:(\d),(\d),(\d)+,(\d)+$'), self._handleCallEnded))
-            self._mustPollCallStatus = False
-            # Huawei modems use ^DTMF to send DTMF tones; use that instead
-            Call.DTMF_COMMAND_BASE = '^DTMF={cid},'
-            Call.dtmfSupport = True
-        elif callUpdateTableHint == 2:
-            # Wavecom modem: +WIND notifications supported
-            self.log.info('Loading Wavecom call state update table')
-            self._callStatusUpdates = ((re.compile(r'^\+WIND: 5,(\d)$'), self._handleCallInitiated),
-                                      (re.compile(r'^OK$'), self._handleCallAnswered),
-                                      (re.compile(r'^\+WIND: 6,(\d)$'), self._handleCallEnded))
-            self._waitForAtdResponse = False # Wavecom modems return OK only when the call is answered
-            self._mustPollCallStatus = False
-            if commands == None: # older modem, assume it has standard DTMF support
+            else:
+                # Try to enable general notifications on Wavecom-like device
+                enableWind = True
+            if enableWind:
+                try:
+                    wind = lineStartingWith('+WIND:', self.write('AT+WIND?')) # Check current WIND value; example response: +WIND: 63
+                except CommandError:
+                    # Modem does not support +WIND notifications. See if we can detect other known call update notifications
+                    pass
+                else:
+                    # Enable notifications for call setup, hangup, etc
+                    if int(wind[7:]) != 50:
+                        self.write('AT+WIND=50')
+                    callUpdateTableHint = 2 # Wavecom
+           
+           
+            # Attempt to identify modem type directly (if not already) - for outgoing call status updates
+            if callUpdateTableHint == 0:
+                if self.manufacturer.lower() == 'huawei':
+                    callUpdateTableHint = 1 # huawei
+                else:
+                    # See if this is a ZTE modem that has not yet been identified based on supported commands
+                    try:
+                        self.write('AT+ZPAS?')
+                    except CommandError:
+                        pass # Not a ZTE modem
+                    else:
+                        callUpdateTableHint = 3 # ZTE
+            # Load outgoing call status updates based on identified modem features
+            if callUpdateTableHint == 1:
+                # Use Hauwei's ^NOTIFICATIONs
+                self.log.info('Loading Huawei call state update table')
+                self._callStatusUpdates = ((re.compile(r'^\^ORIG:(\d),(\d)$'), self._handleCallInitiated),
+                                           (re.compile(r'^\^CONN:(\d),(\d)$'), self._handleCallAnswered),
+                                           (re.compile(r'^\^CEND:(\d),(\d),(\d)+,(\d)+$'), self._handleCallEnded))
+                self._mustPollCallStatus = False
+                # Huawei modems use ^DTMF to send DTMF tones; use that instead
+                Call.DTMF_COMMAND_BASE = '^DTMF={cid},'
                 Call.dtmfSupport = True
-        elif callUpdateTableHint == 3: # ZTE
-            # Use ZTE notifications ("CONNECT"/"HANGUP", but no "call initiated" notification)
-            self.log.info('Loading ZTE call state update table')
-            self._callStatusUpdates = ((re.compile(r'^CONNECT$'), self._handleCallAnswered),
-                                       (re.compile(r'^HANGUP:\s*(\d+)$'), self._handleCallEnded),
-                                       (re.compile(r'^OK$'), self._handleCallRejected))
-            self._waitForAtdResponse = False # ZTE modems do not return an immediate  OK only when the call is answered
-            self._mustPollCallStatus = False
-            self._waitForCallInitUpdate = False # ZTE modems do not provide "call initiated" updates
-            if commands == None: # ZTE uses standard +VTS for DTMF
-                Call.dtmfSupport = True
-        else:
-            # Unknown modem - we do not know what its call updates look like. Use polling instead
-            self.log.info('Unknown/generic modem type - will use polling for call state updates')
-            self._mustPollCallStatus = True
-            self._pollCallStatusRegex = re.compile('^\+CLCC:\s+(\d+),(\d),(\d),(\d),([^,]),"([^,]*)",(\d+)$')
-            self._waitForAtdResponse = True # Most modems return OK immediately after issuing ATD
+            elif callUpdateTableHint == 2:
+                # Wavecom modem: +WIND notifications supported
+                self.log.info('Loading Wavecom call state update table')
+                self._callStatusUpdates = ((re.compile(r'^\+WIND: 5,(\d)$'), self._handleCallInitiated),
+                                          (re.compile(r'^OK$'), self._handleCallAnswered),
+                                          (re.compile(r'^\+WIND: 6,(\d)$'), self._handleCallEnded))
+                self._waitForAtdResponse = False # Wavecom modems return OK only when the call is answered
+                self._mustPollCallStatus = False
+                if commands == None: # older modem, assume it has standard DTMF support
+                    Call.dtmfSupport = True
+            elif callUpdateTableHint == 3: # ZTE
+                # Use ZTE notifications ("CONNECT"/"HANGUP", but no "call initiated" notification)
+                self.log.info('Loading ZTE call state update table')
+                self._callStatusUpdates = ((re.compile(r'^CONNECT$'), self._handleCallAnswered),
+                                           (re.compile(r'^HANGUP:\s*(\d+)$'), self._handleCallEnded),
+                                           (re.compile(r'^OK$'), self._handleCallRejected))
+                self._waitForAtdResponse = False # ZTE modems do not return an immediate  OK only when the call is answered
+                self._mustPollCallStatus = False
+                self._waitForCallInitUpdate = False # ZTE modems do not provide "call initiated" updates
+                if commands == None: # ZTE uses standard +VTS for DTMF
+                    Call.dtmfSupport = True
+            else:
+                # Unknown modem - we do not know what its call updates look like. Use polling instead
+                self.log.info('Unknown/generic modem type - will use polling for call state updates')
+                self._mustPollCallStatus = True
+                self._pollCallStatusRegex = re.compile('^\+CLCC:\s+(\d+),(\d),(\d),(\d),([^,]),"([^,]*)",(\d+)$')
+                self._waitForAtdResponse = True # Most modems return OK immediately after issuing ATD
+        except Exception, e:
+            pass
 
-        # General meta-information setup
-        self.write('AT+COPS=3,0', parseError=False) # Use long alphanumeric name format
+        try:
+            # General meta-information setup
+            self.write('AT+COPS=3,0', parseError=False) # Use long alphanumeric name format
+        except Exception, e:
+            pass
                 
         # SMS setup
         self.write('AT+CMGF={0}'.format(1 if self._smsTextMode else 0)) # Switch to text or PDU mode for SMS messages
