@@ -1,9 +1,9 @@
 Le plugin SMS permet de dialoguer avec Jeedom par l'intermediaire des SMS, il permet aussi à Jeedom de vous envoyer un SMS en cas d'alerte (plugin alarme, scénario...)
 
-[IMPORTANT]
+[IMPORTANTE]
 Pour dialoguer avec Jeedom il faut avoir configuré des interactions.
 
-=== Configuration du plugin
+=== Configuración del plugin
 
 Après téléchargement du plugin, il vous suffit de l'activer et de configurer le port. Après sauvegarde le démon devrait se lancer. Le plugin est déjà configuré par défaut ; vous n'avez donc rien à faire de plus. Cependant vous pouvez modifier cette configuration.
 Voici le détail (certains paramètres peuvent n'être visibles qu'en mode expert) :
@@ -16,7 +16,7 @@ Voici le détail (certains paramètres peuvent n'être visibles qu'en mode exper
 [TIP]
 Si vous ne savez pas quel port USB est utilisé, vous pouvez simplement indiquer "Auto". Attention le mode auto ne marche qu'avec les clefs Huawai E220. 
 
-[IMPORTANT]
+[IMPORTANTE]
 Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut à l'aide du logiciel de votre fabricant de clef, changer le mode de la clef sur GSM (ou texte, ou série).
 ** _Code pin_ : Permet d'indiquer le code pin de la carte SIM, à laisser vide si vous n'en avez pas.
 ** _Texte mode_ : Mode de compatibilité étendu, à n'utiliser que si l'envoi et/ou la réception des messages ne marchent pas.
@@ -26,33 +26,33 @@ Attention certaines clefs 3G sont par défaut en mode modem et non GSM. Il faut 
 ** _Réseau_ : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n'arrive pas à le récupérer).
 ** _Port socket interne (modification dangereuse, doit être la même valeur sur tous les Jeedom déportés SMS)_ : permet de modifier le port de communication interne du démon.
 
-[IMPORTANT]
+[IMPORTANTE]
 A ne changer que si vous savez ce que vous faites.
 ** _Gestion du démon_ : vous retrouvez ici les boutons de gestion du démon : 
 *** Redémarrer : permet de redémarrer le démon en mode normal.
 *** Arrêter : force l'arrêt du démon (attention cette option place le port sur l'option "Aucun" également).
 *** Lancer en mode debug : cette option lance le démon en mode debug. Cette option peut être utile pour voir, si c'est le cas, pourquoi le démon plante ou ne remonte pas une valeur.
 
-[IMPORTANT]
+[IMPORTANTE]
 Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut pas oublier de cliquer sur "Redémarrer" pour sortir du mode debug !!
 
 === Configuration des équipements
 
 La configuration des équipements SMS est accessible à partir du menu plugin puis communication
 
-Vous retrouvez ici toute la configuration de votre équipement : 
+Aquí encontrará toda la configuración de su dispositivo: 
 
 * *Nom de l'équipement SMS* : nom de votre équipement SMS,
-* *Activer* : permet de rendre votre équipement actif,
-* *Visible* : rend votre équipement visible sur le dashboard,
+* *Activar* : permite activar el dispositivo.
+* *Visible* : hace visible el dispositivo en el Dashboard.
 * *Objet parent* : indique l'objet parent auquel appartient l'équipement.
 
-En dessous vous retrouvez la liste des commandes : 
+A continuación encontrará la lista de ordenes : 
 
 * *Nom* : le nom affiché sur le dashboard,
 * *Utilisateur* : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs),
 * *Numéro* : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; (ex : 0612345678;0698765432).
-[IMPORTANT]
+[IMPORTANTE]
 Seul les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés.
 * *Afficher* : permet d'afficher la donnée sur le dashboard,
 * *Configuration avancée* (petites roues crantées) : permet d'afficher la configuration avancée de la commande (méthode d'historisation, widget...),

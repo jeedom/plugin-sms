@@ -40,12 +40,12 @@ Dans ce mode, le démon est très bavard. Une fois le debug terminé, il ne faut
 
 La configuration des équipements SMS est accessible à partir du menu plugin puis communication
 
-Vous retrouvez ici toute la configuration de votre équipement : 
+You can find here the full configuration of your device : 
 
 * *Nom de l'équipement SMS* : nom de votre équipement SMS,
-* *Activer* : permet de rendre votre équipement actif,
-* *Visible* : rend votre équipement visible sur le dashboard,
-* *Objet parent* : indique l'objet parent auquel appartient l'équipement.
+Enable : To enable your equipment
+Visible : Make your equipment visible on the Dashboard
+* *Parent object* : indicates the parent object to which the device belongs.
 
 En dessous vous retrouvez la liste des commandes : 
 
