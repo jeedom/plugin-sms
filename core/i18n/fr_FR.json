@@ -28,7 +28,8 @@
         "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
         "Réseaux": "Réseaux",
         "Port socket interne": "Port socket interne",
-        "Cycle (s)": "Cycle (s)"
+        "Cycle (s)": "Cycle (s)",
+        "Démon": "Démon"
     },
     "plugins\/sms\/desktop\/php\/sms.php": {
         "Ajouter un équipement": "Ajouter un équipement",
@@ -51,7 +52,8 @@
         "Sauvegarder": "Sauvegarder",
         "Gestion": "Gestion",
         "Configuration": "Configuration",
-        "Equipement": "Equipement"
+        "Equipement": "Equipement",
+        "Configuration avancée": "Configuration avancée"
     },
     "plugins\/sms\/plugin_info\/info.xml": {
         "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
@@ -68,5 +70,11 @@
     },
     "plugins\/sms\/plugin_info\/info.json": {
         "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
+    },
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Signal": "Signal",
+        "Message": "Message",
+        "Expediteur": "Expediteur",
+        "Le port n'est pas configuré": "Le port n'est pas configuré"
     }
 }
