@@ -1,0 +1,43 @@
+{
+    "plugins/sms/plugin_info/configuration.php": {
+        "Le démon SMS est en marche": "O daemon SMS está em execução",
+        "Port SMS": "porto SMS",
+        "Aucun": "Nemhum",
+        "Auto": "carro",
+        "Code pin (laisser vide s'il n'y en a pas)": "número de pinos (deixe em branco se não houver nenhum)",
+        "Texte mode": "modo de texto",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Use-o se você não receber mensagens (máximo de compatibilidade com modem) mas remove suporte a múltiplos SMS, e caracteres especiais",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "Gateway SMS / SMS Gateway (MODIFICAR a erros: CMS 330 (SMSC número não definido)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Use o código * # * # 4636 # * # * em um celular para encontrar o seu operador de SMSC",
+        "Force du signal": "força do sinal",
+        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Tomada interior da porta (mudança perigosa, devem ser os mesmos, especialmente os escravos)",
+        "Gestion du démon": "Gestão do diabo",
+        "(Re)démarrer": "(Re) iniciar",
+        "Arrêter": "parar",
+        "Lancer en mode debug": "Iniciar no modo de depuração",
+        "Le démon a été correctement (re)démaré": "O demônio foi devidamente (re) Iniciado",
+        "Le démon a été correctement arreté": "O demônio foi desligado corretamente",
+        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Tem certeza de que deseja iniciar o daemon no modo de depuração? Don \\ 't se esqueça de reiniciar no modo normal, uma vez concluído",
+        "SMS en mode debug": "SMS no modo de depuração"
+    },
+    "plugins/sms/desktop/php/sms.php": {
+        "Ajouter un équipement": "a adição de equipamentos",
+        "Rechercher": "Pesquisar",
+        "Mes SMS": "meu SMS",
+        "Générale": "geral",
+        "Nom de l'équipement SMS": "Equipamento SMS nome",
+        "Nom de l'équipement GSM": "Nome de equipamentos GSM",
+        "Activer": "Ativar",
+        "Visible": "Visivél",
+        "Objet parent": "objeto pai",
+        "Aucun": "Nemhum",
+        "Commandes": "comandos",
+        "Ajouter d'un numéro": "Adicionar um número de",
+        "Nom": "Nome",
+        "Utilisateur": "usuário",
+        "Numéro": "número",
+        "Paramètres": "configurações",
+        "Supprimer": "remover",
+        "Sauvegarder": "Salvar"
+    }
+}
