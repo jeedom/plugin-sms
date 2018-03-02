@@ -18,7 +18,18 @@
         "Le démon a été correctement (re)démaré": "Il demone è stato correttamente (ri) Iniziato",
         "Le démon a été correctement arreté": "Demone fermato con successo",
         "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Sei sicuro di voler eseguire il demone in modalità debug? Ricordati di riavviarlo in modalità normale quando hai concluso.",
-        "SMS en mode debug": "SMS in modalità debug"
+        "SMS en mode debug": "SMS in modalità debug",
+        "Statut du démon : ": "Statut du démon :",
+        "En local :": "En local :",
+        "Démon local": "Démon local",
+        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
+        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
+        "Par defaut 140": "Par defaut 140",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Réseaux": "Réseaux",
+        "Port socket interne": "Port socket interne",
+        "Cycle (s)": "Cycle (s)",
+        "Démon": "Démon"
     },
     "plugins/sms/desktop/php/sms.php": {
         "Ajouter un équipement": "Aggiungi dispositivo",
@@ -38,6 +49,32 @@
         "Numéro": "numero",
         "Paramètres": "Impostazioni",
         "Supprimer": "Elimina",
-        "Sauvegarder": "Salva"
+        "Sauvegarder": "Salva",
+        "Gestion": "Gestion",
+        "Configuration": "Configuration",
+        "Equipement": "Equipement",
+        "Configuration avancée": "Configuration avancée"
+    },
+    "plugins/sms/plugin_info/info.xml": {
+        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
+        "null": ""
+    },
+    "plugins/sms/desktop/js/sms.js": {
+        "Historiser": "Historiser",
+        "Afficher": "Afficher",
+        "Tester": "Tester"
+    },
+    "plugins/sms/core/php/jeeSMS.php": {
+        "Message venant de ": "Message venant de",
+        "\nRéponse : ": "Réponse :"
+    },
+    "plugins/sms/plugin_info/info.json": {
+        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
+    },
+    "plugins/sms/core/class/sms.class.php": {
+        "Signal": "Signal",
+        "Message": "Message",
+        "Expediteur": "Expediteur",
+        "Le port n'est pas configuré": "Le port n'est pas configuré"
     }
 }
