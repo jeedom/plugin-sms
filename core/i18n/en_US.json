@@ -19,17 +19,17 @@
         "Le démon a été correctement arreté": "Daemon successfully stopped",
         "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Are you sure you want to run the daemon in debug mode? Remember to restart it in normal mode when you are finished.",
         "SMS en mode debug": "TEXT in debug mode",
-        "Statut du démon : ": "Statut du démon :",
-        "En local :": "En local :",
-        "Démon local": "Démon local",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
+        "Statut du démon : ": "Deamon status",
+        "En local :": "Locally:",
+        "Démon local": "Local daemon",
+        "Vitesse de communication (bauds)": "Communication speed (bps)",
         "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
         "Par defaut 140": "Par defaut 140",
         "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
         "Réseaux": "Réseaux",
-        "Port socket interne": "Port socket interne",
-        "Cycle (s)": "Cycle (s)",
-        "Démon": "Démon"
+        "Port socket interne": "Internal socket port",
+        "Cycle (s)": "Cycle(s)",
+        "Démon": "Daemon"
     },
     "plugins/sms/desktop/php/sms.php": {
         "Ajouter un équipement": "Add a device",
@@ -50,19 +50,19 @@
         "Paramètres": "Settings",
         "Supprimer": "Delete",
         "Sauvegarder": "Save",
-        "Gestion": "Gestion",
+        "Gestion": "Management",
         "Configuration": "Configuration",
-        "Equipement": "Equipement",
-        "Configuration avancée": "Configuration avancée"
+        "Equipement": "Device",
+        "Configuration avancée": "Advanced configuration"
     },
     "plugins/sms/plugin_info/info.xml": {
         "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
         "null": ""
     },
     "plugins/sms/desktop/js/sms.js": {
-        "Historiser": "Historiser",
-        "Afficher": "Afficher",
-        "Tester": "Tester"
+        "Historiser": "Historize",
+        "Afficher": "Display",
+        "Tester": "Test"
     },
     "plugins/sms/core/php/jeeSMS.php": {
         "Message venant de ": "Message venant de",
@@ -74,7 +74,7 @@
     "plugins/sms/core/class/sms.class.php": {
         "Signal": "Signal",
         "Message": "Message",
-        "Expediteur": "Expediteur",
-        "Le port n'est pas configuré": "Le port n'est pas configuré"
+        "Expediteur": "Sender",
+        "Le port n'est pas configuré": "The port is not set"
     }
 }
