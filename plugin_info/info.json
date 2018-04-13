@@ -11,5 +11,5 @@
 	"changelog" : "https://github.com/jeedom/plugin-sms/blob/stable/doc/#language#/changelog.asciidoc",
 	"documentation" : "https://github.com/jeedom/plugin-sms/blob/stable/doc/#language#/index.asciidoc",
 	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
-	"compatibility" : ["Jeedomboard","Smart","RPI/RPI2","Docker","DIY"]	
+	"compatibility" : ["miniplus","smart","rpi","docker","diy"]
 }
