@@ -23,10 +23,10 @@
         "En local :": "Localmente:",
         "Démon local": "Demonio local",
         "Vitesse de communication (bauds)": "Velocidad de comunicación (baudios)",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Réseaux": "Réseaux",
+        "Découper les messages par paquet de caractères": "Cortar mensajes por paquete de caracteres",
+        "Par defaut 140": "Por defecto 140",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Pasarela SMS / SMS Gateway (cambiar en caso de error: CMS 330 SMSC number not set)",
+        "Réseaux": "Redes",
         "Port socket interne": "Puerto socket interno",
         "Cycle (s)": "Ciclo (s)",
         "Démon": "Demonio"
@@ -56,7 +56,7 @@
         "Configuration avancée": "Configuración avanzada"
     },
     "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
+        "Plugin permettant de gérer les SMS": "Plugin para la gestión de SMS",
         "null": ""
     },
     "plugins/sms/desktop/js/sms.js": {
@@ -65,11 +65,11 @@
         "Tester": "Probar"
     },
     "plugins/sms/core/php/jeeSMS.php": {
-        "Message venant de ": "Message venant de",
+        "Message venant de ": "Mensaje de",
         "\nRéponse : ": "Respuesta :"
     },
     "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
+        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin para añadir soporte de clave GSM (sólo para SMS)"
     },
     "plugins/sms/core/class/sms.class.php": {
         "Signal": "Señal",
