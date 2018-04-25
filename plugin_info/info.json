@@ -8,8 +8,8 @@
 	"category" : "communication",
 	"hasDependency" : true,
 	"hasOwnDeamon" : true,
-	"changelog" : "https://github.com/jeedom/plugin-sms/blob/stable/doc/#language#/changelog.asciidoc",
-	"documentation" : "https://github.com/jeedom/plugin-sms/blob/stable/doc/#language#/index.asciidoc",
+	"changelog" : "https://jeedom.github.io/plugin-sms/#language#/changelog",
+	"documentation" : "https://jeedom.github.io/plugin-sms/#language#/",
 	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
 	"compatibility" : ["miniplus","smart","rpi","docker","diy"]
 }
