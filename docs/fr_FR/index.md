@@ -18,16 +18,7 @@ plugin est déjà configuré par défaut ; vous n’avez donc rien à faire de
 plus. Cependant vous pouvez modifier cette configuration. Voici le
 détail (certains paramètres peuvent n’être visibles qu’en mode expert) :
 
--   **Configuration** : cette partie vous donne le statut du démon
-    (aussi bien en local qu’en déporté).
-
--   **Général** : cette partie permet de configurer les paramètres
-    généraux du plugin.
-
--   **Démon local** ou **Démon XXX** : les paramètres de configuration
-    locale (ou déportée, en fonction de l’intitulé) du démon.
-
-    -   *Port SMS* : le port USB sur lequel votre clef GSM
+-   *Port SMS* : le port USB sur lequel votre clef GSM
         est connectée.
 
 > **Tip**
@@ -42,14 +33,14 @@ détail (certains paramètres peuvent n’être visibles qu’en mode expert) :
 > Il faut à l’aide du logiciel de votre fabricant de clef, changer le
 > mode de la clef sur GSM (ou texte, ou série). 
 
-    -   **Code pin** : Permet d’indiquer le code pin de la carte SIM, à laisser vide si vous n’en avez pas. 
-    -   **Texte mode** : Mode de compatibilité étendu, à n’utiliser que si l’envoi et/ou la réception des messages ne marchent pas.
-    -   **Découper les messages par paquet de caractères** : Indique le nombre de caractères maximum par texto.
-    -   **Passerelle SMS / SMS Gateway (modifier en cas d’erreur : CMS 330 SMSC number not set)** : A nechanger que si vous avez l’erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique. 
-    -   **Force du signal** : Force de réception du signal devotre clef GSM.
-    -   **Réseau** : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n’arrive pas à le récupérer). 
-    -   **socket interne (modification dangereuse, doit être la même valeur sur tous les Jeedom déportés SMS)** : permet de modifier le port de communication interne du démon.
-    -   **Cycle (s)** : cycle de scrutation du démon pour l'envoi et la reception des SMS. Un chiffre trop bas peut amener certaine instabilité
+-   **Code pin** : Permet d’indiquer le code pin de la carte SIM, à laisser vide si vous n’en avez pas. 
+-   **Texte mode** : Mode de compatibilité étendu, à n’utiliser que si l’envoi et/ou la réception des messages ne marchent pas.
+-   **Découper les messages par paquet de caractères** : Indique le nombre de caractères maximum par texto.
+-   **Passerelle SMS / SMS Gateway (modifier en cas d’erreur : CMS 330 SMSC number not set)** : A nechanger que si vous avez l’erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique. 
+-   **Force du signal** : Force de réception du signal devotre clef GSM.
+-   **Réseau** : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n’arrive pas à le récupérer). 
+-   **socket interne (modification dangereuse)** : permet de modifier le port de communication interne du démon.
+-   **Cycle (s)** : cycle de scrutation du démon pour l'envoi et la reception des SMS. Un chiffre trop bas peut amener certaine instabilité
 
 Configuration des équipements 
 -----------------------------
