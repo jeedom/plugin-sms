@@ -40,38 +40,16 @@ détail (certains paramètres peuvent n’être visibles qu’en mode expert) :
 >
 > Attention certaines clefs 3G sont par défaut en mode modem et non GSM.
 > Il faut à l’aide du logiciel de votre fabricant de clef, changer le
-> mode de la clef sur GSM (ou texte, ou série). ***Code pin* : Permet
-> d’indiquer le code pin de la carte SIM, à laisser vide si vous n’en
-> avez pas.** *Texte mode* : Mode de compatibilité étendu, à n’utiliser
-> que si l’envoi et/ou la réception des messages ne marchent pas.
-> ***Découper les messages par paquet de caractères* : Indique le nombre
-> de caractères maximum par texto.** *Passerelle SMS / SMS Gateway
-> (modifier en cas d’erreur : CMS 330 SMSC number not set)* : A ne
-> changer que si vous avez l’erreur "CMS 330 SMSC number not set", dans
-> ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur
-> téléphonique. ***Force du signal* : Force de réception du signal de
-> votre clef GSM.** *Réseau* : Réseau téléphonique de votre clef GSM
-> (peut être à "None" si Jeedom n’arrive pas à le récupérer). \*\* *Port
-> socket interne (modification dangereuse, doit être la même valeur sur
-> tous les Jeedom déportés SMS)* : permet de modifier le port de
-> communication interne du démon.
+> mode de la clef sur GSM (ou texte, ou série). 
 
-> **Important**
->
-> A ne changer que si vous savez ce que vous faites. ***Gestion du
-> démon* : vous retrouvez ici les boutons de gestion du démon :**\*
-> Redémarrer : permet de redémarrer le démon en mode normal. **\*
-> Arrêter : force l’arrêt du démon (attention cette option place le port
-> sur l’option "Aucun" également).**\* Lancer en mode debug : cette
-> option lance le démon en mode debug. Cette option peut être utile pour
-> voir, si c’est le cas, pourquoi le démon plante ou ne remonte pas une
-> valeur.
-
-> **Important**
->
-> Dans ce mode, le démon est très bavard. Une fois le debug terminé, il
-> ne faut pas oublier de cliquer sur "Redémarrer" pour sortir du mode
-> debug !!
+    -   **Code pin** : Permet d’indiquer le code pin de la carte SIM, à laisser vide si vous n’en avez pas. 
+    -   **Texte mode** : Mode de compatibilité étendu, à n’utiliser que si l’envoi et/ou la réception des messages ne marchent pas.
+    -   **Découper les messages par paquet de caractères** : Indique le nombre de caractères maximum par texto.
+    -   **Passerelle SMS / SMS Gateway (modifier en cas d’erreur : CMS 330 SMSC number not set)** : A nechanger que si vous avez l’erreur "CMS 330 SMSC number not set", dans ce cas il faut indiquer le numéro de passerelle SMS de votre opérateur téléphonique. 
+    -   **Force du signal** : Force de réception du signal devotre clef GSM.
+    -   **Réseau** : Réseau téléphonique de votre clef GSM (peut être à "None" si Jeedom n’arrive pas à le récupérer). 
+    -   **socket interne (modification dangereuse, doit être la même valeur sur tous les Jeedom déportés SMS)** : permet de modifier le port de communication interne du démon.
+    -   **Cycle (s)** : cycle de scrutation du démon pour l'envoi et la reception des SMS. Un chiffre trop bas peut amener certaine instabilité
 
 Configuration des équipements 
 -----------------------------
@@ -161,156 +139,132 @@ Liste des clefs compatibles
 FAQ 
 ===
 
-Je ne reçois rien avec une clef huwaei e160.
+> **Je ne reçois rien avec une clef huwaei e160.**
+>
+>Il faut installer minicom (sudo apt-get install -y minicom), lancer
+>celui-ci et se connecter au modem, puis faire :
+>
+>``` {.bash}
+>AT^CURC=0
+>AT^U2DIAG=0
+>```
+>
+>Et sur le plugin faire :
+>
+>-   Choisir premier port USB et non le second
+>
+>-   Vitesse : 9600
+>
+>-   Mode texte désactivé
 
-:   Il faut installer minicom (sudo apt-get install -y minicom), lancer
-    celui-ci et se connecter au modem, puis faire :
+> **Je ne vois pas le port USB de ma clef**
+>
+>Vérifiez que vous n’avez pas brltty d’installer (`sudo apt-get remove brltty` pour le supprimer)
 
-``` {.bash}
-AT^CURC=0
-AT^U2DIAG=0
-```
+> **Au bout de quelques heures/jours je ne recois plus de SMS et ne peux plus en envoyer, une relance du démon corrige**
+>
+>Vérifiez votre cable USB (un mauvais cable USB entraine souvent ce
+>genre de soucis, il ne faut pas qu’il soit trop long non plus),
+>verifiez aussi votre alimentation, un hub USB est fortement
+>conseillé
 
-Et sur le plugin faire :
+> **J’ai une erreur CME XX**
+>
+>Vous pouvez trouver [ici](:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors) la description des differente erreurs CME
 
--   Choisir premier port USB et non le second
+> **Configuration de la clef Alcatel one touch X220L**
+>
+>Lorsque l’on insère la clef, on a ceci :
+>
+>``` {.bash}
+>root@jeedom:# lsusb
+>Bus 002 Device 003: ID 1bbb:f000 T & A Mobile Phones
+>```
+>
+>Attention si vous n’avez pas 1bbb:f000 il ne faut surtout pas faire la
+>suite de cette documentation
+>
+>il faut ajouter les lignes suivantes à la fin du fichier
+>/etc/usb\_modeswitch.conf :
+>
+>``` {.bash}
+>########################################################
+># Alcatel X220L
+>DefaultVendor= 0x1bbb
+>DefaultProduct= 0xf000
+>MessageContent="55534243123456788000000080000606f50402527000000000000000000000"
+>########################################################
+>```
+>
+>Puis lancer la commande suivante pour tester :
+>
+>``` {.bash}
+>/usr/sbin/usb_modeswitch -c
+>/etc/usb_modeswitch.conf
+>```
+>
+>On obtient ceci :
+>
+>``` {.bash}
+>root@jeedom:~# lsusb
+>Bus 002 Device 003: ID 1bbb:0017 T & A Mobile Phones
+>```
+>
+>et les liens sous /dev sont bien ajoutés :
+>
+>``` {.bash}
+>root@jeedom:~# ls /dev/ttyUSB*
+>/dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyUSB4
+>```
+>
+>Maintenant il faut automatiser le lancement de la commande précédente
+>via udev :
+>
+>``` {.bash}
+>root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules
+>SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"
+>```
+>
+>Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port
+>SMS" suivant : /dev/ttyUSB3. En gros il faut essayer chaque port pour
+>trouver le bon…​
 
--   Vitesse : 9600
+> **Le démons SMS est bien démarré, mais vous ne recevez aucun SMS**
+>
+>Une des causes probables est la mauvaise configuration réseau. Dans
+>"Général" &gt; "Configuration" &gt; "Administration" &gt;
+>"Configuration réseaux", vérifier le contenu du champ "Adresse URL ou IP".
+>
+>Ce dernier ne doit pas être localhost ou 127.0.0.1 mais l’adresse IP de
+>votre Jeedom ou son nom DNS.
 
--   Mode texte désactivé
+> **En mode debug j’ai l’erreur "timeout" qui apparaît**
+>
+>Cette erreur arrive quand la clef ne répond pas dans les 10 secondes
+>qui suivent une demande. Les causes connues peuvent être :
+>
+>-   incompatibilité de la clef GSM,
+>
+>-   problème avec la version du firmware de la clef.
 
-Je ne vois pas le port USB de ma clef
+> **Lors du démarrage en mode debug j’ai : "socket already in use"**
+>
+>Cela veut dire que le démon est démarré mais que Jeedom n’arrive pas
+>à le stopper. Vous pouvez soit redémarrer tout le système, soit en
+>SSH faire "killall -9 refxcmd.py".
 
-:   Vérifiez que vous n’avez pas brltty d’installer
-    (`sudo apt-get remove brltty` pour le supprimer)
+> **Le démon refuse de démarrer**
+>
+>Essayez de le démarrer en mode debug pour voir l’erreur.
 
-<!-- -->
+> **J’ai plusieurs port USB pour ma clef GSM alors que je n’en ai qu’une**
+>
+>C’est normal, pour une raison inconnue les clef GSM créent 2 (et
+>même plus) ports USB au niveau système. Il suffit d’en choisir un,
+>peut importe lequel.
 
-Au bout de quelques heures/jours je ne recois plus de SMS et ne peux plus en envoyer, une relance du démon corrige
-
-:   Vérifiez votre cable USB (un mauvais cable USB entraine souvent ce
-    genre de soucis, il ne faut pas qu’il soit trop long non plus),
-    verifiez aussi votre alimentation, un hub USB est fortement
-    conseillé
-
-<!-- -->
-
-J’ai une erreur CME XX
-
-:   Vous pouvez trouver
-    [ici](:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors)
-    la description des differente erreurs CME
-
-<!-- -->
-
-Configuration de la clef Alcatel one touch X220L
-
-:   Lorsque l’on insère la clef, on a ceci :
-
-``` {.bash}
-root@jeedom:# lsusb
-Bus 002 Device 003: ID 1bbb:f000 T & A Mobile Phones
-```
-
-Attention si vous n’avez pas 1bbb:f000 il ne faut surtout pas faire la
-suite de cette documentation
-
-il faut ajouter les lignes suivantes à la fin du fichier
-/etc/usb\_modeswitch.conf :
-
-``` {.bash}
-########################################################
-# Alcatel X220L
-DefaultVendor= 0x1bbb
-DefaultProduct= 0xf000
-MessageContent="55534243123456788000000080000606f50402527000000000000000000000"
-########################################################
-```
-
-Puis lancer la commande suivante pour tester :
-
-``` {.bash}
-/usr/sbin/usb_modeswitch -c
-/etc/usb_modeswitch.conf
-```
-
-On obtient ceci :
-
-``` {.bash}
-root@jeedom:~# lsusb
-Bus 002 Device 003: ID 1bbb:0017 T & A Mobile Phones
-```
-
-et les liens sous /dev sont bien ajoutés :
-
-``` {.bash}
-root@jeedom:~# ls /dev/ttyUSB*
-/dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2 /dev/ttyUSB3 /dev/ttyUSB4
-```
-
-Maintenant il faut automatiser le lancement de la commande précédente
-via udev :
-
-``` {.bash}
-root@jeedom:# vi /etc/udev/rules.d99-usb_modeswitch.rules
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", ATTRS{idProduct}=="f000", RUN+="/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf"
-```
-
-Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port
-SMS" suivant : /dev/ttyUSB3. En gros il faut essayer chaque port pour
-trouver le bon…​
-
-Le démons SMS est bien démarré, mais vous ne recevez aucun SMS
-
-:   Une des causes probables est la mauvaise configuration réseau. Dans
-    "Général" &gt; "Configuration" &gt; "Administration" &gt;
-    "Configuration réseaux", vérifier le contenu du champ "Adresse URL
-    ou IP".
-
-Ce dernier ne doit pas être localhost ou 127.0.0.1 mais l’adresse IP de
-votre Jeedom ou son nom DNS.
-
-En cas de l’utilisation du plugin SMS sur un esclave Jeedom en mode
-déporté, vérifier aussi la configuration de ce dernier.
-
-En mode debug j’ai l’erreur "timeout" qui apparaît
-
-:   Cette erreur arrive quand la clef ne répond pas dans les 10 secondes
-    qui suivent une demande. Les causes connues peuvent être :
-
-    -   incompatibilité de la clef GSM,
-
-    -   problème avec la version du firmware de la clef.
-
-<!-- -->
-
-Lors du démarrage en mode debug j’ai : "socket already in use"
-
-:   Cela veut dire que le démon est démarré mais que Jeedom n’arrive pas
-    à le stopper. Vous pouvez soit redémarrer tout le système, soit en
-    SSH faire "killall -9 refxcmd.py".
-
-<!-- -->
-
-Le démon refuse de démarrer
-
-:   Essayez de le démarrer en mode debug pour voir l’erreur.
-
-<!-- -->
-
-J’ai plusieurs port USB pour ma clef GSM alors que je n’en ai qu’une
-
-:   C’est normal, pour une raison inconnue les clef GSM créent 2 (et
-    même plus) ports USB au niveau système. Il suffit d’en choisir un,
-    peut importe lequel.
-
-<!-- -->
-
-Jeedom n’envoie plus et ne reçoit plus de SMS
-
-:   Ceci arrive en général si la clef GSM n’arrive plus à se connecter
-    au réseau. Essayer de la déplacer et de voir si ça revient au bout
-    de quelques minutes.
-
-Changelog détaillé :
-<https://github.com/jeedom/plugin-sms/commits/stable>
+> **Jeedom n’envoie plus et ne reçoit plus de SMS**
+>
+>Ceci arrive en général si la clef GSM n’arrive plus à se connecter
+>au réseau. Essayer de la déplacer et de voir si ça revient au bout
+>de quelques minutes.
