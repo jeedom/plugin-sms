@@ -1,6 +1,6 @@
 # 26/04/2018
 
-- Mise à jour de la doc
+- Aktualisierung des Dokuments
 
 # 25/04/2018
 
