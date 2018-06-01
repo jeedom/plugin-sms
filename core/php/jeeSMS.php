@@ -52,11 +52,17 @@ if (isset($result['number']) && $result['number'] == 'none' && isset($result['me
 		config::save('deamonAutoMode', 0, 'sms');
 	}
 }
-
+$eqLogics = eqLogic::byType('sms');
+if (count($eqLogics) < 1) {
+	return;
+}
 if (isset($result['devices'])) {
 	foreach ($result['devices'] as $key => $datas) {
 		$message = $datas['message'];
 		$number = $datas['number'];
+		if (strlen($number) < 10) {
+			continue;
+		}
 		if ($message == '' || $number == '') {
 			continue;
 		}
@@ -67,12 +73,6 @@ if (isset($result['devices'])) {
 			}
 			continue;
 		}
-
-		$eqLogics = eqLogic::byType('sms');
-		if (count($eqLogics) < 1) {
-			continue;
-		}
-		$eqLogics = eqLogic::byType('sms');
 		if (strlen($number) == 11) {
 			$number = '+' . $number;
 		}
