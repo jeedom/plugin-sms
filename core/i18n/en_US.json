@@ -24,9 +24,9 @@
         "Démon local": "Local daemon",
         "Vitesse de communication (bauds)": "Communication speed (bps)",
         "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Réseaux": "Réseaux",
+        "Par defaut 140": "Default 140",
+        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Gateway SMS / SMS Gateway (modify in case of error: CMS 330 SMSC number not set)",
+        "Réseaux": "Networks",
         "Port socket interne": "Internal socket port",
         "Cycle (s)": "Cycle(s)",
         "Démon": "Daemon"
@@ -56,7 +56,7 @@
         "Configuration avancée": "Advanced configuration"
     },
     "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
+        "Plugin permettant de gérer les SMS": "Plugin to manage SMS",
         "null": ""
     },
     "plugins/sms/desktop/js/sms.js": {
@@ -65,11 +65,11 @@
         "Tester": "Test"
     },
     "plugins/sms/core/php/jeeSMS.php": {
-        "Message venant de ": "Message venant de",
+        "Message venant de ": "Message from",
         "\nRéponse : ": "Réponse :"
     },
     "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
+        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin to add GSM dongle support (for SMS only)"
     },
     "plugins/sms/core/class/sms.class.php": {
         "Signal": "Signal",

@@ -218,12 +218,12 @@ FAQ
 >
 >Sous jeedom dans le plugin SMS, il faut (dans mon cas) utiliser le "port
 >SMS" suivant : /dev/ttyUSB3. En gros il faut essayer chaque port pour
->trouver le bon…​
+>trouver le bon…
 
 > **Le démons SMS est bien démarré, mais vous ne recevez aucun SMS**
 >
 >Une des causes probables est la mauvaise configuration réseau. Dans
->"Général" &gt; "Configuration" &gt; "Administration" &gt;
+>"Général" -> "Configuration" -> "Administration" ->
 >"Configuration réseaux", vérifier le contenu du champ "Adresse URL ou IP".
 >
 >Ce dernier ne doit pas être localhost ou 127.0.0.1 mais l’adresse IP de
@@ -259,3 +259,7 @@ FAQ
 >Ceci arrive en général si la clef GSM n’arrive plus à se connecter
 >au réseau. Essayer de la déplacer et de voir si ça revient au bout
 >de quelques minutes.
+
+>**J'ai des soucis de reception qui marche quelques heures puis plus rien**
+>
+>Mettez la carte SIM sur un téléphone portable et videz tous les sms (envoyé et recu) de la carte.
