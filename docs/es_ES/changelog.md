@@ -1,3 +1,7 @@
+# 11/08/2019
+
+- Support de PHP 7.3
+
 # 18/10/2018
 
 - Amélioration de la verification du numéro d'expediteur
@@ -5,7 +9,7 @@
 
 # 26/04/2018
 
-- Actualización de la documentación
+- Mise à jour de la doc
 
 # 25/04/2018
 
