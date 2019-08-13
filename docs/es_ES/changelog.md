@@ -9,7 +9,7 @@
 
 # 26/04/2018
 
-- Mise à jour de la doc
+- Actualización de la documentación
 
 # 25/04/2018
 
