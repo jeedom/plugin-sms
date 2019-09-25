@@ -22,7 +22,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<span>{{Configuration}}</span>
 			</div>
 		</div>
-		<legend><i class="fa fa-table"></i> {{Mes SMS}}</legend>
+		<legend><i class="fas fa-sms"></i> {{Mes SMS}}</legend>
 		<input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
 		<div class="eqLogicThumbnailContainer">
 			<?php
