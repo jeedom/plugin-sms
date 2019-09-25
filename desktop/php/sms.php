@@ -9,7 +9,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 <div class="row row-overflow">
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay">
-		<legend><i class="fa fa-cog"></i> {{Gestion}}</legend>
+		<legend><i class="fas fa-cog"></i> {{Gestion}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction logoPrimary" data-action="add">
 				<i class="fas fa-plus-circle"></i>
