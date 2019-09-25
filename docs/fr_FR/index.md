@@ -122,10 +122,10 @@ Liste des clefs compatibles
 ---------------------------
 
 -   HUAWEI E220
-
 -   Alcatel one touch X220L
-
 -   HSDPA 7.2MBPS 3G Wireless
+-   HUAWEI E3372
+
 
 FAQ 
 ===
