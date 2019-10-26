@@ -23,7 +23,7 @@
         "En local :": "Locally:",
         "Démon local": "Local daemon",
         "Vitesse de communication (bauds)": "Communication speed (bps)",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
+        "Découper les messages par paquet de caractères": "Split messages by character packet",
         "Par defaut 140": "Default 140",
         "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Gateway SMS / SMS Gateway (modify in case of error: CMS 330 SMSC number not set)",
         "Réseaux": "Networks",
