@@ -1,80 +1,65 @@
 {
-    "plugins\/sms\/plugin_info\/configuration.php": {
-        "Le démon SMS est en marche": "Le démon SMS est en marche",
+    "plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Démon": "Démon",
         "Port SMS": "Port SMS",
         "Aucun": "Aucun",
         "Auto": "Auto",
+        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Code pin (laisser vide s'il n'y en a pas)": "Code pin (laisser vide s'il n'y en a pas)",
         "Texte mode": "Texte mode",
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux",
-        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur",
-        "Force du signal": "Force du signal",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)",
-        "Gestion du démon": "Gestion du démon",
-        "(Re)démarrer": "(Re)démarrer",
-        "Arrêter": "Arrêter",
-        "Lancer en mode debug": "Lancer en mode debug",
-        "Le démon a été correctement (re)démaré": "Le démon a été correctement (re)démaré",
-        "Le démon a été correctement arreté": "Le démon a été correctement arreté",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé",
-        "SMS en mode debug": "SMS en mode debug",
-        "Statut du démon : ": "Statut du démon : ",
-        "En local :": "En local :",
-        "Démon local": "Démon local",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
         "Par defaut 140": "Par defaut 140",
         "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur",
+        "Force du signal": "Force du signal",
         "Réseaux": "Réseaux",
         "Port socket interne": "Port socket interne",
-        "Cycle (s)": "Cycle (s)",
-        "Démon": "Démon"
+        "Cycle (s)": "Cycle (s)"
     },
-    "plugins\/sms\/desktop\/php\/sms.php": {
-        "Ajouter un équipement": "Ajouter un équipement",
-        "Rechercher": "Rechercher",
+    "desktop\/js\/sms.js": {
+        "Afficher": "Afficher",
+        "Historiser": "Historiser",
+        "Tester": "Tester"
+    },
+    "desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Gestion": "Gestion",
+        "Ajouter": "Ajouter",
+        "Configuration": "Configuration",
         "Mes SMS": "Mes SMS",
-        "Générale": "Générale",
+        "Rechercher": "Rechercher",
+        "Configuration avancée": "Configuration avancée",
+        "Sauvegarder": "Sauvegarder",
+        "Supprimer": "Supprimer",
+        "Equipement": "Equipement",
+        "Commandes": "Commandes",
         "Nom de l'équipement SMS": "Nom de l'équipement SMS",
         "Nom de l'équipement GSM": "Nom de l'équipement GSM",
         "Activer": "Activer",
         "Visible": "Visible",
         "Objet parent": "Objet parent",
         "Aucun": "Aucun",
-        "Commandes": "Commandes",
+        "Désactiver les intéractions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "Nom",
         "Utilisateur": "Utilisateur",
         "Numéro": "Numéro",
-        "Paramètres": "Paramètres",
-        "Supprimer": "Supprimer",
-        "Sauvegarder": "Sauvegarder",
-        "Gestion": "Gestion",
-        "Configuration": "Configuration",
-        "Equipement": "Equipement",
-        "Configuration avancée": "Configuration avancée"
+        "Paramètres": "Paramètres"
     },
-    "plugins\/sms\/plugin_info\/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "": ""
-    },
-    "plugins\/sms\/desktop\/js\/sms.js": {
-        "Historiser": "Historiser",
-        "Afficher": "Afficher",
-        "Tester": "Tester"
-    },
-    "plugins\/sms\/core\/php\/jeeSMS.php": {
+    "core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
         "Message venant de ": "Message venant de ",
-        "\nRéponse : ": "\nRéponse : "
+        "\\nRéponse : ": "\\nRéponse : ",
+        "Interaction désactivée.": "Interaction désactivée.",
+        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé : "
     },
-    "plugins\/sms\/plugin_info\/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins\/sms\/core\/class\/sms.class.php": {
+    "core\/class\/sms.class.php": {
+        "Le port n\\'est pas configuré": "Le port n\\'est pas configuré",
+        "Veuillez vérifier la configuration": "Veuillez vérifier la configuration",
         "Signal": "Signal",
         "Message": "Message",
-        "Expediteur": "Expediteur",
-        "Le port n'est pas configuré": "Le port n'est pas configuré"
+        "Expediteur": "Expediteur"
     }
 }

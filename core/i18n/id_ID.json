@@ -1,77 +1,61 @@
 {
-    "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "SMS daemon berjalan",
+    "plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Démon": "setan",
         "Port SMS": "Port SMS",
         "Aucun": "Tak ada",
         "Auto": "Auto",
+        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Code pin (laisser vide s'il n'y en a pas)": "nomor pin (kosongkan jika tidak ada)",
         "Texte mode": "mode teks",
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Menggunakannya jika Anda tidak menerima pesan (maksimum kompatibilitas dengan modem) tapi menghilangkan beberapa dukungan SMS, dan karakter khusus",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "Gateway SMS / SMS Gateway (MENGUBAH kesalahan: CMS 330 (SMSC nomor tidak diatur)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Gunakan kode * # * # 4636 # * # * pada ponsel untuk menemukan operator Anda SMSC",
-        "Force du signal": "kekuatan sinyal",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Port socket bagian dalam (perubahan berbahaya, harus sama terutama budak)",
-        "Gestion du démon": "Manajemen iblis",
-        "(Re)démarrer": "(Re) start",
-        "Arrêter": "Berhenti",
-        "Lancer en mode debug": "Mulai dalam mode debug",
-        "Le démon a été correctement (re)démaré": "setan itu benar (re) Dimulai",
-        "Le démon a été correctement arreté": "setan benar berhenti",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Apakah Anda yakin Anda ingin memulai daemon dalam mode debug? Don \\ 't lupa untuk me-restart dalam mode normal setelah selesai",
-        "SMS en mode debug": "SMS dalam mode debug",
-        "Statut du démon : ": "Status iblis:",
-        "En local :": "lokal:",
-        "Démon local": "Layanan lokal",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
         "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Gunakan kode * # * # 4636 # * # * pada ponsel untuk menemukan operator Anda SMSC",
+        "Force du signal": "kekuatan sinyal",
         "Réseaux": "Réseaux",
         "Port socket interne": "socket batin pelabuhan",
-        "Cycle (s)": "Siklus (s)",
-        "Démon": "setan"
+        "Cycle (s)": "Siklus (s)"
     },
-    "plugins/sms/desktop/php/sms.php": {
-        "Ajouter un équipement": "Tambahan peralatan",
-        "Rechercher": "Mencari",
+    "desktop\/js\/sms.js": {
+        "Afficher": "Memenitikan",
+        "Historiser": "Historicize",
+        "Tester": "Coba"
+    },
+    "desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Gestion": "Manajemen",
+        "Ajouter": "Ajouter",
+        "Configuration": "konfigurasi",
         "Mes SMS": "SMS saya",
-        "Générale": "Umum",
+        "Rechercher": "Mencari",
+        "Configuration avancée": "konfigurasi lanjutan",
+        "Sauvegarder": "Menyimpan",
+        "Supprimer": "Menghapus",
+        "Equipement": "Peralatan",
+        "Commandes": "Perintah",
         "Nom de l'équipement SMS": "Nama peralatan SMS",
         "Nom de l'équipement GSM": "Nama peralatan GSM",
         "Activer": "Mengaktifkan",
         "Visible": "Terlihat",
         "Objet parent": "Objek induk",
         "Aucun": "Tak ada",
-        "Commandes": "Perintah",
+        "Désactiver les intéractions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Menambahkan nomor",
         "Nom": "Nama",
         "Utilisateur": "Pengguna",
         "Numéro": "jumlah",
-        "Paramètres": "Parameter²",
-        "Supprimer": "Menghapus",
-        "Sauvegarder": "Menyimpan",
-        "Gestion": "Manajemen",
-        "Configuration": "konfigurasi",
-        "Equipement": "Peralatan",
-        "Configuration avancée": "konfigurasi lanjutan"
+        "Paramètres": "Parameter²"
     },
-    "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "null": ""
-    },
-    "plugins/sms/desktop/js/sms.js": {
-        "Historiser": "Historicize",
-        "Afficher": "Memenitikan",
-        "Tester": "Coba"
-    },
-    "plugins/sms/core/php/jeeSMS.php": {
+    "core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
         "Message venant de ": "Message venant de",
-        "\nRéponse : ": "Jawaban:"
+        "\\nRéponse : ": "\\nRéponse : ",
+        "Interaction désactivée.": "Interaction désactivée.",
+        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé : "
     },
-    "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins/sms/core/class/sms.class.php": {
+    "core\/class\/sms.class.php": {
         "Signal": "sinyal",
         "Message": "Pesan",
         "Expediteur": "Expediteur",

@@ -1,77 +1,61 @@
 {
-    "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "O daemon SMS está em execução",
+    "plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Démon": "demônio",
         "Port SMS": "porto SMS",
         "Aucun": "Nemhum",
         "Auto": "carro",
+        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Code pin (laisser vide s'il n'y en a pas)": "número de pinos (deixe em branco se não houver nenhum)",
         "Texte mode": "modo de texto",
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Use-o se você não receber mensagens (máximo de compatibilidade com modem) mas remove suporte a múltiplos SMS, e caracteres especiais",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "Gateway SMS / SMS Gateway (MODIFICAR a erros: CMS 330 (SMSC número não definido)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Use o código * # * # 4636 # * # * em um celular para encontrar o seu operador de SMSC",
-        "Force du signal": "força do sinal",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Tomada interior da porta (mudança perigosa, devem ser os mesmos, especialmente os escravos)",
-        "Gestion du démon": "Gestão do diabo",
-        "(Re)démarrer": "(Re) iniciar",
-        "Arrêter": "parar",
-        "Lancer en mode debug": "Iniciar no modo de depuração",
-        "Le démon a été correctement (re)démaré": "O demônio foi devidamente (re) Iniciado",
-        "Le démon a été correctement arreté": "O demônio foi desligado corretamente",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Tem certeza de que deseja iniciar o daemon no modo de depuração? Don \\ 't se esqueça de reiniciar no modo normal, uma vez concluído",
-        "SMS en mode debug": "SMS no modo de depuração",
-        "Statut du démon : ": "Status do diabo:",
-        "En local :": "local:",
-        "Démon local": "daemon locais",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
         "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
         "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Use o código * # * # 4636 # * # * em um celular para encontrar o seu operador de SMSC",
+        "Force du signal": "força do sinal",
         "Réseaux": "Réseaux",
         "Port socket interne": "Tomada interior da porta",
-        "Cycle (s)": "Ciclo (s)",
-        "Démon": "demônio"
+        "Cycle (s)": "Ciclo (s)"
     },
-    "plugins/sms/desktop/php/sms.php": {
-        "Ajouter un équipement": "a adição de equipamentos",
-        "Rechercher": "Pesquisar",
+    "desktop\/js\/sms.js": {
+        "Afficher": "display",
+        "Historiser": "historicizar",
+        "Tester": "teste"
+    },
+    "desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Accès non autorisé",
+        "Gestion": "gestão",
+        "Ajouter": "Ajouter",
+        "Configuration": "configuração",
         "Mes SMS": "meu SMS",
-        "Générale": "geral",
+        "Rechercher": "Pesquisar",
+        "Configuration avancée": "configuração avançada",
+        "Sauvegarder": "Salvar",
+        "Supprimer": "remover",
+        "Equipement": "equipamento",
+        "Commandes": "comandos",
         "Nom de l'équipement SMS": "Equipamento SMS nome",
         "Nom de l'équipement GSM": "Nome de equipamentos GSM",
         "Activer": "Ativar",
         "Visible": "Visivél",
         "Objet parent": "objeto pai",
         "Aucun": "Nemhum",
-        "Commandes": "comandos",
+        "Désactiver les intéractions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Adicionar um número de",
         "Nom": "Nome",
         "Utilisateur": "usuário",
         "Numéro": "número",
-        "Paramètres": "configurações",
-        "Supprimer": "remover",
-        "Sauvegarder": "Salvar",
-        "Gestion": "gestão",
-        "Configuration": "configuração",
-        "Equipement": "equipamento",
-        "Configuration avancée": "configuração avançada"
+        "Paramètres": "configurações"
     },
-    "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "null": ""
-    },
-    "plugins/sms/desktop/js/sms.js": {
-        "Historiser": "historicizar",
-        "Afficher": "display",
-        "Tester": "teste"
-    },
-    "plugins/sms/core/php/jeeSMS.php": {
+    "core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
         "Message venant de ": "Message venant de",
-        "\nRéponse : ": "Réponse :"
+        "\\nRéponse : ": "\\nRéponse : ",
+        "Interaction désactivée.": "Interaction désactivée.",
+        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé : "
     },
-    "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins/sms/core/class/sms.class.php": {
+    "core\/class\/sms.class.php": {
         "Signal": "sinal",
         "Message": "mensagem",
         "Expediteur": "Expediteur",
