@@ -1,20 +1,20 @@
-# 25/09/2019
+# 09/25/2019
 
-- Passage à l'interface jeedom v4
+- 
 
-# 11/08/2019
+# 
 
-- Support de PHP 7.3
+- Soporte para php 7.3
 
-# 18/10/2018
+# 
 
-- Amélioration de la verification du numéro d'expediteur
-- Correction d'un bug si le niveau de log est sur aucun
+- 
+- 
 
-# 26/04/2018
+# 
 
-- Actualización de la documentación
+- Actualizando el documento
 
 # 25/04/2018
 
-- Correction du lien de la doc
+- 

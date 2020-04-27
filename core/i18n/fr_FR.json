@@ -1,5 +1,5 @@
 {
-    "plugin_info\/configuration.php": {
+    "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Accès non autorisé",
         "Démon": "Démon",
         "Port SMS": "Port SMS",
@@ -18,12 +18,7 @@
         "Port socket interne": "Port socket interne",
         "Cycle (s)": "Cycle (s)"
     },
-    "desktop\/js\/sms.js": {
-        "Afficher": "Afficher",
-        "Historiser": "Historiser",
-        "Tester": "Tester"
-    },
-    "desktop\/php\/sms.php": {
+    "plugins\/sms\/desktop\/php\/sms.php": {
         "401 - Accès non autorisé": "401 - Accès non autorisé",
         "Gestion": "Gestion",
         "Ajouter": "Ajouter",
@@ -48,14 +43,19 @@
         "Numéro": "Numéro",
         "Paramètres": "Paramètres"
     },
-    "core\/php\/jeeSMS.php": {
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Afficher": "Afficher",
+        "Historiser": "Historiser",
+        "Tester": "Tester"
+    },
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
         "Message venant de ": "Message venant de ",
         "\\nRéponse : ": "\\nRéponse : ",
         "Interaction désactivée.": "Interaction désactivée.",
         "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé : "
     },
-    "core\/class\/sms.class.php": {
+    "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "Le port n\\'est pas configuré",
         "Veuillez vérifier la configuration": "Veuillez vérifier la configuration",
         "Signal": "Signal",

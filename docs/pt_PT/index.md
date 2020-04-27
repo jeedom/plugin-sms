@@ -1,15 +1,15 @@
-Konfiguration 
+Configuração 
 =============
 
 
 
 
 
-> **Wichtig**
+> ****
 >
 > .
 
-Plugin Konfiguration 
+Configuração do plugin 
 -----------------------
 
 
@@ -21,69 +21,69 @@ Plugin Konfiguration
 -   ** : 
         .
 
-> **Spitze**
+> ****
 >
 > 
 > ". 
 > .
 
-> **Wichtig**
+> ****
 >
 > .
 > 
 > . 
 
--   **PIN-Code** : . 
+-   **** : . 
 -   **** : .
 -   **** : .
 -   ** : ** : . 
 -   **** : .
--   **Netzwerk** : . 
+-   **** : . 
 -   **** : .
--   **Zyklus (e)** : . 
+-   **Ciclo (s)** : . 
 
-Gerätekonfiguration 
+ 
 -----------------------------
 
 
 
 
-Hier finden Sie die gesamte Konfiguration Ihrer Geräte :
+ :
 
 -   **** : ,
 
--   **Aktivieren** : macht Ihre Ausrüstung aktiv,
+-   **Ativar** : ,
 
--   **Sichtbar** : macht Ihre Ausrüstung auf dem Armaturenbrett sichtbar,
+-   **Visivél** : ,
 
--   **Übergeordnetes Objekt** : 
+-   **Objeto pai** : 
     .
 
-Nachfolgend finden Sie die Liste der Bestellungen :
+ :
 
--   **Name** : Der im Dashboard angezeigte Name,
+-   **Nome** : ,
 
--   **Benutzer** : 
+-   **Usuário** : 
     ,
 
--   **Anzahl** : 
+-   **** : 
     
     : .
 
-    > **Wichtig**
+    > ****
     >
     > 
     > .
 
--   **Anzeige** : ermöglicht die Anzeige der Daten im Dashboard,
+-   **Display** : ,
 
--   **Erweiterte Konfiguration**  : erlaubt
+-   **Configuração avançada**  : 
     
-    Geschichte, Widget…),
+    ,
 
--   **Test** : Wird zum Testen des Befehls verwendet,
+-   **Teste** : ,
 
--   **Löschen** (Zeichen -) : ermöglicht das Löschen des Befehls.
+-   **Remover**  : .
 
  
 ---------------------
@@ -115,8 +115,8 @@ Nachfolgend finden Sie die Liste der Bestellungen :
 
 .
 
- : Frage : “
- ?” Antwort : “16.”
+ :  : “
+ ?” Réponse  : “16.”
 
  
 ---------------------------
@@ -127,7 +127,7 @@ Nachfolgend finden Sie die Liste der Bestellungen :
 -   
 
 
-Faq 
+ 
 ===
 
 > **.**
@@ -144,7 +144,7 @@ Faq
 >
 >-   
 >
->-   Geschwindigkeit : 9600
+>-    : 9600
 >
 >-   
 
@@ -157,11 +157,11 @@ Faq
 >
 >,
 >
->Ratsam
+>
 
 > ** XX**
 >
->:Http:.
+>::.
 
 > ****
 >

@@ -1,64 +1,65 @@
 {
-    "plugin_info\/configuration.php": {
-        "401 - Accès non autorisé": "401 - Accès non autorisé",
-        "Démon": "demônio",
-        "Port SMS": "porto SMS",
+    "plugins\/sms\/plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Acesso não autorizado",
+        "Démon": "Demônio",
+        "Port SMS": "",
         "Aucun": "Nemhum",
-        "Auto": "carro",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
-        "Code pin (laisser vide s'il n'y en a pas)": "número de pinos (deixe em branco se não houver nenhum)",
-        "Texte mode": "modo de texto",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Use-o se você não receber mensagens (máximo de compatibilidade com modem) mas remove suporte a múltiplos SMS, e caracteres especiais",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Use o código * # * # 4636 # * # * em um celular para encontrar o seu operador de SMSC",
-        "Force du signal": "força do sinal",
-        "Réseaux": "Réseaux",
+        "Auto": "Carro",
+        "Vitesse de communication (bauds)": "",
+        "Code pin (laisser vide s'il n'y en a pas)": "",
+        "Texte mode": "",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
+        "Découper les messages par paquet de caractères": "",
+        "Par defaut 140": "",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
+        "Force du signal": "",
+        "Réseaux": "Redes",
         "Port socket interne": "Tomada interior da porta",
         "Cycle (s)": "Ciclo (s)"
     },
-    "desktop\/js\/sms.js": {
-        "Afficher": "display",
-        "Historiser": "historicizar",
-        "Tester": "teste"
-    },
-    "desktop\/php\/sms.php": {
-        "401 - Accès non autorisé": "401 - Accès non autorisé",
-        "Gestion": "gestão",
-        "Ajouter": "Ajouter",
-        "Configuration": "configuração",
-        "Mes SMS": "meu SMS",
-        "Rechercher": "Pesquisar",
-        "Configuration avancée": "configuração avançada",
+    "plugins\/sms\/desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Acesso não autorizado",
+        "Gestion": "Gestão",
+        "Ajouter": "Adicionar",
+        "Configuration": "Configuração",
+        "Mes SMS": "",
+        "Rechercher": "Pesquisa",
+        "Configuration avancée": "Configuração avançada",
         "Sauvegarder": "Salvar",
-        "Supprimer": "remover",
-        "Equipement": "equipamento",
-        "Commandes": "comandos",
-        "Nom de l'équipement SMS": "Equipamento SMS nome",
-        "Nom de l'équipement GSM": "Nome de equipamentos GSM",
+        "Supprimer": "Remover",
+        "Equipement": "Equipamento",
+        "Commandes": "Comandos",
+        "Nom de l'équipement SMS": "",
+        "Nom de l'équipement GSM": "",
         "Activer": "Ativar",
         "Visible": "Visivél",
-        "Objet parent": "objeto pai",
+        "Objet parent": "Objeto pai",
         "Aucun": "Nemhum",
-        "Désactiver les intéractions": "Désactiver les intéractions",
-        "Ajouter d'un numéro": "Adicionar um número de",
+        "Désactiver les intéractions": "",
+        "Ajouter d'un numéro": "",
         "Nom": "Nome",
-        "Utilisateur": "usuário",
-        "Numéro": "número",
-        "Paramètres": "configurações"
+        "Utilisateur": "Usuário",
+        "Numéro": "",
+        "Paramètres": "Configurações"
     },
-    "core\/php\/jeeSMS.php": {
-        "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
-        "Message venant de ": "Message venant de",
-        "\\nRéponse : ": "\\nRéponse : ",
-        "Interaction désactivée.": "Interaction désactivée.",
-        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé : "
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Afficher": "Display",
+        "Historiser": "Historicizar",
+        "Tester": "Teste"
     },
-    "core\/class\/sms.class.php": {
-        "Signal": "sinal",
-        "Message": "mensagem",
-        "Expediteur": "Expediteur",
-        "Le port n'est pas configuré": "A porta não é definida"
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "",
+        "Message venant de ": "",
+        "\\nRéponse : ": "",
+        "Interaction désactivée.": "",
+        "Message venant d\\un numéro non autorisé : ": ""
+    },
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Le port n\\'est pas configuré": "",
+        "Veuillez vérifier la configuration": "",
+        "Signal": "",
+        "Message": "Mensagem",
+        "Expediteur": ""
     }
 }

@@ -1,65 +1,65 @@
 {
-    "plugin_info\/configuration.php": {
+    "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Unauthorized access",
         "Démon": "Daemon",
-        "Port SMS": "TEXT port",
+        "Port SMS": "",
         "Aucun": "None",
-        "Auto": "car",
-        "Vitesse de communication (bauds)": "Communication speed (bps)",
-        "Code pin (laisser vide s'il n'y en a pas)": "PIN code (leave empty if none)",
-        "Texte mode": "Text mode",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Use this if you are not receiving messages. This ensures compatibility with most modems but removes multiple SMS support and special characters.",
-        "Découper les messages par paquet de caractères": "Split messages by character packet",
-        "Par defaut 140": "Default 140",
-        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Gateway SMS \/ SMS Gateway (modify in case of error: CMS 330 SMSC number not set)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser the code #*#*4636#*#* on a mobile device to obtain the SMSC of your operator",
-        "Force du signal": "Signal strength",
+        "Auto": "Auto",
+        "Vitesse de communication (bauds)": "",
+        "Code pin (laisser vide s'il n'y en a pas)": "",
+        "Texte mode": "",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
+        "Découper les messages par paquet de caractères": "",
+        "Par defaut 140": "",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
+        "Force du signal": "",
         "Réseaux": "Networks",
         "Port socket interne": "Internal socket port",
-        "Cycle (s)": "Cycle(s)"
+        "Cycle (s)": "Cycle (s)"
     },
-    "desktop\/js\/sms.js": {
-        "Afficher": "Display",
-        "Historiser": "Historize",
-        "Tester": "Test"
-    },
-    "desktop\/php\/sms.php": {
+    "plugins\/sms\/desktop\/php\/sms.php": {
         "401 - Accès non autorisé": "401 - Unauthorized access",
         "Gestion": "Management",
         "Ajouter": "Add",
-        "Configuration": "Configuration",
-        "Mes SMS": "My TEXT messages",
+        "Configuration": "Setup",
+        "Mes SMS": "",
         "Rechercher": "Search",
         "Configuration avancée": "Advanced configuration",
         "Sauvegarder": "Save",
         "Supprimer": "Delete",
-        "Equipement": "Device",
+        "Equipement": "Equipment",
         "Commandes": "Commands",
-        "Nom de l'équipement SMS": "Name of the TEXT device",
-        "Nom de l'équipement GSM": "Name of the GSM device",
-        "Activer": "Enable",
+        "Nom de l'équipement SMS": "",
+        "Nom de l'équipement GSM": "",
+        "Activer": "Activate",
         "Visible": "Visible",
         "Objet parent": "Parent object",
         "Aucun": "None",
-        "Désactiver les intéractions": "Disable interactions",
-        "Ajouter d'un numéro": "Add a number",
+        "Désactiver les intéractions": "",
+        "Ajouter d'un numéro": "",
         "Nom": "Name",
         "Utilisateur": "User",
         "Numéro": "Number",
         "Paramètres": "Settings"
     },
-    "core\/php\/jeeSMS.php": {
-        "Vous n\\'etes pas autorisé à effectuer cette action": "You are not authorized to perform this action",
-        "Message venant de ": "Message from",
-        "\\nRéponse : ": "\\ nAnswer:",
-        "Interaction désactivée.": "Interaction disabled.",
-        "Message venant d\\un numéro non autorisé : ": "Message from an unauthorized number:"
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Afficher": "Show",
+        "Historiser": "Historize",
+        "Tester": "Test"
     },
-    "core\/class\/sms.class.php": {
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "You are not authorized to perform this action",
+        "Message venant de ": "",
+        "\\nRéponse : ": "",
+        "Interaction désactivée.": "",
+        "Message venant d\\un numéro non autorisé : ": ""
+    },
+    "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "Port is not configured",
         "Veuillez vérifier la configuration": "Please check the configuration",
-        "Signal": "Signal",
+        "Signal": "",
         "Message": "Message",
-        "Expediteur": "Sender"
+        "Expediteur": ""
     }
 }
