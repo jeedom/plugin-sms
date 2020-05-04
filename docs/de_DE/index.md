@@ -77,7 +77,7 @@ Nachfolgend finden Sie die Liste der Bestellungen :
 
 -   **Afficher** : ermöglicht die Anzeige der Daten im Dashboard,
 
--   **Erweiterte Konfiguration** (kleine gekerbte Räder) : erlaubt
+-   **Erweiterte Konfiguration** (kleine gekerbte Räder) : permet
     Zeigen Sie die erweiterte Konfiguration des Befehls (Methode) an
     Geschichte, Widget…),
 

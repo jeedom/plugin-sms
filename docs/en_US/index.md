@@ -77,7 +77,7 @@ Below you find the list of orders :
 
 -   **Afficher** : allows to display the data on the dashboard,
 
--   **Advanced configuration** (small notched wheels) : allows
+-   **Advanced configuration** (small notched wheels) : permet
     display the advanced configuration of the command (method
     history, widget…),
 

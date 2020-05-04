@@ -77,7 +77,7 @@ A continuación encontrará la lista de pedidos. :
 
 -   **Afficher** : permite mostrar los datos en el tablero,
 
--   **Configuración avanzada** (ruedas con muescas pequeñas) : permite
+-   **Configuración avanzada** (ruedas con muescas pequeñas) : permet
     muestra la configuración avanzada del comando (método
     historia, widget ...),
 

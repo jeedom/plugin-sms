@@ -77,7 +77,7 @@ Abaixo você encontra a lista de pedidos :
 
 -   **Afficher** : permite exibir os dados no painel,
 
--   **Configuração avançada** (pequenas rodas dentadas) : permite
+-   **Configuração avançada** (pequenas rodas dentadas) : permet
     exibir a configuração avançada do comando (método
     história, widget ...),
 
