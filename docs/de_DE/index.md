@@ -5,7 +5,7 @@ Mit dem SMS-Plugin können Sie über Jeedom interagieren
 Mit SMS kann Jeedom Ihnen im Falle einer Warnung auch eine SMS senden
 (Alarm Plugin, Szenario…)
 
-> **Important**
+> **Wichtig**
 >
 > Um mit Jeedom zu interagieren, müssen Sie Interaktionen konfiguriert haben.
 
@@ -21,13 +21,13 @@ Detail (einige Parameter sind möglicherweise nur im Expertenmodus sichtbar) :
 -   *SMS-Port* : der USB-Anschluss, an dem sich Ihr GSM-Schlüssel befindet
         ist verbunden.
 
-> **Tip**
+> **Spitze**
 >
 > Wenn Sie nicht wissen, welcher USB-Anschluss verwendet wird, können Sie dies einfach tun
 > Geben Sie "Auto" an". Achtung, der Auto-Modus funktioniert nur mit den Tasten
 > Huawai E220.
 
-> **Important**
+> **Wichtig**
 >
 > Bitte beachten Sie, dass einige 3G-Schlüssel standardmäßig im Modemmodus und nicht in GSM verwendet werden.
 > Mit der Software Ihres Schlüsselherstellers müssen Sie die ändern
@@ -50,40 +50,40 @@ Plugin dann Kommunikation
 
 Hier finden Sie die gesamte Konfiguration Ihrer Geräte :
 
--   **Name des SMS-Geräts** : Name Ihres SMS-Geräts,
+-   **Name de l'équipement SMS** : Name Ihres SMS-Geräts,
 
--   **Activer** : macht Ihre Ausrüstung aktiv,
+-   **Aktivieren** : macht Ihre Ausrüstung aktiv,
 
--   **Visible** : macht Ihre Ausrüstung auf dem Armaturenbrett sichtbar,
+-   **Sichtbar** : macht Ihre Ausrüstung auf dem Armaturenbrett sichtbar,
 
 -   **Übergeordnetes Objekt** : gibt das übergeordnete Objekt an, zu dem
     gehört Ausrüstung.
 
 Nachfolgend finden Sie die Liste der Bestellungen :
 
--   **Nom** : Der im Dashboard angezeigte Name,
+-   **Name** : Der im Dashboard angezeigte Name,
 
--   **Utilisateur** : entsprechender Benutzer in Jeedom (erlaubt
+-   **Benutzer** : entsprechender Benutzer in Jeedom (erlaubt
     bestimmte Interaktionen auf bestimmte Benutzer beschränken),
 
 -   **Anzahl** : Telefonnummer, an die Nachrichten gesendet werden sollen. Sie
     kann mehrere Zahlen setzen, indem man sie mit trennt; (z
     : 0612345678; 0698765432).
 
-    > **Important**
+    > **Wichtig**
     >
     > Nur in Geräten angegebene Telefonnummern können
     > Verwenden Sie Interaktionen, da nur diese zulässig sind.
 
--   **Afficher** : ermöglicht die Anzeige der Daten im Dashboard,
+-   **Anzeige** : ermöglicht die Anzeige der Daten im Dashboard,
 
--   **Erweiterte Konfiguration** (kleine gekerbte Räder) : permet
+-   **Konfiguration avancée** (kleine gekerbte Räder) : permet
     Zeigen Sie die erweiterte Konfiguration des Befehls (Methode) an
     Geschichte, Widget…),
 
--   **Tester** : Wird zum Testen des Befehls verwendet,
+-   **Test** : Wird zum Testen des Befehls verwendet,
 
--   **Supprimer** (Zeichen -) : ermöglicht das Löschen des Befehls.
+-   **Löschen** (Zeichen -) : ermöglicht das Löschen des Befehls.
 
 Mit dem Plugin 
 ---------------------
@@ -163,7 +163,7 @@ Faq
 >
 >Sie können finden [hier](:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors) Beschreibung der verschiedenen CME-Fehler
 
-> **Konfiguration der Alcatel One-Touch-X220L-Taste**
+> **Konfiguration de la clef Alcatel One Touch X220L**
 >
 >Wenn wir den Schlüssel einstecken, haben wir diesen :
 >
@@ -218,7 +218,7 @@ Faq
 >
 >Unter jeedom im SMS-Plugin müssen Sie (in meinem Fall) den "Port" verwenden
 >SMS "weiter : / dev / ttyUSB3. Grundsätzlich muss man jeden Port ausprobieren
->finde den richtigen ...
+>finde den richtigen
 
 > **Der SMS-Daemon wird gestartet, Sie erhalten jedoch keine SMS**
 >

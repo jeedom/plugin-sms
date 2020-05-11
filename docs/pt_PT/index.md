@@ -5,7 +5,7 @@ O plug-in SMS permite que você interaja com o Jeedom através de
 SMS, também permite que a Jeedom lhe envie um SMS em caso de alerta
 (plugin de alarme, cenário ...)
 
-> **Important**
+> **IMPORTANTE**
 >
 > Para interagir com Jeedom, você deve ter configurado interações.
 
@@ -21,13 +21,13 @@ detalhe (alguns parâmetros podem estar visíveis apenas no modo especialista) :
 -   *Porta SMS* : a porta USB na qual sua chave GSM
         está conectado.
 
-> **Tip**
+> **Dica**
 >
 > Se você não souber qual porta USB é usada, poderá simplesmente
 > indicar "Auto". Atenção, o modo automático funciona apenas com as teclas
 > Huawai E220.
 
-> **Important**
+> **IMPORTANTE**
 >
 > Observe que algumas teclas 3G estão por padrão no modo modem e não GSM.
 > Usando o software do fabricante principal, você deve alterar o
@@ -36,7 +36,7 @@ detalhe (alguns parâmetros podem estar visíveis apenas no modo especialista) :
 -   **Código PIN** : Permite indicar o código PIN do cartão SIM e deixar em branco se você não tiver um. 
 -   **Modo de texto** : Modo de compatibilidade estendida, a ser usado apenas se o envio e / ou recebimento de mensagens não funcionar.
 -   **Cortar mensagens por pacote de caracteres** : Indica o número máximo de caracteres por texto.
--   **Gateway SMS / SMS (modificar em caso de erro : Número SMSC do CMS 330 não definido)** : Observe que, se o erro "Número do SMSC do CMS 330 não estiver definido", nesse caso, você deve indicar o número do gateway SMS da operadora de telefonia.. 
+-   **Gateway SMS / SMS (modificar em caso de erro : Número SMSC do CMS 330 não definido)** : Observe que, se o erro "Número do SMSC do CMS 330 não estiver definido", nesse caso, você deve indicar o número do gateway SMS da operadora de telefonia. 
 -   **Intensidade do sinal** : Força de recepção do sinal da sua chave GSM.
 -   **Rede** : Rede telefônica da sua chave GSM (pode ser "Nenhuma" se a Jeedom não puder recuperá-la). 
 -   **tomada interna (modificação perigosa)** : permite modificar a porta de comunicação interna do daemon.
@@ -50,40 +50,40 @@ plugin e comunicação
 
 Aqui você encontra toda a configuração do seu equipamento :
 
--   **Nome do equipamento SMS** : nome do seu equipamento SMS,
+-   **Nome de l'équipement SMS** : nome do seu equipamento SMS,
 
--   **Activer** : torna seu equipamento ativo,
+-   **Ativar** : torna seu equipamento ativo,
 
--   **Visible** : torna seu equipamento visível no painel,
+-   **Visivél** : torna seu equipamento visível no painel,
 
 -   **Objeto pai** : indica o objeto pai ao qual
     pertence a equipamento.
 
 Abaixo você encontra a lista de pedidos :
 
--   **Nom** : o nome exibido no painel,
+-   **Nome** : o nome exibido no painel,
 
--   **Utilisateur** : usuário correspondente no Jeedom (permite
+-   **Usuário** : usuário correspondente no Jeedom (permite
     restringir certas interações a certos usuários),
 
 -   **Número** : número de telefone para o qual enviar mensagens. Você
     pode colocar vários números separando-os com; (ex
     : 0612345678; 0698765432).
 
-    > **Important**
+    > **IMPORTANTE**
     >
     > Somente números de telefone declarados no equipamento podem
     > usar interações porque somente elas serão permitidas.
 
--   **Afficher** : permite exibir os dados no painel,
+-   **Display** : permite exibir os dados no painel,
 
--   **Configuração avançada** (pequenas rodas dentadas) : permet
+-   **Configuração avancée** (pequenas rodas dentadas) : permet
     exibir a configuração avançada do comando (método
     história, widget ...),
 
--   **Tester** : permite testar o comando,
+-   **Teste** : permite testar o comando,
 
--   **Supprimer** (sinal -) : permite excluir o comando.
+-   **Remover** (sinal -) : permite excluir o comando.
 
 Usando o plugin 
 ---------------------
@@ -116,7 +116,7 @@ mensagem de um número autorizado, todas as interações provenientes do
 sistema de interação.
 
 Pequeno exemplo de interação : Pergunta : “Qual é a temperatura de
-o quarto ?” Réponse  : “16.3 C”
+o quarto ?” Réponse : “16.3 C”
 
 Lista de chaves compatíveis 
 ---------------------------
@@ -163,7 +163,7 @@ Faq
 >
 >Você pode encontrar [aqui](:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors) descrição dos diferentes erros CME
 
-> **Configuração da tecla Alcatel one touch X220L**
+> **Configuração de la clef Alcatel one touch X220L**
 >
 >Quando inserimos a chave, temos esse :
 >

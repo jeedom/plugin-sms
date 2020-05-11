@@ -50,9 +50,9 @@ plugin then communication
 
 Here you find all the configuration of your equipment :
 
--   **SMS equipment name** : name of your SMS equipment,
+-   **Name de l'équipement SMS** : name of your SMS equipment,
 
--   **Activer** : makes your equipment active,
+-   **Activate** : makes your equipment active,
 
 -   **Visible** : makes your equipment visible on the dashboard,
 
@@ -61,9 +61,9 @@ Here you find all the configuration of your equipment :
 
 Below you find the list of orders :
 
--   **Nom** : the name displayed on the dashboard,
+-   **Name** : the name displayed on the dashboard,
 
--   **Utilisateur** : corresponding user in Jeedom (allows
+-   **User** : corresponding user in Jeedom (allows
     restrict certain interactions to certain users),
 
 -   **Number** : phone number to send messages to. You
@@ -75,15 +75,15 @@ Below you find the list of orders :
     > Only telephone numbers declared in equipment can
     > use interactions because only they will be allowed.
 
--   **Afficher** : allows to display the data on the dashboard,
+-   **Show** : allows to display the data on the dashboard,
 
--   **Advanced configuration** (small notched wheels) : permet
+-   **Setup avancée** (small notched wheels) : permet
     display the advanced configuration of the command (method
     history, widget…),
 
--   **Tester** : Used to test the command,
+-   **Test** : Used to test the command,
 
--   **Supprimer** (sign -) : allows to delete the command.
+-   **Delete** (sign -) : allows to delete the command.
 
 Using the plugin 
 ---------------------
@@ -163,7 +163,7 @@ FAQ
 >
 >You can find [here](:http://www.micromedia-int.com/fr/gsm-2/669-cme-error-gsm-equipment-related-errors) description of the different CME errors
 
-> **Setup of the Alcatel one touch X220L key**
+> **Setup de la clef Alcatel one touch X220L**
 >
 >When we insert the key, we have this :
 >
@@ -223,7 +223,7 @@ FAQ
 > **The SMS daemon is started, but you do not receive any SMS**
 >
 >One of the likely causes is the wrong network configuration. In
->"General "->" Setup "->" Administration" ->
+>"General "->" Configuration "->" Administration" ->
 >"Network configuration ", check the content of the" URL or IP address field".
 >
 >The latter must not be localhost or 127.0.0.1 but the IP address of

@@ -52,7 +52,7 @@
         "Vous n\\'etes pas autorisé à effectuer cette action": "Não está autorizado a executar esta ação",
         "Message venant de ": "Mensagem de",
         "\\nRéponse : ": "\\ nResponda:",
-        "Interaction désactivée.": "Interação desativada.",
+        "Interaction désactivée.": "Interação desativada",
         "Message venant d\\un numéro non autorisé : ": "Mensagem de um número não autorizado:"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {

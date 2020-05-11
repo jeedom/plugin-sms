@@ -17,4 +17,4 @@
 
 # 25/04/2018
 
-- Corrección del enlace doc.
+- Corrección del enlace doc

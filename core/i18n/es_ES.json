@@ -49,10 +49,10 @@
         "Tester": "Probar"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
-        "Vous n\\'etes pas autorisé à effectuer cette action": "No tiene autorización para realizar esta acción.",
+        "Vous n\\'etes pas autorisé à effectuer cette action": "No tiene autorización para realizar esta acción",
         "Message venant de ": "Mensaje de",
         "\\nRéponse : ": "\\ nRespuesta:",
-        "Interaction désactivée.": "Interacción deshabilitada.",
+        "Interaction désactivée.": "Interacción deshabilitada",
         "Message venant d\\un numéro non autorisé : ": "Mensaje de un número no autorizado:"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {

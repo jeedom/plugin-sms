@@ -52,7 +52,7 @@
         "Vous n\\'etes pas autorisé à effectuer cette action": "You are not authorized to perform this action",
         "Message venant de ": "Message from",
         "\\nRéponse : ": "\\ nAnswer:",
-        "Interaction désactivée.": "Interaction disabled.",
+        "Interaction désactivée.": "Interaction disabled",
         "Message venant d\\un numéro non autorisé : ": "Message from an unauthorized number:"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {
