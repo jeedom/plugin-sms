@@ -1,3 +1,5 @@
+# Changelog SMS
+
 # 25/09/2019
 
 - Mudando para a interface jeedom v4

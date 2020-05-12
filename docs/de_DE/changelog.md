@@ -1,3 +1,5 @@
+# Changelog SMS
+
 # 2019.09.25
 
 - Wechseln zur Jeedom v4-Schnittstelle
