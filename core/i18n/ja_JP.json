@@ -1,80 +1,65 @@
 {
-    "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "SMSデーモンが実行されています",
-        "Port SMS": "ポートSMS",
+    "plugins\/sms\/plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401-不正アクセス",
+        "Démon": "悪魔",
+        "Port SMS": "",
         "Aucun": "何でもありません",
         "Auto": "車",
-        "Code pin (laisser vide s'il n'y en a pas)": "ピン番号（存在しない場合は空白のまま）",
-        "Texte mode": "テキストモード",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "メッセージ（モデムとの互換性を最大限に）受け取るが、複数のSMSのサポートを削除し、特殊文字いない場合は、それを使用します",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "ゲートウェイSMS / SMSゲートウェイ（エラーにMODIFY：CMS 330（SMSC番号が設定されていません）",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "あなたのオペレータSMSCを見つけるために、モバイル上で*＃*＃4636＃*＃*コードを使用します",
-        "Force du signal": "信号強度",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "ポートインナーソケット（危険な変更、奴隷特に同じである必要があります）",
-        "Gestion du démon": "悪魔の管理",
-        "(Re)démarrer": "（再）スタート",
-        "Arrêter": "ストップ",
-        "Lancer en mode debug": "デバッグモードで起動します",
-        "Le démon a été correctement (re)démaré": "悪魔は適切だった（再）開始しました",
-        "Le démon a été correctement arreté": "悪魔が適切に停止され",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "あなたがデバッグモードでデーモンを起動してもよろしいですか？ドン\\「tは一度終了し、通常モードで再起動することを忘れ",
-        "SMS en mode debug": "デバッグモードでのSMS",
-        "Statut du démon : ": "悪魔のステータス：",
-        "En local :": "ローカル：",
-        "Démon local": "ローカルデーモン",
-        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Réseaux": "Réseaux",
+        "Vitesse de communication (bauds)": "",
+        "Code pin (laisser vide s'il n'y en a pas)": "",
+        "Texte mode": "",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
+        "Découper les messages par paquet de caractères": "",
+        "Par defaut 140": "",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
+        "Force du signal": "",
+        "Réseaux": "ネットワーク",
         "Port socket interne": "ポートインナーソケット",
-        "Cycle (s)": "サイクル（S）",
-        "Démon": "悪魔"
+        "Cycle (s)": "サイクル（S）"
     },
-    "plugins/sms/desktop/php/sms.php": {
-        "Ajouter un équipement": "機器を追加します",
-        "Rechercher": "検索する",
-        "Mes SMS": "私のSMS",
-        "Générale": "一般的な",
-        "Nom de l'équipement SMS": "SMS機器に名前を付けます",
-        "Nom de l'équipement GSM": "GSM機器の名前",
-        "Activer": "アクティブにし",
+    "plugins\/sms\/desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401-不正アクセス",
+        "Gestion": "管理",
+        "Ajouter": "加えます",
+        "Configuration": "コンフィギュレーション",
+        "Mes SMS": "",
+        "Rechercher": "検索",
+        "Configuration avancée": "高度な構成",
+        "Sauvegarder": "セーブ",
+        "Supprimer": "取り除きます",
+        "Equipement": "設備",
+        "Commandes": "コマンド",
+        "Nom de l'équipement SMS": "",
+        "Nom de l'équipement GSM": "",
+        "Activer": "アクティブ",
         "Visible": "目に見えます",
         "Objet parent": "親オブジェクト",
         "Aucun": "何でもありません",
-        "Commandes": "コマンド",
-        "Ajouter d'un numéro": "番号を追加します。",
+        "Désactiver les intéractions": "",
+        "Ajouter d'un numéro": "",
         "Nom": "表題",
         "Utilisateur": "ユーザー",
-        "Numéro": "番号",
-        "Paramètres": "設定",
-        "Supprimer": "取り除きます",
-        "Sauvegarder": "セーブ",
-        "Gestion": "管理",
-        "Configuration": "コンフィギュレーション",
-        "Equipement": "設備",
-        "Configuration avancée": "高度な設定"
+        "Numéro": "",
+        "Paramètres": "設定"
     },
-    "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "null": ""
-    },
-    "plugins/sms/desktop/js/sms.js": {
-        "Historiser": "historicize",
+    "plugins\/sms\/desktop\/js\/sms.js": {
         "Afficher": "ディスプレイ",
+        "Historiser": "Historicize",
         "Tester": "テスト"
     },
-    "plugins/sms/core/php/jeeSMS.php": {
-        "Message venant de ": "Message venant de",
-        "\nRéponse : ": "Réponse :"
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "このアクションを実行する権限がありません",
+        "Message venant de ": "",
+        "\\nRéponse : ": "",
+        "Interaction désactivée.": "",
+        "Message venant d\\un numéro non autorisé : ": ""
     },
-    "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins/sms/core/class/sms.class.php": {
-        "Signal": "信号",
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Le port n\\'est pas configuré": "",
+        "Veuillez vérifier la configuration": "",
+        "Signal": "",
         "Message": "メッセージ",
-        "Expediteur": "Expediteur",
-        "Le port n'est pas configuré": "ポートが設定されていません"
+        "Expediteur": ""
     }
 }

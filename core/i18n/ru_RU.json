@@ -1,80 +1,65 @@
 {
-    "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "Демон SMS запущен",
-        "Port SMS": "Порт СМС",
+    "plugins\/sms\/plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Несанкционированный доступ",
+        "Démon": "Демон",
+        "Port SMS": "",
         "Aucun": "Нет",
         "Auto": "Автомобиль",
-        "Code pin (laisser vide s'il n'y en a pas)": "PIN-код (оставьте пустым, если нет ни одного)",
-        "Texte mode": "Текстовый режим",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Используйте это, если вы не получите сообщение (максимальная совместимость с модемом), но удалите поддержку нескольких SMS, и специальные символы",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "СМС мост / СМС шлюз (SMSC номер не установлен)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Используйте код *#4636#*#*#* на мобильном телефоне, чтобы найти SMSC код вашего оператора",
-        "Force du signal": "Мощность сигнала",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Порт внутреннего сокета (изменения опасны, особенно для ведомых устройств)",
-        "Gestion du démon": "Демон управления",
-        "(Re)démarrer": "Перезапуск",
-        "Arrêter": "Стоп",
-        "Lancer en mode debug": "Запустить в режиме отладки",
-        "Le démon a été correctement (re)démaré": "Демон был правильно (пере) запущен",
-        "Le démon a été correctement arreté": "Демон был успешно остановлен",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Вы уверены, что хотите запустить демон в режиме отладки? Не забудьте перезапустить в обычном режиме, когда закончите",
-        "SMS en mode debug": "СМС в режиме отладки",
-        "Statut du démon : ": "Статус демона:",
-        "En local :": "Локально:",
-        "Démon local": "Локальный демон",
-        "Vitesse de communication (bauds)": "Скорость передачи данных (бод)",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Réseaux": "Réseaux",
+        "Vitesse de communication (bauds)": "",
+        "Code pin (laisser vide s'il n'y en a pas)": "",
+        "Texte mode": "",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
+        "Découper les messages par paquet de caractères": "",
+        "Par defaut 140": "",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
+        "Force du signal": "",
+        "Réseaux": "сети",
         "Port socket interne": "Порт внутренний разъем",
-        "Cycle (s)": "Цикл (ы)",
-        "Démon": "Демон"
+        "Cycle (s)": "Цикл (ы)"
     },
-    "plugins/sms/desktop/php/sms.php": {
-        "Ajouter un équipement": "Добавить оборудование",
-        "Rechercher": "Искать",
-        "Mes SMS": "Мои СМС",
-        "Générale": "Главная",
-        "Nom de l'équipement SMS": "Имя оборудования СМС",
-        "Nom de l'équipement GSM": "Имя оборудования GSM",
-        "Activer": "Активировать",
+    "plugins\/sms\/desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Несанкционированный доступ",
+        "Gestion": "Управление",
+        "Ajouter": "Добавить",
+        "Configuration": "Конфигурация",
+        "Mes SMS": "",
+        "Rechercher": "поиск",
+        "Configuration avancée": "Расширенные настройки",
+        "Sauvegarder": "Сохранить",
+        "Supprimer": "удаление",
+        "Equipement": "Оборудование",
+        "Commandes": "Команды",
+        "Nom de l'équipement SMS": "",
+        "Nom de l'équipement GSM": "",
+        "Activer": "активировать",
         "Visible": "Видимый",
         "Objet parent": "Родительский объект",
         "Aucun": "Нет",
-        "Commandes": "Команды",
-        "Ajouter d'un numéro": "Добавить номер",
+        "Désactiver les intéractions": "",
+        "Ajouter d'un numéro": "",
         "Nom": "Имя",
         "Utilisateur": "Пользователь",
-        "Numéro": "Номер",
-        "Paramètres": "Параметры",
-        "Supprimer": "Удалить",
-        "Sauvegarder": "Сохранить",
-        "Gestion": "Управление",
-        "Configuration": "Конфигурация",
-        "Equipement": "Оборудование",
-        "Configuration avancée": "Расширенные настройки"
+        "Numéro": "",
+        "Paramètres": "настройки"
     },
-    "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "null": ""
-    },
-    "plugins/sms/desktop/js/sms.js": {
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Afficher": "дисплей",
         "Historiser": "История",
-        "Afficher": "Отобразить",
         "Tester": "Тест"
     },
-    "plugins/sms/core/php/jeeSMS.php": {
-        "Message venant de ": "Message venant de",
-        "\nRéponse : ": "Réponse :"
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "",
+        "Message venant de ": "",
+        "\\nRéponse : ": "",
+        "Interaction désactivée.": "",
+        "Message venant d\\un numéro non autorisé : ": ""
     },
-    "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins/sms/core/class/sms.class.php": {
-        "Signal": "сигнал",
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Le port n\\'est pas configuré": "",
+        "Veuillez vérifier la configuration": "",
+        "Signal": "",
         "Message": "Сообщение",
-        "Expediteur": "Expediteur",
-        "Le port n'est pas configuré": "Порт не установлен"
+        "Expediteur": ""
     }
 }
