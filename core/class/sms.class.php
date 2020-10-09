@@ -1,26 +1,28 @@
 <?php
 
 /* This file is part of Jeedom.
- *
- * Jeedom is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Jeedom is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
- */
+*
+* Jeedom is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Jeedom is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /* * ***************************Includes********************************* */
 
 class sms extends eqLogic {
 	/*     * ***********************Methode static*************************** */
-
+	
+	public static $_encryptConfigKey = array('pin');
+	
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'sms';
@@ -45,7 +47,7 @@ class sms extends eqLogic {
 		}
 		return $return;
 	}
-
+	
 	public static function dependancy_info() {
 		$return = array();
 		$return['progress_file'] = jeedom::getTmpFolder('sms') . '/dependance';
@@ -60,7 +62,7 @@ class sms extends eqLogic {
 		log::remove(__CLASS__ . '_update');
 		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('sms') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
 	}
-
+	
 	public static function deamon_start() {
 		self::deamon_stop();
 		$deamon_info = self::deamon_info();
@@ -103,7 +105,7 @@ class sms extends eqLogic {
 		message::removeAll('sms', 'unableStartDeamon');
 		return true;
 	}
-
+	
 	public static function deamon_stop() {
 		$pid_file = jeedom::getTmpFolder('sms') . '/deamon.pid';
 		if (file_exists($pid_file)) {
@@ -118,9 +120,9 @@ class sms extends eqLogic {
 		}
 		sleep(1);
 	}
-
-/*     * *********************Methode d'instance************************* */
-
+	
+	/*     * *********************Methode d'instance************************* */
+	
 	public function postSave() {
 		$signal = $this->getCmd(null, 'signal');
 		if (!is_object($signal)) {
@@ -133,7 +135,7 @@ class sms extends eqLogic {
 		$signal->setSubType('numeric');
 		$signal->setEqLogic_id($this->getId());
 		$signal->save();
-
+		
 		$sms = $this->getCmd(null, 'sms');
 		if (!is_object($sms)) {
 			$sms = new smsCmd();
@@ -145,7 +147,7 @@ class sms extends eqLogic {
 		$sms->setSubType('string');
 		$sms->setEqLogic_id($this->getId());
 		$sms->save();
-
+		
 		$sender = $this->getCmd(null, 'sender');
 		if (!is_object($sender)) {
 			$sender = new smsCmd();
@@ -162,9 +164,9 @@ class sms extends eqLogic {
 
 class smsCmd extends cmd {
 	/*     * *************************Attributs****************************** */
-
+	
 	/*     * ***********************Methode static*************************** */
-
+	
 	public static function cleanSMS($_message) {
 		$caracteres = array(
 			'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', '@' => 'a',
@@ -174,72 +176,73 @@ class smsCmd extends cmd {
 			'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
 			'Œ' => 'oe', 'œ' => 'oe',
 			'$' => 's');
-		return preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', strtr($_message, $caracteres));
-	}
-
-	/*     * *********************Methode d'instance************************* */
-
-	public function dontRemoveCmd() {
-		if ($this->getLogicalId() == 'signal') {
-			return true;
+			return preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', strtr($_message, $caracteres));
 		}
-		return false;
-	}
-
-	public function preSave() {
-		if ($this->getSubtype() == 'message') {
-			$this->setDisplay('title_disable', 1);
-		}
-	}
-
-	public function execute($_options = null) {
-		$number = $this->getConfiguration('phonenumber');
-		if (isset($_options['number'])) {
-			$number = $_options['number'];
-		}
-		if (isset($_options['answer'])) {
-			$_options['message'] .= ' (' . implode(';', $_options['answer']) . ')';
-		}
-		$values = array();
-		if (isset($_options['message']) && $_options['message'] != '') {
-			$message = trim($_options['message']);
-		} else {
-			$message = trim($_options['title'] . ' ' . $_options['message']);
-		}
-		if (config::byKey('text_mode', 'sms') == 1) {
-			$message = self::cleanSMS(trim($message), true);
-		}
-		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
-			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
-			foreach ($messages as $message_split) {
-				$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message_split));
+		
+		/*     * *********************Methode d'instance************************* */
+		
+		public function dontRemoveCmd() {
+			if ($this->getLogicalId() == 'signal') {
+				return true;
 			}
-		} else {
-			$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message));
+			return false;
 		}
-		if (!isset($_options['number'])) {
-			$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
-			if (is_array($phonenumbers) && count($phonenumbers) > 1) {
-				$tmp_values = array();
-				foreach ($values as $value) {
-					$value = json_decode($value, true);
-					foreach ($phonenumbers as $phonenumber) {
-						if (is_array($value)) {
-							$tmp_values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $phonenumber, 'message' => $value['message']));
+		
+		public function preSave() {
+			if ($this->getSubtype() == 'message') {
+				$this->setDisplay('title_disable', 1);
+			}
+		}
+		
+		public function execute($_options = null) {
+			$number = $this->getConfiguration('phonenumber');
+			if (isset($_options['number'])) {
+				$number = $_options['number'];
+			}
+			if (isset($_options['answer'])) {
+				$_options['message'] .= ' (' . implode(';', $_options['answer']) . ')';
+			}
+			$values = array();
+			if (isset($_options['message']) && $_options['message'] != '') {
+				$message = trim($_options['message']);
+			} else {
+				$message = trim($_options['title'] . ' ' . $_options['message']);
+			}
+			if (config::byKey('text_mode', 'sms') == 1) {
+				$message = self::cleanSMS(trim($message), true);
+			}
+			if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
+				$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
+				foreach ($messages as $message_split) {
+					$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message_split));
+				}
+			} else {
+				$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message));
+			}
+			if (!isset($_options['number'])) {
+				$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
+				if (is_array($phonenumbers) && count($phonenumbers) > 1) {
+					$tmp_values = array();
+					foreach ($values as $value) {
+						$value = json_decode($value, true);
+						foreach ($phonenumbers as $phonenumber) {
+							if (is_array($value)) {
+								$tmp_values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $phonenumber, 'message' => $value['message']));
+							}
 						}
 					}
+					$values = $tmp_values;
 				}
-				$values = $tmp_values;
+			}
+			if (config::byKey('port', 'sms', 'none') != 'none') {
+				foreach ($values as $value) {
+					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+					socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms'));
+					socket_write($socket, $value, strlen($value));
+					socket_close($socket);
+				}
 			}
 		}
-		if (config::byKey('port', 'sms', 'none') != 'none') {
-			foreach ($values as $value) {
-				$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-				socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms'));
-				socket_write($socket, $value, strlen($value));
-				socket_close($socket);
-			}
-		}
+		
 	}
-
-}
+	
