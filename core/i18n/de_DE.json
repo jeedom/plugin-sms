@@ -1,80 +1,68 @@
 {
-    "plugins/sms/plugin_info/configuration.php": {
-        "Le démon SMS est en marche": "SMS-Daemon läuft",
-        "Port SMS": "SMS Port",
+    "plugins\/sms\/plugin_info\/configuration.php": {
+        "401 - Accès non autorisé": "401 - Nicht autorisierter Zugriff",
+        "Démon": "Dämon",
+        "Port SMS": "SMS-Port",
         "Aucun": "Ohne",
         "Auto": "Auto",
-        "Code pin (laisser vide s'il n'y en a pas)": "Pin-Code (leer lassen wenn es keinen gibt)",
+        "Vitesse de communication (bauds)": "Kommunikationsgeschwindigkeit (Baud)",
+        "Code pin (laisser vide s'il n'y en a pas)": "PIN-Code (leer lassen, wenn keiner vorhanden ist)",
         "Texte mode": "Textmodus",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Verwenden Sie diese Funktion wenn Sie keine Nachricht empfangen (Kompatibilität mit den meisten Modem), aber entfernt multi SMS-Unterstützung, und Sonderzeichen",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 (SMSC number not set)": "SMS Gateway / SMS Gateway (ÄNDERN Fehler: CMS 330 (SMSC-Nummer nicht festgelegt)",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Verwenden Sie den Code * # 4636 # * # * # * auf einem mobilen, dem SMSC Ihrem Netzbetreiber finden",
-        "Force du signal": "Die Signalstärke",
-        "Port socket interne (modification dangereuse, doit etre le meme surtout les esclaves)": "Intern socket port (gefährliche änderung, muss auf alle Slaves gleich sein)",
-        "Gestion du démon": "Management-Daemon",
-        "(Re)démarrer": "Neustart()",
-        "Arrêter": "beenden",
-        "Lancer en mode debug": "Starten Sie in den Debug-Modus",
-        "Le démon a été correctement (re)démaré": "Der Dämon korrekt wieder gestartet()",
-        "Le démon a été correctement arreté": "Der Dämon wurde erfolgreich gestoppt",
-        "Etes-vous sur de vouloir lancer le démon en mode debug ? N\\'oubliez pas de le relancer en mode normale une fois terminé": "Sind Sie sicher, dass Sie den Daemon im Debug-Modus starten wollen? Nicht vergessen, im normalen Modus neu zu starten, wenn Sie fertig sind.",
-        "SMS en mode debug": "SMS im Debug-Modus",
-        "Statut du démon : ": "Daemon Status",
-        "En local :": "Ort:",
-        "Démon local": "Lokal Daemon",
-        "Vitesse de communication (bauds)": "Übertragungsgeschwindigkeit (Baud)",
-        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
-        "Par defaut 140": "Par defaut 140",
-        "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)",
-        "Réseaux": "Réseaux",
-        "Port socket interne": "Interner Socket Port ",
-        "Cycle (s)": "Zyklus (s)",
-        "Démon": "Daemon"
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Verwenden Sie diese Option, wenn Sie keine Nachricht erhalten (Kompatibilität mit maximalem Modem), aber die Unterstützung für mehrere SMS und Sonderzeichen entfernen",
+        "Découper les messages par paquet de caractères": "Schneiden Sie Nachrichten nach Zeichenpaket",
+        "Par defaut 140": "Standard 140",
+        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "SMS \/ SMS-Gateway (Fehlerfall ändern: CMS 330 SMSC-Nummer nicht festgelegt)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Verwenden Sie den Code # * # * 4636 # * # * auf einem Mobiltelefon, um die SMSC Ihres Betreibers zu finden",
+        "Force du signal": "Signalstärke",
+        "Réseaux": "Netzwerke",
+        "Port socket interne": "Interner Socket-Port",
+        "Cycle (s)": "Zyklus (e)"
     },
-    "plugins/sms/desktop/php/sms.php": {
-        "Ajouter un équipement": "Gerät hinzufügen",
+    "plugins\/sms\/desktop\/php\/sms.php": {
+        "401 - Accès non autorisé": "401 - Nicht autorisierter Zugriff",
+        "Gestion": "Verwaltung",
+        "Ajouter": "Hinzufügen",
+        "Configuration": "Konfiguration",
+        "Mes SMS": "Meine SMS",
         "Rechercher": "Suchen nach",
-        "Mes SMS": "Mein SMS",
-        "Générale": "Allgemein",
-        "Nom de l'équipement SMS": "Name der SMS-Ausstattung",
-        "Nom de l'équipement GSM": "Name der GSM Ausrüstung",
-        "Activer": "aktivieren",
-        "Visible": "Sichtbar",
-        "Objet parent": "Eltern-Objekt",
-        "Aucun": "Ohne",
+        "Configuration avancée": "Erweiterte Konfiguration",
+        "Sauvegarder": "Speichern",
+        "Supprimer": "Löschen",
+        "Equipement": "Gerät",
         "Commandes": "Befehle",
+        "Nom de l'équipement SMS": "Name des SMS-Geräts",
+        "Nom de l'équipement GSM": "Name der GSM-Ausrüstung",
+        "Activer": "Aktivieren",
+        "Visible": "Sichtbar",
+        "Objet parent": "Übergeordnetes Objekt",
+        "Aucun": "Ohne",
+        "Désactiver les intéractions": "Interaktionen deaktivieren",
         "Ajouter d'un numéro": "Nummer hinzufügen",
         "Nom": "Name",
         "Utilisateur": "Benutzer",
-        "Numéro": "Nummer",
-        "Paramètres": "Parameter",
-        "Supprimer": "Löschen",
-        "Sauvegarder": "Speichern",
-        "Gestion": "Verwaltung",
-        "Configuration": "Konfiguration",
-        "Equipement": "Gerät",
-        "Configuration avancée": "Erweiterte Konfiguration"
+        "Numéro": "Anzahl",
+        "Paramètres": "Einstellungen"
     },
-    "plugins/sms/plugin_info/info.xml": {
-        "Plugin permettant de gérer les SMS": "Plugin permettant de gérer les SMS",
-        "null": ""
-    },
-    "plugins/sms/desktop/js/sms.js": {
+    "plugins\/sms\/desktop\/js\/sms.js": {
+        "Afficher": "Anzeige",
         "Historiser": "Chronik",
-        "Afficher": "anzeigen",
         "Tester": "Test"
     },
-    "plugins/sms/core/php/jeeSMS.php": {
-        "Message venant de ": "Message venant de",
-        "\nRéponse : ": "Antwort :"
+    "plugins\/sms\/core\/php\/jeeSMS.php": {
+        "Vous n\\'etes pas autorisé à effectuer cette action": "Sie sind nicht berechtigt, diese Aktion auszuführen",
+        "Message venant de ": "Nachricht von",
+        "\\nRéponse : ": "\\ nAntwort:",
+        "Interaction désactivée.": "Interaktion deaktiviert",
+        "Message venant d\\un numéro non autorisé : ": "Nachricht von einer nicht autorisierten Nummer:"
     },
-    "plugins/sms/plugin_info/info.json": {
-        "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)": "Plugin permettant d'ajouter le support de clef GSM (pour les SMS uniquement)"
-    },
-    "plugins/sms/core/class/sms.class.php": {
+    "plugins\/sms\/core\/class\/sms.class.php": {
+        "Le port n\\'est pas configuré": "Port ist nicht konfiguriert",
+        "Veuillez vérifier la configuration": "Bitte überprüfen Sie die Konfiguration",
         "Signal": "Signal",
         "Message": "Nachricht",
-        "Expediteur": "Absender",
-        "Le port n'est pas configuré": "Der Port ist nicht konfiguriert"
+        "Expediteur": "Absender"
+    },
+    "info.json": {
+        "Plugin ajoutant la gestion (envoi\/réception) des SMS à Jeedom.Avec ce plugin vous pouvez ainsi être notifié par SMS, voir grâce au moteur d'interactions poser une question ou déclencher une action via SMS.(Nécessite une clé 3G et une carte SIM ).": "Plugin, das die Verwaltung (Senden \/ Empfangen) von SMS zu Jeedom hinzufügt. Mit diesem Plugin können Sie per SMS benachrichtigt werden. Dank der Interaktions-Engine können Sie eine Frage stellen oder eine Aktion per SMS auslösen. (Erfordert einen 3G-Schlüssel und eine Karte SIM)"
     }
 }
