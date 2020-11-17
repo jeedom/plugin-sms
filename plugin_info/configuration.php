@@ -23,10 +23,9 @@ if (!isConnect('admin')) {
 ?>
 <form class="form-horizontal">
     <fieldset>
-        <legend><i class="icon loisir-darth"></i> {{Démon}}</legend>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Port SMS}}</label>
-            <div class="col-lg-4">
+            <label class="col-sm-5 control-label">{{Port SMS}}</label>
+            <div class="col-sm-5">
                 <select class="configKey form-control" data-l1key="port">
                     <option value="none">{{Aucun}}</option>
                     <option value="auto">{{Auto}}</option>
@@ -42,8 +41,8 @@ foreach (ls('/dev/', 'tty*') as $value) {
            </div>
        </div>
        <div class="form-group">
-        <label class="col-sm-4 control-label">{{Vitesse de communication (bauds)}}</label>
-        <div class="col-sm-2">
+        <label class="col-sm-5 control-label">{{Vitesse de communication (bauds)}}</label>
+        <div class="col-sm-5">
             <select class="configKey form-control" data-l1key="serial_rate" >
                 <option value="115200">115200</option>
                 <option value="9600">9600</option>
@@ -51,50 +50,50 @@ foreach (ls('/dev/', 'tty*') as $value) {
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
-        <div class="col-lg-4">
+        <label class="col-sm-5 control-label">{{Code pin (laisser vide s'il n'y en a pas)}}</label>
+        <div class="col-sm-5">
             <input type="password" class="configKey form-control" data-l1key="pin" />
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Texte mode}}</label>
-        <div class="col-lg-4">
+        <label class="col-sm-5 control-label">{{Texte mode}}</label>
+        <div class="col-sm-5">
             <input type="checkbox" class="configKey" data-l1key="text_mode" title='{{A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux}}' />
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Découper les messages par paquet de caractères}}</label>
-        <div class="col-lg-2">
+        <label class="col-sm-5 control-label">{{Découper les messages par paquet de caractères}}</label>
+        <div class="col-sm-5">
             <input class="configKey form-control" data-l1key="maxChartByMessage" title='{{Par defaut 140}}' />
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Passerelle SMS / SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)}}</label>
-        <div class="col-lg-2">
+        <label class="col-sm-5 control-label">{{Passerelle SMS / SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)}}</label>
+        <div class="col-sm-5">
             <input class="configKey form-control" data-l1key="smsc" title='{{Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur}}'/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Force du signal}}</label>
-        <div class="col-lg-4">
+        <label class="col-sm-5 control-label">{{Force du signal}}</label>
+        <div class="col-sm-5">
             <span class="configKey" data-l1key="signal_strengh" ></span> / 30
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Réseaux}}</label>
-        <div class="col-lg-4">
+        <label class="col-sm-5 control-label">{{Réseau}}</label>
+        <div class="col-sm-5">
             <span class="configKey" data-l1key="network_name" ></span>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Port socket interne}}</label>
-        <div class="col-lg-2">
+        <label class="col-sm-5 control-label">{{Port socket interne}}</label>
+        <div class="col-sm-5">
             <input class="configKey form-control" data-l1key="socketport" />
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-4 control-label">{{Cycle (s)}}</label>
-        <div class="col-sm-2">
+        <label class="col-sm-5 control-label">{{Cycle (s)}}</label>
+        <div class="col-sm-5">
             <input class="configKey form-control" data-l1key="cycle" />
         </div>
     </div>
