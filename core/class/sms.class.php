@@ -60,7 +60,7 @@ class sms extends eqLogic {
 	}
 	public static function dependancy_install() {
 		log::remove(__CLASS__ . '_update');
-		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('sms') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
+		return array('script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('sms') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
 	}
 	
 	public static function deamon_start() {
@@ -73,7 +73,7 @@ class sms extends eqLogic {
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
 		}
-		$sms_path = realpath(dirname(__FILE__) . '/../../resources/smsd');
+		$sms_path = realpath(__DIR__ . '/../../resources/smsd');
 		$cmd = '/usr/bin/python ' . $sms_path . '/smsd.py';
 		$cmd .= ' --device ' . $port;
 		$cmd .= ' --loglevel ' . log::convertLogLevel(log::getLogLevel('sms'));
