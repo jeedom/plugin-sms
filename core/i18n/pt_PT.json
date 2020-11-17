@@ -58,8 +58,11 @@
     "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "A porta não está configurada",
         "Veuillez vérifier la configuration": "Por favor, verifique a configuração",
-        "Signal": "Signal",
+        "Signal": "Sinal",
         "Message": "Mensagem",
         "Expediteur": "Remetente"
+    },
+    "info.json": {
+        "Plugin ajoutant la gestion (envoi\/réception) des SMS à Jeedom.Avec ce plugin vous pouvez ainsi être notifié par SMS, voir grâce au moteur d'interactions poser une question ou déclencher une action via SMS.(Nécessite une clé 3G et une carte SIM ).": "Plug-in que adiciona o gerenciamento (envio \/ recebimento) de SMS ao Jeedom.Com este plug-in, você pode ser notificado por SMS, veja graças ao mecanismo de interação fazer uma pergunta ou acionar uma ação via SMS. (Requer uma chave 3G e um cartão SIM)"
     }
 }

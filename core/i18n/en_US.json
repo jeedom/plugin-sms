@@ -61,5 +61,8 @@
         "Signal": "Signal",
         "Message": "Message",
         "Expediteur": "Sender"
+    },
+    "info.json": {
+        "Plugin ajoutant la gestion (envoi\/réception) des SMS à Jeedom.Avec ce plugin vous pouvez ainsi être notifié par SMS, voir grâce au moteur d'interactions poser une question ou déclencher une action via SMS.(Nécessite une clé 3G et une carte SIM ).": "Plugin adding the management (sending \/ receiving) of SMS to Jeedom.With this plugin you can be notified by SMS, see thanks to the interaction engine ask a question or trigger an action via SMS. (Requires a 3G key and a card SIM)"
     }
 }
