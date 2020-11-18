@@ -1,7 +1,6 @@
 {
     "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Acceso no autorizado",
-        "Démon": "Demonio",
         "Port SMS": "Puerto de SMS",
         "Aucun": "Ninguna",
         "Auto": "Auto",
@@ -11,10 +10,10 @@
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "Úselo si no recibe un mensaje (compatibilidad con un máximo de módem) pero elimine la compatibilidad con múltiples SMS y caracteres especiales",
         "Découper les messages par paquet de caractères": "Cortar mensajes por paquete de caracteres",
         "Par defaut 140": "Por defecto 140",
-        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "SMS \/ SMS Gateway (modificar caso de error: CMS 330 número SMSC no establecido)",
+        "Passerelle SMS \/ SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)": "Gateway SMS \/ Gateway SMS (en caso de error: número CMS 330 SMSC no configurado)",
         "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Use el código # * # * 4636 # * # * en un teléfono móvil para encontrar el SMSC de su operador",
         "Force du signal": "Fuerza de la señal",
-        "Réseaux": "Redes",
+        "Réseau": "Red",
         "Port socket interne": "Puerto de enchufe interno",
         "Cycle (s)": "Ciclo (s)"
     },
@@ -36,12 +35,13 @@
         "Visible": "Visible",
         "Objet parent": "Objeto padre",
         "Aucun": "Ninguna",
-        "Désactiver les intéractions": "Deshabilitar interacciones",
+        "Désactiver les interactions": "Deshabilitar interacciones",
         "Ajouter d'un numéro": "Agregar número",
         "Nom": "Nombre",
         "Utilisateur": "Usuario",
         "Numéro": "Número",
-        "Paramètres": "Configuraciones"
+        "Options": "Opciones",
+        "Action": "Acción"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
         "Afficher": "Mostrar",
@@ -63,6 +63,6 @@
         "Expediteur": "Remitente"
     },
     "info.json": {
-        "Plugin ajoutant la gestion (envoi\/réception) des SMS à Jeedom.Avec ce plugin vous pouvez ainsi être notifié par SMS, voir grâce au moteur d'interactions poser une question ou déclencher une action via SMS.(Nécessite une clé 3G et une carte SIM ).": "Complemento que agrega la administración (envío \/ recepción) de SMS a Jeedom. Con este complemento puede recibir notificaciones por SMS, vea gracias al motor de interacción para hacer una pregunta o activar una acción a través de SMS. (Requiere una clave 3G y una tarjeta SIM)"
+        "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Complemento que agrega la gestión (envío \/ recepción) de SMS a Jeedom. Con este plugin puedes ser notificado por SMS, incluso hacer una pregunta o activar una acción a través de SMS gracias al motor de interacción. (Requiere una clave 3G y una tarjeta SIM)"
     }
 }

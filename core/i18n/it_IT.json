@@ -1,7 +1,6 @@
 {
     "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Accesso non autorizzato",
-        "Démon": "Demone",
         "Port SMS": "",
         "Aucun": "Nessuno",
         "Auto": "",
@@ -11,10 +10,10 @@
         "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
         "Découper les messages par paquet de caractères": "",
         "Par defaut 140": "",
-        "Passerelle SMS \/ SMS Gateway (modifer cas d'erreur : CMS 330 SMSC number not set)": "",
+        "Passerelle SMS \/ SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)": "",
         "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
         "Force du signal": "",
-        "Réseaux": "Reti",
+        "Réseau": "",
         "Port socket interne": "Presa interna Port",
         "Cycle (s)": "Ciclo (s)"
     },
@@ -36,12 +35,13 @@
         "Visible": "Visibile",
         "Objet parent": "Oggetto padre",
         "Aucun": "Nessuno",
-        "Désactiver les intéractions": "",
+        "Désactiver les interactions": "",
         "Ajouter d'un numéro": "",
         "Nom": "Nome",
         "Utilisateur": "Utente",
         "Numéro": "",
-        "Paramètres": "Impostazioni"
+        "Options": "Opzioni",
+        "Action": "Azione"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
         "Afficher": "Mostra",
@@ -63,6 +63,6 @@
         "Expediteur": ""
     },
     "info.json": {
-        "Plugin ajoutant la gestion (envoi\/réception) des SMS à Jeedom.Avec ce plugin vous pouvez ainsi être notifié par SMS, voir grâce au moteur d'interactions poser une question ou déclencher une action via SMS.(Nécessite une clé 3G et une carte SIM ).": ""
+        "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": ""
     }
 }
