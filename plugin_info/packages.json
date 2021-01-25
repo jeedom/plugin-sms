@@ -1,0 +1,8 @@
+{
+  "apt" : {
+    "python" : {},
+    "python-pyudev" : {},
+    "python-requests" : {},
+    "python-serial" : {}
+  }
+}
