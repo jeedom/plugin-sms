@@ -1,19 +1,19 @@
 {
     "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Yetkisiz erişim",
-        "Port SMS": "",
+        "Port SMS": "Port SMS",
         "Aucun": "Hiçbir",
         "Auto": "Otomatik",
-        "Vitesse de communication (bauds)": "",
-        "Code pin (laisser vide s'il n'y en a pas)": "",
-        "Texte mode": "",
-        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "",
-        "Découper les messages par paquet de caractères": "",
-        "Par defaut 140": "",
-        "Passerelle SMS \/ SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)": "",
-        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "",
-        "Force du signal": "",
-        "Réseau": "",
+        "Vitesse de communication (bauds)": "Vitesse de communication (bauds)",
+        "Code pin (laisser vide s'il n'y en a pas)": "Code pin (laisser vide s'il n'y en a pas)",
+        "Texte mode": "Texte mode",
+        "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux": "A utiliser si vous ne recevez pas de message (compatibilité avec un maximum de modem) mais enleve le support des SMS multiple et des caractères spéciaux",
+        "Découper les messages par paquet de caractères": "Découper les messages par paquet de caractères",
+        "Par defaut 140": "Par defaut 140",
+        "Passerelle SMS \/ SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)": "Passerelle SMS \/ SMS Gateway (en cas d'erreur : CMS 330 SMSC number not set)",
+        "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur": "Utiliser le code #*#*4636#*#* sur un mobile pour trouver le SMSC de votre opérateur",
+        "Force du signal": "Force du signal",
+        "Réseau": "Réseau",
         "Port socket interne": "İç socket port",
         "Cycle (s)": "Devir"
     },
@@ -22,24 +22,24 @@
         "Gestion": "Idare",
         "Ajouter": "Ekle",
         "Configuration": "Ayar",
-        "Mes SMS": "",
+        "Mes SMS": "Mes SMS",
         "Rechercher": "Arayın",
         "Configuration avancée": "Gelişmiş ayarlar",
         "Sauvegarder": "Kaydet",
         "Supprimer": "Sil",
         "Equipement": "Cihaz",
         "Commandes": "Komutalar",
-        "Nom de l'équipement SMS": "",
-        "Nom de l'équipement GSM": "",
+        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
+        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
         "Activer": "Etkinleştir",
         "Visible": "Görülebilir",
         "Objet parent": "Üst nesne",
         "Aucun": "Hiçbir",
-        "Désactiver les interactions": "",
-        "Ajouter d'un numéro": "",
+        "Désactiver les interactions": "Désactiver les intéractions",
+        "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "İsim",
         "Utilisateur": "Kullanıcı",
-        "Numéro": "",
+        "Numéro": "Numéro",
         "Options": "Opsiyonlar",
         "Action": "Eylem"
     },
@@ -50,19 +50,19 @@
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Bu işlemi gerçekleştirme yetkiniz yok",
-        "Message venant de ": "",
-        "\\nRéponse : ": "",
-        "Interaction désactivée.": "",
-        "Message venant d\\un numéro non autorisé : ": ""
+        "Message venant de ": "Message venant de",
+        "\\nRéponse : ": "\\nRéponse :",
+        "Interaction désactivée.": "Interaction désactivée",
+        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé :"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {
-        "Le port n\\'est pas configuré": "",
-        "Veuillez vérifier la configuration": "",
-        "Signal": "",
+        "Le port n\\'est pas configuré": "Le port n\\'est pas configuré",
+        "Veuillez vérifier la configuration": "Veuillez vérifier la configuration",
+        "Signal": "Signal",
         "Message": "Mesaj",
-        "Expediteur": ""
+        "Expediteur": "Expediteur"
     },
     "info.json": {
-        "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": ""
+        "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM )"
     }
 }
