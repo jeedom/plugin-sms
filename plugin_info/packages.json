@@ -1,8 +1,10 @@
 {
   "apt" : {
     "python" : {},
-    "python-pyudev" : {},
-    "python-requests" : {},
-    "python-serial" : {}
+    "python-pip" : {}
+  },
+  "pip2" : {
+    "requests" : {},
+    "pyserial" : {}
   }
 }
