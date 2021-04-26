@@ -232,6 +232,7 @@ logging.info('SMSC : '+str(_smsc))
 
 if _device == 'auto':
 	know_sticks = [{'idVendor': '12d1', 'idProduct': '1003', 'name': 'Huawei'},
+					{'idVendor': '12d1', 'idProduct': '1f01', 'name': 'Huawei'},
 					{'idVendor': '12d1', 'idProduct': '1001', 'name': 'Huawei'},
 					{'idVendor': '0403', 'idProduct': '6001', 'name': 'Gsm'}]
 	for stick in know_sticks:
