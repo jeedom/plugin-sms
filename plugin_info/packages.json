@@ -5,6 +5,8 @@
   },
   "pip2" : {
     "requests" : {},
-    "pyserial" : {}
+    "pyserial" : {},
+    "pyudev" : {},
+    "python-gsmmodem-new" : {}
   }
 }

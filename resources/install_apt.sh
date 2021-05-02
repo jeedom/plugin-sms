@@ -9,7 +9,8 @@ echo "*             Installation des dépendances             *"
 echo "********************************************************"
 apt-get update
 echo 50 > ${PROGRESS_FILE}
-apt-get install -y python-serial python-requests python-pyudev
+apt-get install -y python-serial python-requests python-pyudev python-pip
+pip install python-gsmmodem-new
 echo 100 > ${PROGRESS_FILE}
 echo "********************************************************"
 echo "*             Installation terminée                    *"
