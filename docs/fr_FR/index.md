@@ -46,7 +46,7 @@ En dessous vous retrouvez la liste des commandes :
 
 -   **Nom** : le nom affiché sur le dashboard.
 -   **Utilisateur** : utilisateur correspondant dans Jeedom (permet de restreindre certaines interactions à certains utilisateurs).
--   **Numéro** : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; *(exemple: 0612345678;0698765432)*.
+-   **Numéro** : numéro de téléphone à qui envoyer les messages. Vous pouvez mettre plusieurs numéros en les séparant avec des ; *(exemple: 0612345678;0698765432)*. IMPORTANT : il faut mettre les numéros au format international (+33 pour la france par exemple)
 
 > **IMPORTANT**
 >
