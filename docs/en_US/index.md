@@ -46,7 +46,7 @@ Below you find the list of orders :
 
 -   **Name** : the name displayed on the dashboard.
 -   **User** : corresponding user in Jeedom (allows you to restrict certain interactions to certain users).
--   **Number** : phone number to send messages to. You can put several numbers by separating them with; *(exemple: 0612345678; 0698765432)*.
+-   **Number** : phone number to send messages to. You can put several numbers by separating them with; *(exemple: 0612345678; 0698765432)*. Important : it is necessary to put the numbers in the international format (+33 for France for example)
 
 > **Important**
 >

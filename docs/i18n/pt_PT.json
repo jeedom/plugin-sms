@@ -78,6 +78,7 @@
         "0612345678;0698765432": "0612345678; 0698765432",
         "numéro de téléphone à qui envoyer les messages": "número de telefone para o qual enviar mensagens",
         "Vous pouvez mettre plusieurs numéros en les séparant avec des ;": "Você pode colocar vários números, separando-os com;",
+        "il faut mettre les numéros au format international (+33 pour la france par exemple": "é necessário colocar os números no formato internacional (+33 para a França por exemplo",
         "Seuls les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés": "Apenas os números de telefone declarados em um dispositivo podem usar as interações porque apenas eles serão autorizados",
         "permet d'afficher la donnée sur le dashboard": "permite exibir os dados no painel",
         "Configuration avancée": "Configuração avançada",

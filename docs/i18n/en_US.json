@@ -78,6 +78,7 @@
         "0612345678;0698765432": "0612345678; 0698765432",
         "numéro de téléphone à qui envoyer les messages": "phone number to send messages to",
         "Vous pouvez mettre plusieurs numéros en les séparant avec des ;": "You can put several numbers by separating them with;",
+        "il faut mettre les numéros au format international (+33 pour la france par exemple": "it is necessary to put the numbers in the international format (+33 for France for example",
         "Seuls les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés": "Only the phone numbers declared in a device can use the interactions because only they will be authorized",
         "permet d'afficher la donnée sur le dashboard": "allows to display the data on the dashboard",
         "Configuration avancée": "Advanced configuration",

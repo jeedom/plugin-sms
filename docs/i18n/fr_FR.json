@@ -79,6 +79,7 @@
         "0612345678;0698765432": "0612345678;0698765432",
         "numéro de téléphone à qui envoyer les messages": "numéro de téléphone à qui envoyer les messages",
         "Vous pouvez mettre plusieurs numéros en les séparant avec des ;": "Vous pouvez mettre plusieurs numéros en les séparant avec des ;",
+        "il faut mettre les numéros au format international (+33 pour la france par exemple": "il faut mettre les numéros au format international (+33 pour la france par exemple",
         "Seuls les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés": "Seuls les numéros de téléphone déclarés dans un équipement pouront utiliser les interactions car seuls eux seront autorisés",
         "Afficher": "Afficher",
         "permet d'afficher la donnée sur le dashboard": "permet d'afficher la donnée sur le dashboard",

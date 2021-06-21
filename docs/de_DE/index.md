@@ -46,7 +46,7 @@ Nachfolgend finden Sie die Liste der Bestellungen :
 
 -   **Name** : Der im Dashboard angezeigte Name.
 -   **Benutzer** : entsprechender Benutzer in Jeedom (ermöglicht es Ihnen, bestimmte Interaktionen auf bestimmte Benutzer zu beschränken).
--   **Anzahl** : Telefonnummer, an die Nachrichten gesendet werden sollen. Sie können mehrere Zahlen eingeben, indem Sie sie durch trennen *(exemple: 0612345678; 0698765432)*.
+-   **Anzahl** : Telefonnummer, an die Nachrichten gesendet werden sollen. Sie können mehrere Zahlen eingeben, indem Sie sie durch trennen *(exemple: 0612345678; 0698765432)*. Wichtig : Es ist notwendig, die Zahlen im internationalen Format (+33 für Frankreich zum Beispiel) anzugeben)
 
 > **Wichtig**
 >

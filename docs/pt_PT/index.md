@@ -46,7 +46,7 @@ Abaixo você encontra a lista de pedidos :
 
 -   **Nome** : o nome exibido no painel.
 -   **Usuário** : usuário correspondente no Jeedom (permite restringir certas interações a determinados usuários).
--   **Número** : número de telefone para o qual enviar mensagens. Você pode colocar vários números, separando-os com; *(exemple: 0612345678; 0698765432)*.
+-   **Número** : número de telefone para o qual enviar mensagens. Você pode colocar vários números, separando-os com; *(exemple: 0612345678; 0698765432)*. IMPORTANTE : é necessário colocar os números no formato internacional (+33 para a França por exemplo)
 
 > **IMPORTANTE**
 >
