@@ -84,6 +84,7 @@ To communicate with Jeedom, it will then suffice to send him a message from an a
 -   Alcatel one touch X220L
 -   HSDPA 7.2MBPS 3G Wireless
 -   HUAWEI E3372
+-   USB SIM800C (speed 9600)
 
 # FAQ
 

@@ -113,6 +113,7 @@
         "HSDPA 7": "HSDPA 7",
         "2MBPS 3G Wireless": "2MBPS 3G Wireless",
         "HUAWEI E3372": "HUAWEI E3372",
+        "USB SIM800C (vitesse 9600": "USB SIM800C (vitesse 9600",
         "FAQ": "FAQ",
         "Je ne reçois rien avec une clef huwaei e160": "Je ne reçois rien avec une clef huwaei e160",
         "Il faut installer minicom (`sudo apt-get install -y minicom`), lancer celui-ci et se connecter au modem, puis faire": "Il faut installer minicom (`sudo apt-get install -y minicom`), lancer celui-ci et se connecter au modem, puis faire",
