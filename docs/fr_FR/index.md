@@ -84,6 +84,7 @@ Pour communiquer avec Jeedom, il suffira ensuite de lui envoyer un message à pa
 -   Alcatel one touch X220L
 -   HSDPA 7.2MBPS 3G Wireless
 -   HUAWEI E3372
+-   USB SIM800C (vitesse 9600)
 
 # FAQ
 
