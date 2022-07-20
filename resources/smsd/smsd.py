@@ -130,9 +130,8 @@ def read_socket():
             if message['apikey'] != _apikey:
                 logging.error("Invalid apikey from socket : " + str(message))
                 return
-            logging.debug("waitForNetworkCoverage")
             gsm.waitForNetworkCoverage()
-            logging.debug("sendSms")
+            logging.info("Envoi d'un message à %s: %s", message['number'], message['message'])
             gsm.sendSms(message['number'], message['message'])
     except Exception as e:
         logging.error(str(e))
