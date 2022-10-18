@@ -33,24 +33,30 @@
         "Supprimer": "取り除きます",
         "Equipement": "設備",
         "Commandes": "コマンド",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "アクティブ",
-        "Visible": "目に見えます",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "親オブジェクト",
         "Aucun": "何でもありません",
+        "Catégorie": "Catégorie",
+        "Options": "オプション",
+        "Activer": "アクティブ",
+        "Visible": "目に見えます",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "表題",
         "Utilisateur": "ユーザー",
         "Numéro": "Numéro",
-        "Options": "オプション",
-        "Action": "アクション"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "ディスプレイ",
         "Historiser": "Historicize",
-        "Tester": "テスト"
+        "Tester": "テスト",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "このアクションを実行する権限がありません",

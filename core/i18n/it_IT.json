@@ -33,24 +33,30 @@
         "Supprimer": "Rimuovere",
         "Equipement": "Dispositivo",
         "Commandes": "Comandi",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "Attivare",
-        "Visible": "Visibile",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "Oggetto padre",
         "Aucun": "Nessuno",
+        "Catégorie": "Catégorie",
+        "Options": "Opzioni",
+        "Activer": "Attivare",
+        "Visible": "Visibile",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "Nome",
         "Utilisateur": "Utente",
         "Numéro": "Numéro",
-        "Options": "Opzioni",
-        "Action": "Azione"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "Mostra",
         "Historiser": "Storicizza",
-        "Tester": "Prova"
+        "Tester": "Prova",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Non sei autorizzato a eseguire questa azione",

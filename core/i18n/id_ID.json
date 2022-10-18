@@ -33,24 +33,30 @@
         "Supprimer": "Menghapus",
         "Equipement": "Peralatan",
         "Commandes": "Perintah",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "Mengaktifkan",
-        "Visible": "Terlihat",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "Objek induk",
         "Aucun": "Tak ada",
+        "Catégorie": "Catégorie",
+        "Options": "Pilihan",
+        "Activer": "Mengaktifkan",
+        "Visible": "Terlihat",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "Nama",
         "Utilisateur": "Pengguna",
         "Numéro": "Numéro",
-        "Options": "Pilihan",
-        "Action": "Tindakan"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "Memenitikan",
         "Historiser": "Historicize",
-        "Tester": "Coba"
+        "Tester": "Coba",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",

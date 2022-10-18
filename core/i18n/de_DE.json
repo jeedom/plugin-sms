@@ -33,24 +33,30 @@
         "Supprimer": "Löschen",
         "Equipement": "Gerät",
         "Commandes": "Befehle",
-        "Nom de l'équipement SMS": "Name des SMS-Geräts",
-        "Nom de l'équipement GSM": "Name der GSM-Ausrüstung",
-        "Activer": "Aktivieren",
-        "Visible": "Sichtbar",
+        "Paramètres généraux": "Allgemeine Einstellungen",
+        "Nom de l'équipement": "Ausrüstungsname",
         "Objet parent": "Übergeordnetes Objekt",
         "Aucun": "Ohne",
+        "Catégorie": "Kategorie",
+        "Options": "Optionen",
+        "Activer": "Aktivieren",
+        "Visible": "Sichtbar",
+        "Paramètres spécifiques": "Spezifische Parameter",
         "Désactiver les interactions": "Interaktionen deaktivieren",
         "Ajouter d'un numéro": "Nummer hinzufügen",
         "Nom": "Name",
         "Utilisateur": "Benutzer",
         "Numéro": "Anzahl",
-        "Options": "Optionen",
-        "Action": "Aktionen"
+        "Etat": "Bundesland",
+        "Actions": "Anteile"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Befehlsname",
+        "Choisir une icône": "Wählen Sie ein Symbol aus",
         "Afficher": "Anzeige",
         "Historiser": "Chronik",
-        "Tester": "Test"
+        "Tester": "Test",
+        "Supprimer la commande": "Auftrag löschen"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Sie sind nicht berechtigt, diese Aktion auszuführen",

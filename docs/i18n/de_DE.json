@@ -2,6 +2,8 @@
     "changelog.md": {
         "Changelog SMS": "Changelog SMS",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Zur Erinnerung: Wenn keine Informationen zum Update vorhanden sind, bedeutet dies, dass es sich nur um die Aktualisierung von Dokumentation, Übersetzung oder Text handelt",
+        "18\/10\/2022": "18.10.2022",
+        "Mise à jour liste des commandes pour Jeedom v4.3": "Befehlsliste für Jeedom v4.3 aktualisieren",
         "20\/07\/2022": "20.07.2022",
         "Migration démon en python3": "Daemon nach python3 migrieren",
         "17\/11\/2020": "17.11.2020",

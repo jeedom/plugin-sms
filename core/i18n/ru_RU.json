@@ -33,24 +33,30 @@
         "Supprimer": "удаление",
         "Equipement": "Оборудование",
         "Commandes": "Команды",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "активировать",
-        "Visible": "Видимый",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "Родительский объект",
         "Aucun": "Нет",
+        "Catégorie": "Catégorie",
+        "Options": "Опции",
+        "Activer": "активировать",
+        "Visible": "Видимый",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "Имя",
         "Utilisateur": "Пользователь",
         "Numéro": "Numéro",
-        "Options": "Опции",
-        "Action": "Действие"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "дисплей",
         "Historiser": "История",
-        "Tester": "Тест"
+        "Tester": "Тест",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",

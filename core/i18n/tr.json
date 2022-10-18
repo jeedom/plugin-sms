@@ -33,24 +33,30 @@
         "Supprimer": "Sil",
         "Equipement": "Cihaz",
         "Commandes": "Komutalar",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "Etkinleştir",
-        "Visible": "Görülebilir",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "Üst nesne",
         "Aucun": "Hiçbir",
+        "Catégorie": "Catégorie",
+        "Options": "Opsiyonlar",
+        "Activer": "Etkinleştir",
+        "Visible": "Görülebilir",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "İsim",
         "Utilisateur": "Kullanıcı",
         "Numéro": "Numéro",
-        "Options": "Opsiyonlar",
-        "Action": "Eylem"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "Göster",
         "Historiser": "Tarihe göre sırala",
-        "Tester": "Test et"
+        "Tester": "Test et",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Bu işlemi gerçekleştirme yetkiniz yok",
