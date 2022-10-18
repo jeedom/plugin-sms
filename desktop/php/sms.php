@@ -66,46 +66,62 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay"><i class="fas fa-arrow-circle-left"></i></a></li>
 			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-			<li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-list-alt"></i> {{Commandes}}</a></li>
+			<li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-list"></i> {{Commandes}}</a></li>
 		</ul>
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
 			<div role="tabpanel" class="tab-pane active" id="eqlogictab">
-				<br />
 				<form class="form-horizontal">
 					<fieldset>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Nom de l'équipement SMS}}</label>
-							<div class="col-sm-3">
-								<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-								<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement GSM}}" />
+						<div class="col-lg-7">
+							<legend><i class="fas fa-wrench"></i> {{Paramètres généraux}}</legend>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Nom de l'équipement}}</label>
+								<div class="col-sm-6">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display:none;">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement}}">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label"></label>
-							<div class="col-sm-9">
-								<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked />{{Activer}}</label>
-								<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked />{{Visible}}</label>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Objet parent}}</label>
+								<div class="col-sm-6">
+									<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+										<option value="">{{Aucun}}</option>
+										<?php
+										$options = '';
+										foreach ((jeeObject::buildTree(null, false)) as $object) {
+											$options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
+										}
+										echo $options;
+										?>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Objet parent}}</label>
-							<div class="col-sm-3">
-								<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-									<option value="">{{Aucun}}</option>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Catégorie}}</label>
+								<div class="col-sm-8">
 									<?php
-									$options = '';
-									foreach ((jeeObject::buildTree(null, false)) as $object) {
-										$options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
+									foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+										echo '<label class="checkbox-inline">';
+										echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" >' . $value['name'];
+										echo '</label>';
 									}
-									echo $options;
 									?>
-								</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Désactiver les interactions}}</label>
-							<div class="col-sm-3">
-								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="disableInteract" />
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Options}}</label>
+								<div class="col-sm-6">
+									<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked>{{Activer}}</label>
+									<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked>{{Visible}}</label>
+								</div>
+							</div>
+
+							<legend><i class="fas fa-cogs"></i> {{Paramètres spécifiques}}</legend>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Désactiver les interactions}}</label>
+								<div class="col-sm-6">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="disableInteract" />
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -116,11 +132,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<table id="table_cmd" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th>{{Nom}}</th>
-							<th>{{Utilisateur}}</th>
-							<th>{{Numéro}}</th>
-							<th>{{Options}}</th>
-							<th>{{Action}}</th>
+							<th style="min-width:200px;width:350px;">{{Nom}}</th>
+							<th style="min-width:150px;width:250px;">{{Utilisateur}}</th>
+							<th style="min-width:150px;width:250px;">{{Numéro}}</th>
+							<th style="min-width:180px;width:200px">{{Options}}</th>
+							<th>{{Etat}}</th>
+							<th style="min-width:80px;width:140px;">{{Actions}}</th>
 						</tr>
 					</thead>
 					<tbody>
