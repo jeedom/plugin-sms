@@ -360,27 +360,31 @@ class GsmModem(SerialComms):
             self._smsReadSupported = False
             self.log.warning('SMS preferred message storage query not supported by modem. SMS reading unavailable.')
         else:
-            cpmsSupport = cpmsLine.split(' ', 1)[1].split('),(')
-            # Do a sanity check on the memory types returned - Nokia S60 devices return empty strings, for example
-            for memItem in cpmsSupport:
-                if len(memItem) == 0:
-                    # No support for reading stored SMS via AT commands - probably a Nokia S60
-                    self._smsReadSupported = False
-                    self.log.warning('Invalid SMS message storage support returned by modem. SMS reading unavailable. Response was: "%s"', cpmsLine)
-                    break
+            if cpmsLine is None:
+                self._smsReadSupported = False
+                self.log.warning('Invalid SMS message storage support returned by modem. SMS reading unavailable.')
             else:
-                # Suppported memory types look fine, continue
-                preferredMemoryTypes = ('"ME"', '"SM"', '"SR"')
-                cpmsItems = [''] * len(cpmsSupport)
-                for i in xrange(len(cpmsSupport)):
-                    for memType in preferredMemoryTypes:
-                        if memType in cpmsSupport[i]:
-                            if i == 0:
-                                self._smsMemReadDelete = memType
-                            cpmsItems[i] = memType
-                            break
-                self.write('AT+CPMS={0}'.format(','.join(cpmsItems))) # Set message storage
-            del cpmsSupport
+                cpmsSupport = cpmsLine.split(' ', 1)[1].split('),(')
+                # Do a sanity check on the memory types returned - Nokia S60 devices return empty strings, for example
+                for memItem in cpmsSupport:
+                    if len(memItem) == 0:
+                        # No support for reading stored SMS via AT commands - probably a Nokia S60
+                        self._smsReadSupported = False
+                        self.log.warning('Invalid SMS message storage support returned by modem. SMS reading unavailable. Response was: "%s"', cpmsLine)
+                        break
+                else:
+                    # Suppported memory types look fine, continue
+                    preferredMemoryTypes = ('"ME"', '"SM"', '"SR"')
+                    cpmsItems = [''] * len(cpmsSupport)
+                    for i in xrange(len(cpmsSupport)):
+                        for memType in preferredMemoryTypes:
+                            if memType in cpmsSupport[i]:
+                                if i == 0:
+                                    self._smsMemReadDelete = memType
+                                cpmsItems[i] = memType
+                                break
+                    self.write('AT+CPMS={0}'.format(','.join(cpmsItems))) # Set message storage
+                del cpmsSupport
             del cpmsLine
 
         if self._smsReadSupported and (self.smsReceivedCallback or self.smsStatusReportCallback):
