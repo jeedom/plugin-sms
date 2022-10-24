@@ -25,8 +25,8 @@ from gsmmodem.modem import GsmModem
 
 try:
     from jeedom.jeedom import *
-except ImportError:
-    print("Error: importing module from jeedom folder")
+except ImportError as e:
+    print("Error: importing module from jeedom folder: %s", e)
     sys.exit(1)
 
 ################################PARAMETERS######################################

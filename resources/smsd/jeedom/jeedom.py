@@ -14,7 +14,6 @@
 # along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 #
 
-import time
 import logging
 import threading
 import requests
@@ -22,12 +21,9 @@ import datetime
 import collections
 import serial
 import os
-from os.path import join
-import socket
 from queue import Queue
 import socketserver
 from socketserver import (TCPServer, StreamRequestHandler)
-import signal
 import unicodedata
 import pyudev
 
