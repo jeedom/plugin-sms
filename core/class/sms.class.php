@@ -122,6 +122,11 @@ class sms extends eqLogic {
 	}
 
 	/*     * *********************Methode d'instance************************* */
+	public function preSave() {
+		if ($this->getConfiguration('allowUnknownOrigin', 0) == 0) {
+			$this->setConfiguration('autoAddNewNumber', 0);
+		}
+	}
 
 	public function postSave() {
 		$signal = $this->getCmd(null, 'signal');

@@ -77,3 +77,11 @@ function addCmdToTable(_cmd) {
     }
   });
 }
+
+$('.eqLogicAttr[data-l2key="allowUnknownOrigin"]').on('change', function () {
+  $('#autoAddNewNumber').toggle(this.checked);
+}).change();
+
+$('.eqLogicAttr[data-l2key="autoAddNewNumber"]').on('change', function () {
+  $('#autoAddNewNumberWarning').toggle(this.checked);
+}).change();
