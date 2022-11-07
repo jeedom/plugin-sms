@@ -132,37 +132,37 @@ class sms extends eqLogic {
 		$signal = $this->getCmd(null, 'signal');
 		if (!is_object($signal)) {
 			$signal = new smsCmd();
+			$signal->setEqLogic_id($this->getId());
 			$signal->setLogicalId('signal');
 			$signal->setIsVisible(0);
 			$signal->setName(__('Signal', __FILE__));
 		}
 		$signal->setType('info');
 		$signal->setSubType('numeric');
-		$signal->setEqLogic_id($this->getId());
 		$signal->save();
 
 		$sms = $this->getCmd(null, 'sms');
 		if (!is_object($sms)) {
 			$sms = new smsCmd();
+			$sms->setEqLogic_id($this->getId());
 			$sms->setLogicalId('sms');
 			$sms->setIsVisible(0);
 			$sms->setName(__('Message', __FILE__));
 		}
 		$sms->setType('info');
 		$sms->setSubType('string');
-		$sms->setEqLogic_id($this->getId());
 		$sms->save();
 
 		$sender = $this->getCmd(null, 'sender');
 		if (!is_object($sender)) {
 			$sender = new smsCmd();
+			$sender->setEqLogic_id($this->getId());
 			$sender->setLogicalId('sender');
 			$sender->setIsVisible(0);
 			$sender->setName(__('Expediteur', __FILE__));
 		}
 		$sender->setType('info');
 		$sender->setSubType('string');
-		$sender->setEqLogic_id($this->getId());
 		$sender->save();
 	}
 }

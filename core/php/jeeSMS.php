@@ -153,5 +153,5 @@ function handleMessage($cmd, $number, $message) {
 		log::add('sms', 'debug', __("Interaction désactivée.", __FILE__));
 	}
 	$eqLogic->checkAndUpdateCmd('sms', $message);
-	$eqLogic->checkAndUpdateCmd('sender', $number);
+	$eqLogic->checkAndUpdateCmd('sender', $cmd->getName());
 }
