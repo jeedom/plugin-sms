@@ -43,6 +43,13 @@
         "Visible": "Sichtbar",
         "Paramètres spécifiques": "Spezifische Parameter",
         "Désactiver les interactions": "Interaktionen deaktivieren",
+        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expérditeur seront disponnibles via les commandes comme pour tout autre message.": "Ermöglicht den Empfang von Nachrichten von unbekannten Nummern. Interaktionen sind für diese Nummern immer deaktiviert. Die empfangene Nachricht sowie die Nummer des Absenders sind wie bei jeder anderen Nachricht über die Befehle verfügbar",
+        "Autoriser les messages de numéros inconnus": "Nachrichten von unbekannten Nummern zulassen",
+        "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.": "Fügen Sie automatisch eine unbekannte Nummer zur Befehlsliste hinzu, wenn Sie eine Nachricht erhalten",
+        "Ajouter les numéros inconnus aux commandes": "Fügen Sie Bestellungen unbekannte Nummern hinzu",
+        "Cette option est dangereuse car cela va ajouter automatiquement une commande correspondante au numéro lors de la réception d'un message en provenance d'un numéro inconnu.": "Diese Option ist gefährlich, da sie der Nummer automatisch einen entsprechenden Befehl hinzufügt, wenn Sie eine Nachricht von einer unbekannten Nummer erhalten",
+        "Si sur le même équipement vous activez les interactions, cela veut dire que n'importe qui pourra commencer à interagir avec votre Jeedom.": "Wenn Sie auf demselben Gerät die Interaktionen aktivieren, bedeutet dies, dass jeder mit Ihrem Jeedom interagieren kann",
+        "N'activez cette option que si vous êtes certain d'accepter ce risque.": "Aktivieren Sie diese Option nur, wenn Sie sicher sind, dass Sie dieses Risiko akzeptieren",
         "Ajouter d'un numéro": "Nummer hinzufügen",
         "Nom": "Name",
         "Utilisateur": "Benutzer",
@@ -60,10 +67,13 @@
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Sie sind nicht berechtigt, diese Aktion auszuführen",
+        "Aucun équipement SMS activé": "Kein SMS-Gerät aktiviert",
         "Message venant de ": "Nachricht von",
+        "Message venant d\\'un numéro inconnu, création auto activée:": "Nachricht von einer unbekannten Nummer, automatische Erstellung aktiviert:",
+        "Message venant d\\'un numéro inconnu mais les numéros inconnus sont autorisés : ": "Nachricht von einer unbekannten Nummer, aber unbekannte Nummern sind erlaubt:",
+        "Message venant d\\'un numéro non autorisé : ": "Nachricht von einer nicht autorisierten Nummer:",
         "\\nRéponse : ": "\\ nAntwort:",
-        "Interaction désactivée.": "Interaktion deaktiviert",
-        "Message venant d\\un numéro non autorisé : ": "Nachricht von einer nicht autorisierten Nummer:"
+        "Interaction désactivée.": "Interaktion deaktiviert"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "Port ist nicht konfiguriert",
