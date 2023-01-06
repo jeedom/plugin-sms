@@ -124,7 +124,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label help" data-help="{{Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expérditeur seront disponnibles via les commandes comme pour tout autre message.}}">{{Autoriser les messages de numéros inconnus}}</label>
+								<label class="col-sm-4 control-label help" data-help="{{Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.}}">{{Autoriser les messages de numéros inconnus}}</label>
 								<div class="col-sm-6">
 									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="allowUnknownOrigin" />
 								</div>
