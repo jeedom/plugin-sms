@@ -43,7 +43,7 @@
         "Visible": "Sichtbar",
         "Paramètres spécifiques": "Spezifische Parameter",
         "Désactiver les interactions": "Interaktionen deaktivieren",
-        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expérditeur seront disponnibles via les commandes comme pour tout autre message.": "Ermöglicht den Empfang von Nachrichten von unbekannten Nummern. Interaktionen sind für diese Nummern immer deaktiviert. Die empfangene Nachricht sowie die Nummer des Absenders sind wie bei jeder anderen Nachricht über die Befehle verfügbar",
+        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.": "Ermöglicht den Empfang von Nachrichten von unbekannten Nummern. Interaktionen sind für diese Nummern immer deaktiviert. Die empfangene Nachricht sowie die Nummer des Absenders sind wie bei jeder anderen Nachricht über die Befehle verfügbar",
         "Autoriser les messages de numéros inconnus": "Nachrichten von unbekannten Nummern zulassen",
         "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.": "Fügen Sie automatisch eine unbekannte Nummer zur Befehlsliste hinzu, wenn Sie eine Nachricht erhalten",
         "Ajouter les numéros inconnus aux commandes": "Fügen Sie Bestellungen unbekannte Nummern hinzu",

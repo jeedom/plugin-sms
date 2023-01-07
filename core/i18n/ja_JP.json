@@ -43,7 +43,7 @@
         "Visible": "目に見えます",
         "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
-        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expérditeur seront disponnibles via les commandes comme pour tout autre message.": "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expérditeur seront disponnibles via les commandes comme pour tout autre message",
+        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.": "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message",
         "Autoriser les messages de numéros inconnus": "Autoriser les messages de numéros inconnus",
         "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.": "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message",
         "Ajouter les numéros inconnus aux commandes": "Ajouter les numéros inconnus aux commandes",
