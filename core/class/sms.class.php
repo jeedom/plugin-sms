@@ -164,6 +164,19 @@ class sms extends eqLogic {
 		$sender->setType('info');
 		$sender->setSubType('string');
 		$sender->save();
+
+		$genericSms = $this->getCmd(null, 'generic_sms');
+		if (!is_object($genericSms)) {
+			$genericSms = new smsCmd();
+			$genericSms->setEqLogic_id($this->getId());
+			$genericSms->setLogicalId('generic_sms');
+			$genericSms->setIsVisible(0);
+			$genericSms->setName(__('Message Générique', __FILE__));
+		}
+		$genericSms->setType('action');
+		$genericSms->setSubType('message');
+		$genericSms->setDisplay('title_placeholder', __('Numéro', __FILE__));
+		$genericSms->save();
 	}
 }
 
@@ -195,13 +208,16 @@ class smsCmd extends cmd {
 	}
 
 	public function preSave() {
-		if ($this->getSubtype() == 'message') {
+		if ($this->getSubtype() == 'message' && $this->getLogicalId() != 'generic_sms') {
 			$this->setDisplay('title_disable', 1);
 		}
 	}
 
 	public function execute($_options = null) {
 		$number = $this->getConfiguration('phonenumber');
+		if ($this->getLogicalId() == 'generic_sms' && isset($_options['title'])) {
+			$number = $_options['title'];
+		}
 		if (isset($_options['number'])) {
 			$number = $_options['number'];
 		}

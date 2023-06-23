@@ -19,6 +19,9 @@ function addCmdToTable(_cmd) {
   if (!isset(_cmd)) {
     var _cmd = { configuration: {} };
   }
+  if (isset(_cmd.logicalId) && _cmd.logicalId == 'generic_sms') {
+    return;
+  }
   if (!isset(_cmd.type) || !isset(_cmd.subType)) {
     // user is adding a new action message command
     _cmd.type = 'action';
