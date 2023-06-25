@@ -53,7 +53,7 @@
         "Ajouter d'un numéro": "Nummer hinzufügen",
         "Nom": "Name",
         "Utilisateur": "Benutzer",
-        "Numéro": "Anzahl",
+        "Numéro": "Nummer",
         "Etat": "Bundesland",
         "Actions": "Anteile"
     },
@@ -80,7 +80,9 @@
         "Veuillez vérifier la configuration": "Bitte überprüfen Sie die Konfiguration",
         "Signal": "Signal",
         "Message": "Nachricht",
-        "Expediteur": "Absender"
+        "Expediteur": "Absender",
+        "Envoyer message à": "Nachricht senden an",
+        "Numéro": "Nummer"
     },
     "info.json": {
         "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Plugin, das die Verwaltung (Senden \/ Empfangen) von SMS zu Jeedom hinzufügt. Mit diesem Plugin können Sie dank der Interaktions-Engine per SMS benachrichtigt, sogar eine Frage gestellt oder eine Aktion per SMS ausgelöst werden. (Benötigt einen 3G-Schlüssel und eine SIM-Karte)"

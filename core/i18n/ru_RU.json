@@ -80,7 +80,9 @@
         "Veuillez vérifier la configuration": "Veuillez vérifier la configuration",
         "Signal": "Signal",
         "Message": "Сообщение",
-        "Expediteur": "Expediteur"
+        "Expediteur": "Expediteur",
+        "Envoyer message à": "Envoyer message à",
+        "Numéro": "Numéro"
     },
     "info.json": {
         "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM )"

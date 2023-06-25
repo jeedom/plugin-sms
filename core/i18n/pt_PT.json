@@ -80,7 +80,9 @@
         "Veuillez vérifier la configuration": "Por favor, verifique a configuração",
         "Signal": "Sinal",
         "Message": "Mensagem",
-        "Expediteur": "Remetente"
+        "Expediteur": "Remetente",
+        "Envoyer message à": "Enviar mensagem para",
+        "Numéro": "Número"
     },
     "info.json": {
         "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Plugin adicionando o gerenciamento (envio \/ recebimento) de SMS ao Jeedom. Com este plugin você pode ser notificado por SMS, até mesmo fazer uma pergunta ou acionar uma ação via SMS graças ao mecanismo de interação. (Requer uma chave 3G e um cartão SIM)"
