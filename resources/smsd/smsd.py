@@ -49,7 +49,7 @@ def listen():
     logging.debug("Start listening...")
     try:
         logging.debug("Connecting to GSM Modem...")
-        gsm = GsmModem(_device, int(_serial_rate), smsReceivedCallbackFunc=handleSms)
+        gsm = GsmModem(_device, int(_serial_rate), smsReceivedCallbackFunc=handleSms, dsrdtr=False, rtscts=False)
         if _text_mode == 'yes':
             logging.debug("Text mode true")
             gsm.smsTextMode = True
