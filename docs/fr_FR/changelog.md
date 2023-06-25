@@ -7,6 +7,7 @@
 # 06/11/2022
 
 - Ajout de deux nouvelles options: **Autoriser les messages de numéros inconnus** & **Ajouter automatiquement les numéros inconnus**; voir documentation.
+- Désactivation du flow control lors de la connexion au modem pour éviter des problèmes avec certains modem (par exemple modem lixee)
 
 # 21/10/2022
 
