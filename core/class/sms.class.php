@@ -84,7 +84,7 @@ class sms extends eqLogic {
 		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
 		$cmd .= ' --smsc ' . config::byKey('smsc', 'sms', 'None');
 		$cmd .= ' --cycle ' . config::byKey('cycle', 'sms');
-		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'http:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
 		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
 		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
