@@ -2,13 +2,16 @@
 
 """ Low-level serial communications handling """
 
-import sys, threading, logging
+import sys
+import threading
+import logging
 
 import re
-import serial # pyserial: http://pyserial.sourceforge.net
+import serial  # pyserial: http://pyserial.sourceforge.net
 
 from .exceptions import TimeoutException
-from . import compat # For Python 2.6 compatibility
+from . import compat  # For Python 2.6 compatibility
+
 
 class SerialComms(object):
     """ Wraps all low-level serial communications (actual read/write operations) """
@@ -32,10 +35,10 @@ class SerialComms(object):
         self.port = port
         self.baudrate = baudrate
 
-        self._responseEvent = None # threading.Event()
-        self._expectResponseTermSeq = None # expected response terminator sequence
-        self._response = None # Buffer containing response to a written command
-        self._notification = [] # Buffer containing lines from an unsolicited notification from the modem
+        self._responseEvent = None  # threading.Event()
+        self._expectResponseTermSeq = None  # expected response terminator sequence
+        self._response = None  # Buffer containing response to a written command
+        self._notification = []  # Buffer containing lines from an unsolicited notification from the modem
         # Reentrant lock for managing concurrent write access to the underlying serial port
         self._txLock = threading.RLock()
 
@@ -47,8 +50,8 @@ class SerialComms(object):
 
     def connect(self):
         """ Connects to the device and starts the read thread """
-        self.serial = serial.Serial(dsrdtr=True, rtscts=True, port=self.port, baudrate=self.baudrate,
-                                    timeout=self.timeout,*self.com_args,**self.com_kwargs)
+        self.serial = serial.Serial(dsrdtr=True, rtscts=False, port=self.port, baudrate=self.baudrate,
+                                    timeout=self.timeout, *self.com_args, **self.com_kwargs)
         # Start read thread
         self.alive = True
         self.rxThread = threading.Thread(target=self._readLoop)
@@ -62,13 +65,13 @@ class SerialComms(object):
         self.serial.close()
 
     def _handleLineRead(self, line, checkForResponseTerm=True):
-        #print 'sc.hlineread:',line
+        # print 'sc.hlineread:',line
         if self._responseEvent and not self._responseEvent.is_set():
             # A response event has been set up (another thread is waiting for this response)
             self._response.append(line)
             if not checkForResponseTerm or self.RESPONSE_TERM.match(line):
                 # End of response reached; notify waiting thread
-                #print 'response:', self._response
+                # print 'response:', self._response
                 self.log.debug('response: %s', self._response)
                 self._responseEvent.set()
         else:
@@ -76,7 +79,7 @@ class SerialComms(object):
             self._notification.append(line)
             if self.serial.inWaiting() == 0:
                 # No more chars on the way for this notification - notify higher-level callback
-                #print 'notification:', self._notification
+                # print 'notification:', self._notification
                 self.log.debug('notification: %s', self._notification)
                 self.notifyCallback(self._notification)
                 self._notification = []
@@ -95,28 +98,31 @@ class SerialComms(object):
             rxBuffer = bytearray()
             while self.alive:
                 data = self.serial.read(1)
-                if len(data) != 0: # check for timeout
+                if len(data) != 0:  # check for timeout
                     #print >> sys.stderr, ' RX:', data,'({0})'.format(ord(data))
                     rxBuffer.append(ord(data))
                     if rxBuffer[-readTermLen:] == readTermSeq:
                         # A line (or other logical segment) has been read
-                        line = rxBuffer[:-readTermLen].decode()
+                        try:
+                            line = rxBuffer[:-readTermLen].decode()
+                        except UnicodeDecodeError:
+                            line = ''
                         rxBuffer = bytearray()
                         if len(line) > 0:
-                            #print 'calling handler'
+                            # print 'calling handler'
                             self._handleLineRead(line)
                     elif self._expectResponseTermSeq:
                         if rxBuffer[-len(self._expectResponseTermSeq):] == self._expectResponseTermSeq:
                             line = rxBuffer.decode()
                             rxBuffer = bytearray()
                             self._handleLineRead(line, checkForResponseTerm=False)
-            #else:
+            # else:
                 #' <RX timeout>'
         except serial.SerialException as e:
             self.alive = False
             try:
                 self.serial.close()
-            except Exception: #pragma: no cover
+            except Exception:  # pragma: no cover
                 pass
             # Notify the fatal error handler
             self.fatalErrorCallback(e)
@@ -134,7 +140,7 @@ class SerialComms(object):
                     self._responseEvent = None
                     self._expectResponseTermSeq = False
                     return self._response
-                else: # Response timed out
+                else:  # Response timed out
                     self._responseEvent = None
                     self._expectResponseTermSeq = False
                     if len(self._response) > 0:

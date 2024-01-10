@@ -33,12 +33,12 @@ function addCmdToTable(_cmd) {
   tr += '<span class="input-group-btn"><a class="cmdAction btn btn-sm btn-default" data-l1key="chooseIcon" title="{{Choisir une icône}}"><i class="fas fa-icons"></i></a></span>';
   tr += '<span class="cmdAttr input-group-addon roundedRight" data-l1key="display" data-l2key="icon" style="font-size:19px;padding:0 5px 0 0!important;"></span>';
   tr += '</div>';
-  if (_cmd.type == 'action') {
+  if (_cmd.type == 'action' && _cmd.logicalId != 'send_to_custom_number') {
     tr += '<td>';
     tr += '<select class="form-control cmdAttr input-sm" data-l1key="configuration" data-l2key="user"></select>';
     tr += '</td>';
     tr += '<td><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="phonenumber"></td>';
-  } else if (_cmd.type == 'info') {
+  } else {
     tr += '<td>';
     tr += '</td>';
     tr += '<td></td>';
@@ -77,3 +77,11 @@ function addCmdToTable(_cmd) {
     }
   });
 }
+
+$('.eqLogicAttr[data-l2key="allowUnknownOrigin"]').on('change', function () {
+  $('#autoAddNewNumber').toggle(this.checked);
+}).change();
+
+$('.eqLogicAttr[data-l2key="autoAddNewNumber"]').on('change', function () {
+  $('#autoAddNewNumberWarning').toggle(this.checked);
+}).change();

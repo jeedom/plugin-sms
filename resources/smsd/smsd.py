@@ -25,8 +25,8 @@ from gsmmodem.modem import GsmModem
 
 try:
     from jeedom.jeedom import *
-except ImportError:
-    print("Error: importing module from jeedom folder")
+except ImportError as e:
+    print("Error: importing module from jeedom folder: %s", e)
     sys.exit(1)
 
 ################################PARAMETERS######################################
@@ -58,9 +58,9 @@ def listen():
             gsm.smsTextMode = False
         if _pin != 'None':
             logging.debug("Enter pin code : "+_pin)
-            gsm.connect(_pin)
+            gsm.connect(_pin, 1)
         else:
-            gsm.connect()
+            gsm.connect(None, 1)
         if _smsc != 'None':
             logging.debug("Configure smsc : "+_smsc)
             gsm.write('AT+CSCA="{0}"'.format(_smsc))
@@ -72,7 +72,7 @@ def listen():
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
-            logging.error("Exception: %s" % str(e))
+            logging.error("Exception during send_change_immediate: %s" % str(e))
 
         try:
             gsm.write('AT+CPMS="ME","ME","ME"')
@@ -80,7 +80,7 @@ def listen():
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
-            logging.error("Exception: %s" % str(e))
+            logging.error("Exception on 'ME': %s" % str(e))
 
         try:
             gsm.write('AT+CPMS="SM","SM","SM"')
@@ -88,13 +88,13 @@ def listen():
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
-            logging.error("Exception: %s" % str(e))
+            logging.error("Exception on 'SM': %s" % str(e))
     except Exception as e:
         if str(e).find('object has no attribute') != -1:
             pass
         if str(e).find('Attempting to use a port that is not open') != -1:
             pass
-        logging.error("Exception: %s" % str(e))
+        logging.error("Global listen exception of type %s occurred: %s", type(e).__name__, e)
         jeedom_com.send_change_immediate({'number': 'none', 'message': str(e)})
         logging.error("Exit 1 because this exeption is fatal")
         shutdown()
@@ -222,7 +222,6 @@ logging.info('Socket port : '+str(_socket_port))
 logging.info('Socket host : '+str(_socket_host))
 logging.info('PID file : '+str(_pidfile))
 logging.info('Device : '+str(_device))
-logging.info('Apikey : '+str(_apikey))
 logging.info('Callback : '+str(_callback))
 logging.info('Cycle : '+str(_cycle))
 logging.info('Serial rate : '+str(_serial_rate))

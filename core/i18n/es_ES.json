@@ -33,38 +33,56 @@
         "Supprimer": "Borrar",
         "Equipement": "Dispositivos",
         "Commandes": "Comandos",
-        "Nom de l'équipement SMS": "Nombre del equipo SMS",
-        "Nom de l'équipement GSM": "Nombre del equipo GSM",
-        "Activer": "Activar",
-        "Visible": "Visible",
+        "Paramètres généraux": "Configuración general",
+        "Nom de l'équipement": "Nombre del equipo",
         "Objet parent": "Objeto padre",
         "Aucun": "Ninguna",
+        "Catégorie": "Categoría",
+        "Options": "Opciones",
+        "Activer": "Activar",
+        "Visible": "Visible",
+        "Paramètres spécifiques": "Parámetros específicos",
         "Désactiver les interactions": "Deshabilitar interacciones",
+        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.": "Permite recibir mensajes de números desconocidos. Las interacciones siempre están deshabilitadas para estos números. El mensaje recibido así como el número del remitente estarán disponibles a través de los comandos como para cualquier otro mensaje",
+        "Autoriser les messages de numéros inconnus": "Permitir mensajes de números desconocidos",
+        "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.": "Agregue automáticamente un número desconocido a la lista de comandos al recibir un mensaje",
+        "Ajouter les numéros inconnus aux commandes": "Agregar números desconocidos a los pedidos",
+        "Cette option est dangereuse car cela va ajouter automatiquement une commande correspondante au numéro lors de la réception d'un message en provenance d'un numéro inconnu.": "Esta opción es peligrosa porque agregará automáticamente un comando correspondiente al número cuando reciba un mensaje de un número desconocido",
+        "Si sur le même équipement vous activez les interactions, cela veut dire que n'importe qui pourra commencer à interagir avec votre Jeedom.": "Si en el mismo equipo activas las interacciones, significa que cualquiera puede comenzar a interactuar con tu Jeedom",
+        "N'activez cette option que si vous êtes certain d'accepter ce risque.": "Active esta opción solo si está seguro de que acepta este riesgo",
         "Ajouter d'un numéro": "Agregar número",
         "Nom": "Nombre",
         "Utilisateur": "Usuario",
         "Numéro": "Número",
-        "Options": "Opciones",
-        "Action": "Acción"
+        "Etat": "Estado",
+        "Actions": "Comparte"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nombre del comando",
+        "Choisir une icône": "Elige un icono",
         "Afficher": "Mostrar",
         "Historiser": "Guardar historial",
-        "Tester": "Probar"
+        "Tester": "Probar",
+        "Supprimer la commande": "Eliminar pedido"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "No tiene autorización para realizar esta acción",
+        "Aucun équipement SMS activé": "Ningún dispositivo SMS activado",
         "Message venant de ": "Mensaje de",
+        "Message venant d\\'un numéro inconnu, création auto activée:": "Mensaje de un número desconocido, creación automática habilitada:",
+        "Message venant d\\'un numéro inconnu mais les numéros inconnus sont autorisés : ": "Mensaje de un número desconocido pero se permiten números desconocidos:",
+        "Message venant d\\'un numéro non autorisé : ": "Mensaje de un número no autorizado:",
         "\\nRéponse : ": "\\ nRespuesta:",
-        "Interaction désactivée.": "Interacción deshabilitada",
-        "Message venant d\\un numéro non autorisé : ": "Mensaje de un número no autorizado:"
+        "Interaction désactivée.": "Interacción deshabilitada"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "El puerto no está configurado",
         "Veuillez vérifier la configuration": "Por favor verifique la configuración",
         "Signal": "Señal",
         "Message": "Mensaje",
-        "Expediteur": "Remitente"
+        "Expediteur": "Remitente",
+        "Envoyer message à": "Enviar mensaje a",
+        "Numéro": "Número"
     },
     "info.json": {
         "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Complemento que agrega la gestión (envío \/ recepción) de SMS a Jeedom. Con este plugin puedes ser notificado por SMS, incluso hacer una pregunta o activar una acción a través de SMS gracias al motor de interacción. (Requiere una clave 3G y una tarjeta SIM)"

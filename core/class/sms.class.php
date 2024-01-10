@@ -84,7 +84,7 @@ class sms extends eqLogic {
 		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
 		$cmd .= ' --smsc ' . config::byKey('smsc', 'sms', 'None');
 		$cmd .= ' --cycle ' . config::byKey('cycle', 'sms');
-		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
+		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'http:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
 		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
 		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
@@ -122,43 +122,61 @@ class sms extends eqLogic {
 	}
 
 	/*     * *********************Methode d'instance************************* */
+	public function preSave() {
+		if ($this->getConfiguration('allowUnknownOrigin', 0) == 0) {
+			$this->setConfiguration('autoAddNewNumber', 0);
+		}
+	}
 
 	public function postSave() {
 		$signal = $this->getCmd(null, 'signal');
 		if (!is_object($signal)) {
 			$signal = new smsCmd();
+			$signal->setEqLogic_id($this->getId());
 			$signal->setLogicalId('signal');
 			$signal->setIsVisible(0);
 			$signal->setName(__('Signal', __FILE__));
 		}
 		$signal->setType('info');
 		$signal->setSubType('numeric');
-		$signal->setEqLogic_id($this->getId());
 		$signal->save();
 
 		$sms = $this->getCmd(null, 'sms');
 		if (!is_object($sms)) {
 			$sms = new smsCmd();
+			$sms->setEqLogic_id($this->getId());
 			$sms->setLogicalId('sms');
 			$sms->setIsVisible(0);
 			$sms->setName(__('Message', __FILE__));
 		}
 		$sms->setType('info');
 		$sms->setSubType('string');
-		$sms->setEqLogic_id($this->getId());
 		$sms->save();
 
 		$sender = $this->getCmd(null, 'sender');
 		if (!is_object($sender)) {
 			$sender = new smsCmd();
+			$sender->setEqLogic_id($this->getId());
 			$sender->setLogicalId('sender');
 			$sender->setIsVisible(0);
 			$sender->setName(__('Expediteur', __FILE__));
 		}
 		$sender->setType('info');
 		$sender->setSubType('string');
-		$sender->setEqLogic_id($this->getId());
 		$sender->save();
+
+		$customNumber = $this->getCmd(null, 'send_to_custom_number');
+		if (!is_object($customNumber)) {
+			$customNumber = new smsCmd();
+			$customNumber->setEqLogic_id($this->getId());
+			$customNumber->setLogicalId('send_to_custom_number');
+			$customNumber->setIsVisible(0);
+			$customNumber->setName(__('Envoyer message à', __FILE__));
+			$customNumber->setType('action');
+			$customNumber->setSubType('message');
+			$customNumber->setDisplay('title_placeholder', __('Numéro', __FILE__));
+			$customNumber->save();
+		}
 	}
 }
 
@@ -190,13 +208,16 @@ class smsCmd extends cmd {
 	}
 
 	public function preSave() {
-		if ($this->getSubtype() == 'message') {
+		if ($this->getSubtype() == 'message' && $this->getLogicalId() != 'send_to_custom_number') {
 			$this->setDisplay('title_disable', 1);
 		}
 	}
 
 	public function execute($_options = null) {
 		$number = $this->getConfiguration('phonenumber');
+		if ($this->getLogicalId() == 'send_to_custom_number' && isset($_options['title'])) {
+			$number = $_options['title'];
+		}
 		if (isset($_options['number'])) {
 			$number = $_options['number'];
 		}

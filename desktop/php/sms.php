@@ -123,6 +123,29 @@ $eqLogics = eqLogic::byType($plugin->getId());
 									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="disableInteract" />
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label help" data-help="{{Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.}}">{{Autoriser les messages de numéros inconnus}}</label>
+								<div class="col-sm-6">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="allowUnknownOrigin" />
+								</div>
+							</div>
+							<div class="form-group" id="autoAddNewNumber" style="display: none;">
+								<label class="col-sm-4 control-label help" data-help="{{Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.}}">{{Ajouter les numéros inconnus aux commandes}}</label>
+								<div class="col-sm-6">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoAddNewNumber" />
+								</div>
+								<div id="autoAddNewNumberWarning">
+									<div class="col-sm-12">
+										<div class="alert alert-warning globalRemark">
+											{{Cette option est dangereuse car cela va ajouter automatiquement une commande correspondante au numéro lors de la réception d'un message en provenance d'un numéro inconnu.}}
+											<br>
+											{{Si sur le même équipement vous activez les interactions, cela veut dire que n'importe qui pourra commencer à interagir avec votre Jeedom.}}
+											<br>
+											{{N'activez cette option que si vous êtes certain d'accepter ce risque.}}
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</fieldset>
 				</form>

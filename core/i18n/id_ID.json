@@ -33,38 +33,56 @@
         "Supprimer": "Menghapus",
         "Equipement": "Peralatan",
         "Commandes": "Perintah",
-        "Nom de l'équipement SMS": "Nom de l'équipement SMS",
-        "Nom de l'équipement GSM": "Nom de l'équipement GSM",
-        "Activer": "Mengaktifkan",
-        "Visible": "Terlihat",
+        "Paramètres généraux": "Paramètres généraux",
+        "Nom de l'équipement": "Nom de l'équipement",
         "Objet parent": "Objek induk",
         "Aucun": "Tak ada",
+        "Catégorie": "Catégorie",
+        "Options": "Pilihan",
+        "Activer": "Mengaktifkan",
+        "Visible": "Terlihat",
+        "Paramètres spécifiques": "Paramètres spécifiques",
         "Désactiver les interactions": "Désactiver les intéractions",
+        "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message.": "Autorise la réception de messages de numéros inconnus. Les interactions sont toujours désactivées pour ces numéros. Le message reçu ainsi que le numéro de l'expéditeur seront disponnibles via les commandes comme pour tout autre message",
+        "Autoriser les messages de numéros inconnus": "Autoriser les messages de numéros inconnus",
+        "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message.": "Permet d'ajouter automatiquement un numéro inconnu à la liste des commandes lors de la réception d'un message",
+        "Ajouter les numéros inconnus aux commandes": "Ajouter les numéros inconnus aux commandes",
+        "Cette option est dangereuse car cela va ajouter automatiquement une commande correspondante au numéro lors de la réception d'un message en provenance d'un numéro inconnu.": "Cette option est dangereuse car cela va ajouter automatiquement une commande correspondante au numéro lors de la réception d'un message en provenance d'un numéro inconnu",
+        "Si sur le même équipement vous activez les interactions, cela veut dire que n'importe qui pourra commencer à interagir avec votre Jeedom.": "Si sur le même équipement vous activez les interactions, cela veut dire que n'importe qui pourra commencer à interagir avec votre Jeedom",
+        "N'activez cette option que si vous êtes certain d'accepter ce risque.": "N'activez cette option que si vous êtes certain d'accepter ce risque",
         "Ajouter d'un numéro": "Ajouter d'un numéro",
         "Nom": "Nama",
         "Utilisateur": "Pengguna",
         "Numéro": "Numéro",
-        "Options": "Pilihan",
-        "Action": "Tindakan"
+        "Etat": "Etat",
+        "Actions": "Actions"
     },
     "plugins\/sms\/desktop\/js\/sms.js": {
+        "Nom de la commande": "Nom de la commande",
+        "Choisir une icône": "Choisir une icône",
         "Afficher": "Memenitikan",
         "Historiser": "Historicize",
-        "Tester": "Coba"
+        "Tester": "Coba",
+        "Supprimer la commande": "Supprimer la commande"
     },
     "plugins\/sms\/core\/php\/jeeSMS.php": {
         "Vous n\\'etes pas autorisé à effectuer cette action": "Vous n\\'etes pas autorisé à effectuer cette action",
+        "Aucun équipement SMS activé": "Aucun équipement SMS activé",
         "Message venant de ": "Message venant de",
+        "Message venant d\\'un numéro inconnu, création auto activée:": "Message venant d\\'un numéro inconnu, création auto activée:",
+        "Message venant d\\'un numéro inconnu mais les numéros inconnus sont autorisés : ": "Message venant d\\'un numéro inconnu mais les numéros inconnus sont autorisés :",
+        "Message venant d\\'un numéro non autorisé : ": "Message venant d\\'un numéro non autorisé :",
         "\\nRéponse : ": "\\nRéponse :",
-        "Interaction désactivée.": "Interaction désactivée",
-        "Message venant d\\un numéro non autorisé : ": "Message venant d\\un numéro non autorisé :"
+        "Interaction désactivée.": "Interaction désactivée"
     },
     "plugins\/sms\/core\/class\/sms.class.php": {
         "Le port n\\'est pas configuré": "Le port n\\'est pas configuré",
         "Veuillez vérifier la configuration": "Veuillez vérifier la configuration",
         "Signal": "Signal",
         "Message": "Pesan",
-        "Expediteur": "Expediteur"
+        "Expediteur": "Expediteur",
+        "Envoyer message à": "Envoyer message à",
+        "Numéro": "Numéro"
     },
     "info.json": {
         "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM ).": "Plugin ajoutant la gestion (envoi\/réception) de SMS à Jeedom. Avec ce plugin vous pouvez ainsi être notifié par SMS, voire poser une question ou déclencher une action via SMS grâce au moteur d'interactions. (Nécessite une clé 3G et une carte SIM )"
