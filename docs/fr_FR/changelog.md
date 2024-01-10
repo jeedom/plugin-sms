@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
+# 10/01/2024
+
+- Passage en stable des changements présents en beta depuis le 21/10/2022 inclus (voir ci-dessous pour la liste complète)
+
 # 25/06/2023
 
 - Ajout d'une nouvelle commande **Envoyer message à** permettant d'envoyer un sms à un numéro personnalisé sans devoir créer la commande du contact. Cela permet d'envoyer un sms à un numéro obtenu via une commande info d'un autre équipement sous Jeedom par exemple. Attention, aucune vérification du numéro n'est effectuée, il faut fournir les numéros au format international.
