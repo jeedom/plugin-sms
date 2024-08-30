@@ -39,11 +39,13 @@ class sms extends eqLogic {
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
-			if (@!file_exists($port)) {
-				$return['launchable'] = 'nok';
-				$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
+			if (is_string($port)) {
+				if (@!file_exists($port)) {
+					$return['launchable'] = 'nok';
+					$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
+				}
+				exec(system::getCmdSudo() . 'chmod 777 ' . $port . ' > /dev/null 2>&1');
 			}
-			exec(system::getCmdSudo() . 'chmod 777 ' . $port . ' > /dev/null 2>&1');
 		}
 		return $return;
 	}
