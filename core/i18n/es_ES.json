@@ -2,7 +2,6 @@
     "plugins\/sms\/plugin_info\/configuration.php": {
         "401 - Accès non autorisé": "401 - Acceso no autorizado",
         "Port SMS": "Puerto de SMS",
-        "Aucun": "Ninguna",
         "Auto": "Auto",
         "Vitesse de communication (bauds)": "Velocidad de comunicación (baudios)",
         "Code pin (laisser vide s'il n'y en a pas)": "Código PIN (dejar en blanco si no hay ninguno)",

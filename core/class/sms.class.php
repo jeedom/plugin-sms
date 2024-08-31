@@ -39,28 +39,15 @@ class sms extends eqLogic {
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
-			if (@!file_exists($port)) {
-				$return['launchable'] = 'nok';
-				$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
+			if (is_string($port)) {
+				if (@!file_exists($port)) {
+					$return['launchable'] = 'nok';
+					$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
+				}
+				exec(system::getCmdSudo() . 'chmod 777 ' . $port . ' > /dev/null 2>&1');
 			}
-			exec(system::getCmdSudo() . 'chmod 777 ' . $port . ' > /dev/null 2>&1');
 		}
 		return $return;
-	}
-
-	public static function dependancy_info() {
-		$return = array();
-		$return['progress_file'] = jeedom::getTmpFolder('sms') . '/dependance';
-		if (exec(system::getCmdSudo() . system::get('cmd_check') . '-E "python3\-serial|python3\-request|python3\-pyudev" | wc -l') >= 3) {
-			$return['state'] = 'ok';
-		} else {
-			$return['state'] = 'nok';
-		}
-		return $return;
-	}
-	public static function dependancy_install() {
-		log::remove(__CLASS__ . '_update');
-		return array('script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('sms') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
 	}
 
 	public static function deamon_start() {
@@ -74,7 +61,7 @@ class sms extends eqLogic {
 			$port = jeedom::getUsbMapping($port);
 		}
 		$sms_path = realpath(__DIR__ . '/../../resources/smsd');
-		$cmd = '/usr/bin/python3 ' . $sms_path . '/smsd.py';
+		$cmd = system::getCmdPython3(__CLASS__) . " {$sms_path}/smsd.py";
 		$cmd .= ' --device ' . $port;
 		$cmd .= ' --loglevel ' . log::convertLogLevel(log::getLogLevel('sms'));
 		$cmd .= ' --socketport ' . config::byKey('socketport', 'sms');
@@ -256,13 +243,11 @@ class smsCmd extends cmd {
 				$values = $tmp_values;
 			}
 		}
-		if (config::byKey('port', 'sms', 'none') != 'none') {
-			foreach ($values as $value) {
-				$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-				socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms'));
-				socket_write($socket, $value, strlen($value));
-				socket_close($socket);
-			}
+		foreach ($values as $value) {
+			$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+			socket_connect($socket, '127.0.0.1', config::byKey('socketport', 'sms'));
+			socket_write($socket, $value, strlen($value));
+			socket_close($socket);
 		}
 	}
 }
