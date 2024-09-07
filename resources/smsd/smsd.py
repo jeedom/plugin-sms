@@ -35,7 +35,7 @@ gsm = False
 
 
 def handleSms(sms):
-    logging.debug("Got SMS message : "+str(sms))
+    logging.debug("Got SMS message : %s", sms)
     if not sms.text:
         logging.debug("No text so nothing to do")
         return
@@ -57,12 +57,12 @@ def listen():
             logging.debug("Text mode false")
             gsm.smsTextMode = False
         if _pin != 'None':
-            logging.debug("Enter pin code : "+_pin)
+            logging.debug("Enter pin code : %s ", _pin)
             gsm.connect(_pin, 1)
         else:
             gsm.connect(None, 1)
         if _smsc != 'None':
-            logging.debug("Configure smsc : "+_smsc)
+            logging.debug("Configure smsc : %s", _smsc)
             gsm.write('AT+CSCA="{0}"'.format(_smsc))
         logging.debug("Waiting for network...")
         gsm.waitForNetworkCoverage()
@@ -80,7 +80,7 @@ def listen():
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
-            logging.error("Exception on 'ME': %s" % str(e))
+            logging.error("Exception on 'ME': %s", e)
 
         try:
             gsm.write('AT+CPMS="SM","SM","SM"')
@@ -88,7 +88,7 @@ def listen():
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
-            logging.error("Exception on 'SM': %s" % str(e))
+            logging.error("Exception on 'SM': %s", e)
     except Exception as e:
         if str(e).find('object has no attribute') != -1:
             pass
@@ -109,14 +109,14 @@ def listen():
                     signal_strength_store = gsm.signalStrength
                     jeedom_com.send_change_immediate({'number': 'signal_strength', 'message': str(gsm.signalStrength)})
             except Exception as e:
-                logging.error("Exception on GSM : %s" % str(e))
+                logging.error("Exception on GSM : %s", e)
                 if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
                     logging.error("Exit 1 because this exeption is fatal")
                     shutdown()
             try:
                 read_socket()
             except Exception as e:
-                logging.error("Exception on socket : %s" % str(e))
+                logging.error("Exception on socket : %s", e)
     except KeyboardInterrupt:
         shutdown()
 
@@ -128,7 +128,7 @@ def read_socket():
             logging.debug("Message received in socket JEEDOM_SOCKET_MESSAGE")
             message = json.loads(JEEDOM_SOCKET_MESSAGE.get().decode("utf-8"))
             if message['apikey'] != _apikey:
-                logging.error("Invalid apikey from socket : " + str(message))
+                logging.error("Invalid apikey from socket : ", message)
                 return
             gsm.waitForNetworkCoverage()
             logging.info("Envoi d'un message à %s: %s", message['number'], message['message'])
@@ -138,13 +138,13 @@ def read_socket():
 
 
 def handler(signum=None, frame=None):
-    logging.debug("Signal %i caught, exiting..." % int(signum))
+    logging.debug("Signal %i caught, exiting...", signum)
     shutdown()
 
 
 def shutdown():
     logging.debug("Shutdown")
-    logging.debug("Removing PID file " + str(_pidfile))
+    logging.debug("Removing PID file %s", _pidfile)
     try:
         os.remove(_pidfile)
     except:
@@ -217,17 +217,17 @@ _cycle = float(_cycle)
 jeedom_utils.set_log_level(_log_level)
 
 logging.info('Start smsd')
-logging.info('Log level : '+str(_log_level))
-logging.info('Socket port : '+str(_socket_port))
-logging.info('Socket host : '+str(_socket_host))
-logging.info('PID file : '+str(_pidfile))
-logging.info('Device : '+str(_device))
-logging.info('Callback : '+str(_callback))
-logging.info('Cycle : '+str(_cycle))
-logging.info('Serial rate : '+str(_serial_rate))
-logging.info('Pin : '+str(_pin))
-logging.info('Text mode : '+str(_text_mode))
-logging.info('SMSC : '+str(_smsc))
+logging.info('Log level : %s', _log_level)
+logging.info('Socket port : %s', _socket_port)
+logging.info('Socket host : %s', _socket_host)
+logging.info('PID file : %s', _pidfile)
+logging.info('Device : %s', _device)
+logging.info('Callback : %s', _callback)
+logging.info('Cycle : %s', _cycle)
+logging.info('Serial rate : %s', _serial_rate)
+logging.info('Pin : %s', _pin)
+logging.info('Text mode : %s', _text_mode)
+logging.info('SMSC : %s', _smsc)
 
 
 if _device == 'auto':
@@ -238,7 +238,7 @@ if _device == 'auto':
     for stick in know_sticks:
         _device = jeedom_utils.find_tty_usb(stick['idVendor'], stick['idProduct'], stick['name'])
         if _device is not None:
-            logging.info('Find device : '+str(_device))
+            logging.info('Find device : %s', _device)
             break
 
 
@@ -258,6 +258,6 @@ try:
     jeedom_socket = jeedom_socket(port=_socket_port, address=_socket_host)
     listen()
 except Exception as e:
-    logging.error('Fatal error : '+str(e))
+    logging.error('Fatal error : %s', e)
     logging.debug(traceback.format_exc())
     shutdown()
