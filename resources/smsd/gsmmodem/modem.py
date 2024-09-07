@@ -817,13 +817,13 @@ class GsmModem(SerialComms):
                 response = self.write('AT+CPBS?')
                 selected_phonebook = response[0][6:].split('"')[1]  # first line, remove the +CSCS: prefix, split, first parameter
 
-                if selected_phonebook is not "ON":
+                if selected_phonebook != "ON":
                     self.write('AT+CPBS="ON"')
 
                 response = self.write("AT+CPBR=1")
                 self.write('AT+CPBS="{0}"'.format(selected_phonebook))
 
-            if response is "OK":  # command is supported, but no number is set
+            if response == "OK":  # command is supported, but no number is set
                 return None
             elif len(response) == 2:  # OK and phone number. Actual number is in the first line, second parameter, and is placed inside quotation marks
                 cnumLine = response[0]
@@ -843,7 +843,7 @@ class GsmModem(SerialComms):
     @ownNumber.setter
     def ownNumber(self, phone_number):
         actual_phonebook = self.write('AT+CPBS?')
-        if actual_phonebook is not "ON":
+        if actual_phonebook != "ON":
             self.write('AT+CPBS="ON"')
         self.write('AT+CPBW=1,"' + phone_number + '"')
 
