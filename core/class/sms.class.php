@@ -75,7 +75,7 @@ class sms extends eqLogic {
 		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
 		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
 		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
-		$result = exec($cmd . ' >> ' . log::getPathToLog('sms') . ' 2>&1 &');
+		$result = exec($cmd . ' >> ' . log::getPathToLog('smsd') . ' 2>&1 &');
 		$i = 0;
 		while ($i < 30) {
 			$deamon_info = self::deamon_info();
