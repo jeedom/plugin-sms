@@ -1104,7 +1104,7 @@ class GsmModem(SerialComms):
 
     def _getConcat(self, smsDict):
         concat = None
-        if smsDict.has_key('udh'):
+        if 'udh' in smsDict:
             for i in smsDict['udh']:
                 if isinstance(i, Concatenation):
                     concat = i
