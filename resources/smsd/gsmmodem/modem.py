@@ -15,7 +15,7 @@ from time import sleep
 
 from .serial_comms import SerialComms
 from .exceptions import CommandError, InvalidStateException, CmeError, CmsError, InterruptedException, TimeoutException, PinRequiredError, IncorrectPinError, SmscNumberUnknownError
-from .pdu import encodeSmsSubmitPdu, decodeSmsPdu, encodeGsm7, encodeTextMode
+from .pdu import encodeSmsSubmitPdu, decodeSmsPdu, encodeGsm7, encodeTextMode, Concatenation
 from .util import SimpleOffsetTzInfo, lineStartingWith, allLinesMatchingPattern, parseTextModeTimeStr, removeAtPrefix
 
 # from . import compat # For Python 2.6 compatibility
@@ -61,13 +61,14 @@ class Sms(object):
 class ReceivedSms(Sms):
     """ An SMS message that has been received (MT) """
 
-    def __init__(self, gsmModem, status, number, time, text, smsc=None, udh=[], index=None):
+    def __init__(self, gsmModem, status, number, time, text, smsc=None, udh=[], index=None, concat=None):
         super(ReceivedSms, self).__init__(number, text, smsc)
         self._gsmModem = weakref.proxy(gsmModem)
         self.status = status
         self.time = time
         self.udh = udh
         self.index = index
+        self.concat = concat
 
     def reply(self, message):
         """ Convenience method that sends a reply SMS to the sender of this message """
@@ -1101,6 +1102,15 @@ class GsmModem(SerialComms):
         else:
             raise ValueError('GsmModem.smsReceivedCallback not set')
 
+    def _getConcat(self, smsDict):
+        concat = None
+        if smsDict.has_key('udh'):
+            for i in smsDict['udh']:
+                if isinstance(i, Concatenation):
+                    concat = i
+                    break
+        return concat
+
     def listStoredSms(self, status=Sms.STATUS_ALL, memory=None, delete=False):
         """ Returns SMS messages currently stored on the device/SIM card.
 
@@ -1171,7 +1181,8 @@ class GsmModem(SerialComms):
                         # todo: make better fix
                     else:
                         if smsDict['type'] == 'SMS-DELIVER':
-                            sms = ReceivedSms(self, int(msgStat), smsDict['number'], smsDict['time'], smsDict['text'], smsDict['smsc'], smsDict.get('udh', []), msgIndex)
+                            concat = self._getConcat(smsDict)
+                            sms = ReceivedSms(self, int(msgStat), smsDict['number'], smsDict['time'], smsDict['text'], smsDict['smsc'], smsDict.get('udh', []), msgIndex, concat)
                         elif smsDict['type'] == 'SMS-STATUS-REPORT':
                             sms = StatusReport(self, int(msgStat), smsDict['reference'], smsDict['number'], smsDict['time'], smsDict['discharge'], smsDict['status'])
                         else:
@@ -1476,7 +1487,8 @@ class GsmModem(SerialComms):
             pdu = msgData[1]
             smsDict = decodeSmsPdu(pdu)
             if smsDict['type'] == 'SMS-DELIVER':
-                return ReceivedSms(self, int(stat), smsDict['number'], smsDict['time'], smsDict['text'], smsDict['smsc'], smsDict.get('udh', []))
+                concat = self._getConcat(smsDict)
+                return ReceivedSms(self, int(stat), smsDict['number'], smsDict['time'], smsDict['text'], smsDict['smsc'], smsDict.get('udh', []), concat)
             elif smsDict['type'] == 'SMS-STATUS-REPORT':
                 return StatusReport(self, int(stat), smsDict['reference'], smsDict['number'], smsDict['time'], smsDict['discharge'], smsDict['status'])
             else:

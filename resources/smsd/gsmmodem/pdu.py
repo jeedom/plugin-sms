@@ -463,10 +463,13 @@ def _decodeUserData(byteIter, userDataLen, dataCoding, udhPresent):
         del ieLenRead
         if dataCoding == 0x00: # GSM-7
             # Since we are using 7-bit data, "fill bits" may have been added to make the UDH end on a septet boundary
-            shift = ((udhLen + 1) * 8) % 7 # "fill bits" needed to make the UDH end on a septet boundary
+            shift = ((udhLen + 1) * 8) % 7  # "fill bits" needed to make the UDH end on a septet boundary
             # Simulate another "shift" in the unpackSeptets algorithm in order to ignore the fill bits
-            prevOctet = next(byteIter)
-            shift += 1
+            if shift:
+                prevOctet = next(byteIter)
+                shift += 1
+            else:
+                prevOctet = 0
 
     if dataCoding == 0x00: # GSM-7
         if udhPresent:
