@@ -50,7 +50,7 @@ class jeedom_com():
             start_time = datetime.datetime.now()
             changes = self.changes
             self.changes = {}
-            logging.debug('Send to jeedom : '+str(changes))
+            logging.debug('Send to jeedom : ' + str(changes))
             i = 0
             while i < self.retry:
                 try:
@@ -58,7 +58,7 @@ class jeedom_com():
                     if r.status_code == requests.codes.ok:
                         break
                 except Exception as error:
-                    logging.error('Error on send request to jeedom ' + str(error)+' retry : '+str(i)+'/'+str(self.retry))
+                    logging.error('Error on send request to jeedom ' + str(error) + ' retry : ' + str(i) + '/' + str(self.retry))
                 i = i + 1
             if r.status_code != requests.codes.ok:
                 logging.error('Error on send request to jeedom, return code %s' % (str(r.status_code),))
@@ -183,7 +183,7 @@ class jeedom_utils():
 
     @staticmethod
     def dec2bin(x, width=8):
-        return ''.join(str((x >> i) & 1) for i in range(width-1, -1, -1))
+        return ''.join(str((x >> i) & 1) for i in range(width - 1, -1, -1))
 
     @staticmethod
     def dec2hex(dec):
@@ -194,16 +194,16 @@ class jeedom_utils():
     @staticmethod
     def testBit(int_type, offset):
         mask = 1 << offset
-        return(int_type & mask)
+        return int_type & mask
 
     @staticmethod
     def clearBit(int_type, offset):
         mask = ~(1 << offset)
-        return(int_type & mask)
+        return int_type & mask
 
     @staticmethod
     def split_len(seq, length):
-        return [seq[i:i+length] for i in range(0, len(seq), length)]
+        return [seq[i:i + length] for i in range(0, len(seq), length)]
 
     @staticmethod
     def write_pid(path):
@@ -221,7 +221,7 @@ class jeedom_utils():
 
 class jeedom_serial():
 
-    def __init__(self, device='', rate='', timeout=9):
+    def __init__(self, device='', rate=9600, timeout=9):
         self.device = device
         self.rate = rate
         self.timeout = timeout
@@ -230,7 +230,7 @@ class jeedom_serial():
 
     def open(self):
         if self.device:
-            logging.debug("Open serial port on device: " + str(self.device)+', rate '+str(self.rate)+', timeout : '+str(self.timeout))
+            logging.debug("Open serial port on device: " + str(self.device) + ', rate ' + str(self.rate) + ', timeout : ' + str(self.timeout))
         else:
             logging.error("Device name missing.")
             return False
@@ -240,7 +240,7 @@ class jeedom_serial():
         except serial.SerialException as e:
             logging.error("Error: Failed to connect on device " + self.device + " Details : " + str(e))
             return False
-        if not self.port.isOpen():
+        if not self.port.is_open:
             self.port.open()
         self.flushOutput()
         self.flushInput()
@@ -249,38 +249,42 @@ class jeedom_serial():
     def close(self):
         logging.debug("Close serial port")
         try:
-            self.port.close()
+            if self.port:
+                self.port.close()
             logging.debug("Serial port closed")
             return True
-        except:
+        except Exception:
             logging.error("Failed to close the serial port (" + self.device + ")")
             return False
 
     def write(self, data):
-        logging.debug("Write data to serial port : "+str(jeedom_utils.ByteToHex(data)))
-        self.port.write(data)
+        logging.debug("Write data to serial port : " + str(jeedom_utils.ByteToHex(data)))
+        if self.port:
+            self.port.write(data)
 
     def flushOutput(self,):
         logging.debug("flushOutput serial port ")
-        self.port.flushOutput()
+        if self.port:
+            self.port.reset_output_buffer()
 
     def flushInput(self):
         logging.debug("flushInput serial port ")
-        self.port.flushInput()
+        if self.port:
+            self.port.reset_input_buffer()
 
     def read(self):
-        if self.port.inWaiting() != 0:
+        if self.port and self.port.in_waiting != 0:
             return self.port.read()
         return None
 
     def readbytes(self, number):
         buf = b''
+        if not self.port:
+            return buf
         for i in range(number):
             try:
                 byte = self.port.read()
             except IOError as e:
-                logging.error("Error: " + str(e))
-            except OSError as e:
                 logging.error("Error: " + str(e))
             buf += byte
         return buf
@@ -325,9 +329,6 @@ class jeedom_socket():
 
     def close(self):
         self.netAdapter.shutdown()
-
-    def getMessage(self):
-        return self.message
 
 # ------------------------------------------------------------------------------
 # END

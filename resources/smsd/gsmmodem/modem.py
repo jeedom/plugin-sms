@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """ High-level API classes for an attached GSM modem """
 
 import re
@@ -381,7 +379,7 @@ class GsmModem(SerialComms):
                         self.log.warning('Invalid SMS message storage support returned by modem. SMS reading unavailable. Response was: "%s"', cpmsLine)
                         break
                 else:
-                    # Suppported memory types look fine, continue
+                    # Supported memory types look fine, continue
                     preferredMemoryTypes = ('"ME"', '"SM"', '"SR"')
                     cpmsItems = [''] * len(cpmsSupport)
                     for i in range(len(cpmsSupport)):
@@ -488,7 +486,7 @@ class GsmModem(SerialComms):
         responseLines = super(GsmModem, self).write(data + writeTerm, waitForResponse=waitForResponse, timeout=timeout, expectedResponseTermSeq=expectedResponseTermSeq)
         if self._writeWait > 0:  # Sleep a bit if required (some older modems suffer under load)
             time.sleep(self._writeWait)
-        if waitForResponse:
+        if waitForResponse and responseLines:
             cmdStatusLine = responseLines[-1]
             if parseError:
                 if 'ERROR' in cmdStatusLine:
@@ -633,7 +631,7 @@ class GsmModem(SerialComms):
     @property
     def smsSupportedEncoding(self):
         """
-        :raise NotImplementedError: If an error occures during AT command response parsing.
+        :raise NotImplementedError: If an error occurs during AT command response parsing.
         :return: List of supported encoding names. """
 
         # Check if command is available
@@ -736,7 +734,7 @@ class GsmModem(SerialComms):
                     return
 
         if encoding != self._smsEncoding:
-            raise ValueError(f'Unable to set SMS encoding (enocoding {encoding} not supported)')
+            raise ValueError(f'Unable to set SMS encoding (encoding {encoding} not supported)')
         else:
             return
 
@@ -770,12 +768,12 @@ class GsmModem(SerialComms):
             response = response[10]  # Remove '+GSMBUSY: ' prefix
             self._gsmBusy = response
         except Exception:
-            pass  # If error is related to ME funtionality: +CME ERROR: <error>
+            pass  # If error is related to ME functionality: +CME ERROR: <error>
         return self._gsmBusy
 
     @gsmBusy.setter
     def gsmBusy(self, gsmBusy):
-        """ Sete GSMBUSY state """
+        """ Set GSMBUSY state """
         if gsmBusy != self._gsmBusy:
             if self.alive:
                 self.write(f'AT+GSMBUSY="{gsmBusy}"')
@@ -1357,7 +1355,7 @@ class GsmModem(SerialComms):
         if self._dialEvent:
             if regexMatch:
                 groups = regexMatch.groups()
-                # Set self._dialReponse to (callId, callType)
+                # Set self._dialResponse to (callId, callType)
                 if len(groups) >= 2:
                     self._dialResponse = (int(groups[0]), int(groups[1]))
                 else:
@@ -1374,7 +1372,7 @@ class GsmModem(SerialComms):
                 callId = int(groups[0])
                 self.activeCalls[callId].answered = True
             else:
-                # Call ID not available for this notificition - check for the first outgoing call that has not been answered
+                # Call ID not available for this notification - check for the first outgoing call that has not been answered
                 for call in self.activeCalls.values():
                     if not call.answered and isinstance(call, Call):
                         call.answered = True
@@ -1554,7 +1552,7 @@ class GsmModem(SerialComms):
         """ Deletes all SMS messages that have the specified read status.
 
         The messages are read from the memory set by the "memory" parameter.
-        The value of the "delFlag" paramater is the same as the "DelFlag" parameter of the +CMGD command:
+        The value of the "delFlag" parameter is the same as the "DelFlag" parameter of the +CMGD command:
         1: Delete All READ messages
         2: Delete All READ and SENT messages
         3: Delete All READ, SENT and UNSENT messages
@@ -1567,7 +1565,7 @@ class GsmModem(SerialComms):
         :param delete: If True, delete returned messages from the device/SIM card
         :type delete: bool
 
-        :raise ValueErrror: if "delFlag" is not in range [1,4]
+        :raise ValueError: if "delFlag" is not in range [1,4]
         :raise CommandError: if unable to delete the stored messages
         """
         if 0 < delFlag <= 4:
@@ -1592,7 +1590,7 @@ class GsmModem(SerialComms):
         if len(lines) > 1:
             # Issue #20: Some modem/network combinations use \r\n as in-message EOL indicators;
             # - join lines to compensate for that (thanks to davidjb for the fix)
-            # Also, look for more than one +CUSD response because of certain modems' strange behaviour
+            # Also, look for more than one +CUSD response because of certain modems' strange behavior
             cusdMatches = list(self.CUSD_REGEX.finditer('\r\n'.join(lines)))
         else:
             # Single standard +CUSD response
@@ -1643,7 +1641,7 @@ class GsmModem(SerialComms):
                 else:
                     clcc = None
             except TimeoutException:
-                # Can happend if the call was ended during our time.sleep() call
+                # Can happen if the call was ended during our time.sleep() call
                 clcc = None
             if clcc:
                 direction = int(clcc.group(2))
@@ -1713,7 +1711,7 @@ class Call(object):
 
         Note: this is highly device-dependent, and might not work
 
-        :param digits: A str containining one or more DTMF tones to play, e.g. "3" or "*123#"
+        :param digits: A str containing one or more DTMF tones to play, e.g. "3" or "*123#"
 
         :raise CommandError: if the command failed/is not supported
         :raise InvalidStateException: if the call has not been answered, or is ended while the command is still executing

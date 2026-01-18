@@ -21,17 +21,23 @@ import argparse
 import signal
 import traceback
 import json
+from typing import Optional
 from gsmmodem.modem import GsmModem
 
 try:
-    from jeedom.jeedom import *
+    from jeedom.jeedom import jeedom_com, jeedom_socket, jeedom_utils, JEEDOM_SOCKET_MESSAGE
+
+    # Type hints for global instances (initialized later)
+    j_com_instance: Optional[jeedom_com] = None
+    j_socket_instance: Optional[jeedom_socket] = None
+
 except ImportError as e:
     print("Error: importing module from jeedom folder: %s", e)
     sys.exit(1)
 
 # PARAMETERS #
 
-gsm = False
+gsm: Optional[GsmModem] = None
 
 
 def handleSms(sms):
@@ -40,15 +46,19 @@ def handleSms(sms):
         logging.debug("No text so nothing to do")
         return
     message = jeedom_utils.remove_accents(sms.text.replace('"', ''))
-    jeedom_com.add_changes('devices::' + str(sms.number), {'number': sms.number, 'message': message})
+    if j_com_instance:
+        j_com_instance.add_changes('devices::' + str(sms.number), {'number': sms.number, 'message': message})
 
 
 def listen():
     global gsm
-    jeedom_socket.open()
+    if j_socket_instance:
+        j_socket_instance.open()
     logging.debug("Start listening...")
     try:
         logging.debug("Connecting to GSM Modem...")
+        if _device is None:
+            raise ValueError('Device not found')
         gsm = GsmModem(_device, int(_serial_rate), smsReceivedCallbackFunc=handleSms)
         if _text_mode == 'yes':
             logging.debug("Text mode true")
@@ -68,7 +78,8 @@ def listen():
         gsm.waitForNetworkCoverage()
         logging.debug("Ok")
         try:
-            jeedom_com.send_change_immediate({'number': 'network_name', 'message': str(gsm.networkName)})
+            if j_com_instance:
+                j_com_instance.send_change_immediate({'number': 'network_name', 'message': str(gsm.networkName)})
         except Exception as e:
             if str(e).find('object has no attribute') != -1:
                 pass
@@ -95,7 +106,8 @@ def listen():
         if str(e).find('Attempting to use a port that is not open') != -1:
             pass
         logging.error("Global listen exception of type %s occurred: %s", type(e).__name__, e)
-        jeedom_com.send_change_immediate({'number': 'none', 'message': str(e)})
+        if j_com_instance:
+            j_com_instance.send_change_immediate({'number': 'none', 'message': str(e)})
         logging.error("Exit 1 because this exception is fatal")
         shutdown()
     signal_strength_store = 0
@@ -103,11 +115,13 @@ def listen():
         while 1:
             time.sleep(_cycle)
             try:
-                gsm.waitForNetworkCoverage()
-                gsm.processStoredSms(True)
-                if signal_strength_store != gsm.signalStrength:
-                    signal_strength_store = gsm.signalStrength
-                    jeedom_com.send_change_immediate({'number': 'signal_strength', 'message': str(gsm.signalStrength)})
+                if gsm:
+                    gsm.waitForNetworkCoverage()
+                    gsm.processStoredSms(True)
+                    if signal_strength_store != gsm.signalStrength:
+                        signal_strength_store = gsm.signalStrength
+                    if j_com_instance:
+                        j_com_instance.send_change_immediate({'number': 'signal_strength', 'message': str(gsm.signalStrength)})
             except Exception as e:
                 logging.error("Exception on GSM : %s", e)
                 if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
@@ -123,16 +137,16 @@ def listen():
 
 def read_socket():
     try:
-        global JEEDOM_SOCKET_MESSAGE
         if not JEEDOM_SOCKET_MESSAGE.empty():
             logging.debug("Message received in socket JEEDOM_SOCKET_MESSAGE")
             message = json.loads(JEEDOM_SOCKET_MESSAGE.get().decode("utf-8"))
             if message['apikey'] != _apikey:
                 logging.error("Invalid apikey from socket : ", message)
                 return
-            gsm.waitForNetworkCoverage()
-            logging.info("Envoi d'un message à %s: %s", message['number'], message['message'])
-            gsm.sendSms(message['number'], message['message'])
+            if gsm:
+                gsm.waitForNetworkCoverage()
+                logging.info("Envoi d'un message à %s: %s", message['number'], message['message'])
+                gsm.sendSms(message['number'], message['message'])
     except Exception as e:
         logging.error(str(e))
 
@@ -147,11 +161,12 @@ def shutdown():
     logging.debug("Removing PID file %s", _pidfile)
     try:
         os.remove(_pidfile)
-    except:
+    except Exception:
         pass
     try:
-        jeedom_socket.close()
-    except:
+        if j_socket_instance:
+            j_socket_instance.close()
+    except Exception:
         pass
     logging.debug("Exit 0")
     sys.stdout.flush()
@@ -251,11 +266,11 @@ signal.signal(signal.SIGTERM, handler)
 
 try:
     jeedom_utils.write_pid(str(_pidfile))
-    jeedom_com = jeedom_com(apikey=_apikey, url=_callback, cycle=_cycle)
-    if not jeedom_com.test():
+    j_com_instance = jeedom_com(apikey=_apikey, url=_callback, cycle=_cycle)
+    if not j_com_instance.test():
         logging.error('Network communication issues. Please fixe your Jeedom network configuration.')
         shutdown()
-    jeedom_socket = jeedom_socket(port=_socket_port, address=_socket_host)
+    j_socket_instance = jeedom_socket(port=_socket_port, address=_socket_host)
     listen()
 except Exception as e:
     logging.error('Fatal error : %s', e)
