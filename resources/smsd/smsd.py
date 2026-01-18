@@ -45,7 +45,8 @@ def handleSms(sms):
     if not sms.text:
         logging.debug("No text so nothing to do")
         return
-    message = jeedom_utils.remove_accents(sms.text.replace('"', ''))
+    message = sms.text.replace('"', '')
+    # message = jeedom_utils.remove_accents(sms.text.replace('"', ''))
     if j_com_instance:
         j_com_instance.add_changes('devices::' + str(sms.number), {'number': sms.number, 'message': message})
 
