@@ -116,6 +116,7 @@ class StatusReport(Sms):
         self.timeSent = timeSent
         self.timeFinalized = timeFinalized
         self.deliveryStatus = deliveryStatus
+        self.concat = None
 
 
 class GsmModem(SerialComms):
