@@ -28,6 +28,24 @@ function sms_update() {
 	if (config::byKey('api::sms::mode') == '') {
 		config::save('api::sms::mode', 'localhost');
 	}
+	$paths = array(
+		'resources/smsd/gsmmodem/compat.py',
+	);
+	foreach ($paths as $path) {
+		$file = dirname(__FILE__) . '/../' . $path;
+		if (file_exists($file)) {
+			if (is_dir($file)) {
+				exec('rm -rf ' . escapeshellarg($file), $output, $return_var);
+				if ($return_var != 0) {
+					log::add('sms', 'error', 'Failed to remove ' . $file . ' (return code: ' . $return_var . ')');
+				}
+			} else {
+				if (!unlink($file)) {
+					log::add('sms', 'error', 'Failed to remove ' . $file);
+				}
+			}
+		}
+	}
 }
 
 function sms_remove() {
