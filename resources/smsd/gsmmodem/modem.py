@@ -57,6 +57,9 @@ class Sms(object):
         self.text = text
         self.smsc = smsc
 
+    def __str__(self):
+        return '{0} (from {1})'.format(self.text, self.number)
+
 
 class ReceivedSms(Sms):
     """ An SMS message that has been received (MT) """
