@@ -194,6 +194,8 @@ class GsmModem(SerialComms):
         self._commands = None  # List of supported AT commands
         # Pool of detected DTMF
         self.dtmfpool = []
+        # Buffer for multi-part SMS messages
+        self._smsParts = {}
 
     def connect(self, pin=None, waitingForModemToStartInSeconds=0):
         """ Opens the port and initializes the modem and SIM card
@@ -204,7 +206,7 @@ class GsmModem(SerialComms):
         :raise PinRequiredError: if the SIM card requires a PIN but none was provided
         :raise IncorrectPinError: if the specified PIN is incorrect
         """
-        self.log.info('Connecting to modem on port %s at %dbps', self.port, self.baudrate)
+        self.log.info('Connecting to modem on port %s at %d bps', self.port, self.baudrate)
         super(GsmModem, self).connect()
 
         if waitingForModemToStartInSeconds > 0:
@@ -462,7 +464,7 @@ class GsmModem(SerialComms):
         :param waitForResponse: Whether this method should block and return the response from the modem or not
         :type waitForResponse: bool
         :param timeout: Maximum amount of time in seconds to wait for a response from the modem
-        :type timeout: int
+        :type timeout: int or float
         :param parseError: If True, a CommandError is raised if the modem responds with an error (otherwise the response is returned as-is)
         :type parseError: bool
         :param writeTerm: The terminating sequence to append to the written data
@@ -1098,7 +1100,27 @@ class GsmModem(SerialComms):
             for msgStatus in states:
                 messages = self.listStoredSms(status=msgStatus, delete=True)
                 for sms in messages:
-                    self.smsReceivedCallback(sms)
+                    if sms.concat:
+                        key = (sms.number, sms.concat.reference)
+                        if key not in self._smsParts:
+                            self._smsParts[key] = {}
+                        self._smsParts[key][sms.concat.number] = sms
+                        if len(self._smsParts[key]) == sms.concat.parts:
+                            # We have all parts; reassemble
+                            parts = []
+                            for i in range(1, sms.concat.parts + 1):
+                                parts.append(self._smsParts[key][i])
+                            # Use the first part as base
+                            fullSms = parts[0]
+                            fullSms.text = ''.join([p.text for p in parts])
+                            # Remove concatenation info as it is now a single logical message
+                            fullSms.concat = None
+                            del self._smsParts[key]
+                            self.smsReceivedCallback(fullSms)
+                        else:
+                            self.log.debug('Buffered part {0} of {1} for SMS from {2} (ref {3})'.format(sms.concat.number, sms.concat.parts, sms.number, sms.concat.reference))
+                    else:
+                        self.smsReceivedCallback(sms)
         else:
             raise ValueError('GsmModem.smsReceivedCallback not set')
 
