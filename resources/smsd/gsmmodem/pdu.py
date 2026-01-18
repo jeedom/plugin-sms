@@ -2,27 +2,13 @@
 
 """ SMS PDU encoding methods """
 
-from __future__ import unicode_literals
-
 import sys, codecs
 from datetime import datetime, timedelta, tzinfo
 from copy import copy
+from typing import List, Dict, Tuple, Union, Iterator, Any, Optional
 from .exceptions import EncodingError
 
-# For Python 3 support
-PYTHON_VERSION = sys.version_info[0]
-if PYTHON_VERSION >= 3:
-    MAX_INT = sys.maxsize
-    dictItemsIter = dict.items
-    xrange = range
-    unichr = chr
-    toByteArray = lambda x: bytearray(codecs.decode(x, 'hex_codec')) if type(x) == bytes else bytearray(codecs.decode(bytes(x, 'ascii'), 'hex_codec')) if type(x)  == str else x
-    rawStrToByteArray = lambda x: bytearray(bytes(x, 'latin-1'))
-else: #pragma: no cover
-    MAX_INT = sys.maxint
-    dictItemsIter = dict.iteritems
-    toByteArray = lambda x: bytearray(x.decode('hex')) if type(x) in (str, unicode) else x
-    rawStrToByteArray = bytearray
+MAX_INT = sys.maxsize
 
 TEXT_MODE = ('\n\r !\"#%&\'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz') # TODO: Check if all of them are supported inside text mode
 # Tables can be found at: http://en.wikipedia.org/wiki/GSM_03.38#GSM_7_bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38
@@ -78,7 +64,7 @@ class SmsPduTzInfo(tzinfo):
         if (tzHexVal & 0x0F) > 0x9:
             tzHexVal +=0x06
 
-        tzOffsetMinutes = int('{0:0>2X}'.format(tzHexVal & 0x7F)) * 15
+        tzOffsetMinutes = int(f'{tzHexVal & 0x7F:0>2X}') * 15
 
         if tzHexVal & 0x80 == 0: # positive
             self._offset = timedelta(minutes=(tzOffsetMinutes))
@@ -134,7 +120,7 @@ class InformationElement(object):
         iei = next(byteIter)
         ieLen = next(byteIter)
         ieData = []
-        for i in xrange(ieLen):
+        for i in range(ieLen):
             ieData.append(next(byteIter))
         return InformationElement(iei, ieLen, ieData)
 
@@ -246,14 +232,10 @@ class Pdu(object):
         self.tpduLength = tpduLength
 
     def __str__(self):
-        global PYTHON_VERSION
-        if PYTHON_VERSION < 3:
-            return str(self.data).encode('hex').upper()
-        else: #pragma: no cover
-            return str(codecs.encode(self.data, 'hex_codec'), 'ascii').upper()
+        return self.data.hex().upper()
 
 
-def encodeSmsSubmitPdu(number, text, reference=0, validity=None, smsc=None, requestStatusReport=True, rejectDuplicates=False, sendFlash=False):
+def encodeSmsSubmitPdu(number: str, text: str, reference: int = 0, validity: Union[None, timedelta, datetime] = None, smsc: Optional[str] = None, requestStatusReport: bool = True, rejectDuplicates: bool = False, sendFlash: bool = False) -> List['Pdu']:
     """ Creates an SMS-SUBMIT PDU for sending a message with the specified text to the specified number
 
     :param number: the destination mobile number
@@ -273,8 +255,9 @@ def encodeSmsSubmitPdu(number, text, reference=0, validity=None, smsc=None, requ
     :rtype: list of tuples
     """
     if PYTHON_VERSION < 3:
-        if type(text) == str:
-            text = text.decode('UTF-8')
+        pass
+        # if type(text) == str:
+        #    text = text.decode('UTF-8')
 
     tpduFirstOctet = 0x01 # SMS-SUBMIT PDU
     if validity != None:
@@ -329,7 +312,7 @@ def encodeSmsSubmitPdu(number, text, reference=0, validity=None, smsc=None, requ
 
     # Construct required PDU(s)
     pdus = []
-    for i in xrange(pduCount):
+    for i in range(pduCount):
         pdu = bytearray()
         if smsc:
             pdu.extend(_encodeAddressField(smsc, smscField=True))
@@ -384,7 +367,7 @@ def encodeSmsSubmitPdu(number, text, reference=0, validity=None, smsc=None, requ
         pdus.append(Pdu(pdu, tpdu_length))
     return pdus
 
-def decodeSmsPdu(pdu):
+def decodeSmsPdu(pdu: Union[str, bytearray, bytes]) -> Dict[str, Any]:
     """ Decodes SMS pdu data and returns a tuple in format (number, text)
 
     :param pdu: PDU data as a hex string, or a bytearray containing PDU octects
@@ -396,7 +379,10 @@ def decodeSmsPdu(pdu):
     :rtype: dict
     """
     try:
-        pdu = toByteArray(pdu)
+        if isinstance(pdu, str):
+            pdu = bytearray.fromhex(pdu)
+        elif isinstance(pdu, bytes):
+            pdu = bytearray.fromhex(pdu.decode('ascii'))
     except Exception as e:
         # Python 2 raises TypeError, Python 3 raises binascii.Error
         raise EncodingError(e)
@@ -443,7 +429,7 @@ def decodeSmsPdu(pdu):
         result['discharge'] = _decodeTimestamp(pduIter)
         result['status'] = next(pduIter)
     else:
-        raise EncodingError('Unknown SMS message type: {0}. First TPDU octet was: {1}'.format(pduType, tpduFirstOctet))
+        raise EncodingError(f'Unknown SMS message type: {pduType}. First TPDU octet was: {tpduFirstOctet}')
 
     return result
 
@@ -482,7 +468,7 @@ def _decodeUserData(byteIter, userDataLen, dataCoding, udhPresent):
     else: # 8-bit (data)
         userData = []
         for b in byteIter:
-            userData.append(unichr(b))
+            userData.append(chr(b))
         result['text'] = ''.join(userData)
     return result
 
@@ -547,12 +533,12 @@ def _encodeTimestamp(timestamp):
     # See if the timezone difference is positive/negative
     tzDelta = timestamp.utcoffset()
     if tzDelta.days >= 0:
-        tzValStr = '{0:0>2}'.format(int(tzDelta.seconds / 60 / 15))
+        tzValStr = f'{int(tzDelta.seconds / 60 / 15):0>2}'
     else: # negative
         tzVal = int((tzDelta.days * -3600 * 24 - tzDelta.seconds) / 60 / 15) # calculate offset in 0.25 hours
         # Cast as literal hex value and set MSB of first semi-octet of timezone to 1 to indicate negative value
-        tzVal = int('{0:0>2}'.format(tzVal), 16) | 0x80
-        tzValStr = '{0:0>2X}'.format(tzVal)
+        tzVal = int(f'{tzVal:0>2}', 16) | 0x80
+        tzValStr = f'{tzVal:0>2X}'
 
     dateStr = timestamp.strftime('%y%m%d%H%M%S') + tzValStr
 
@@ -659,7 +645,7 @@ def encodeSemiOctets(number):
     """
     if len(number) % 2 == 1:
         number = number + 'F' # append the "end" indicator
-    octets = [int(number[i+1] + number[i], 16) for i in xrange(0, len(number), 2)]
+    octets = [int(number[i+1] + number[i], 16) for i in range(0, len(number), 2)]
     return bytearray(octets)
 
 def decodeSemiOctets(encodedNumber, numberOfOctets=None):
@@ -702,17 +688,14 @@ def encodeTextMode(plaintext):
     :return: Passed string
     :rtype: str
     """
-    if PYTHON_VERSION >= 3:
-        plaintext = str(plaintext)
-    elif type(plaintext) == str:
-        plaintext = plaintext.decode('UTF-8')
+    plaintext = str(plaintext)
 
     for char in plaintext:
         idx = TEXT_MODE.find(char)
         if idx != -1:
             continue
         else:
-            raise ValueError('Cannot encode char "{0}" inside text mode'.format(char))
+            raise ValueError(f'Cannot encode char "{char}" inside text mode')
 
     if len(plaintext) > MAX_MESSAGE_LENGTH[0x00]:
         raise ValueError('Message is too long for text mode (maximum {0} characters)'.format(MAX_MESSAGE_LENGTH[0x00]))
@@ -734,10 +717,7 @@ def encodeGsm7(plaintext, discardInvalid=False):
     :rtype: bytearray
     """
     result = bytearray()
-    if PYTHON_VERSION >= 3:
-        plaintext = str(plaintext)
-    elif type(plaintext) == str:
-        plaintext = plaintext.decode('UTF-8')
+    plaintext = str(plaintext)
 
     for char in plaintext:
         idx = GSM7_BASIC.find(char)
@@ -747,7 +727,7 @@ def encodeGsm7(plaintext, discardInvalid=False):
             result.append(0x1B) # ESC - switch to extended table
             result.append(ord(GSM7_EXTENDED[char]))
         elif not discardInvalid:
-            raise ValueError('Cannot encode char "{0}" using GSM-7 encoding'.format(char))
+            raise ValueError(f'Cannot encode char "{char}" using GSM-7 encoding')
     return result
 
 def decodeGsm7(encodedText):
@@ -762,13 +742,13 @@ def decodeGsm7(encodedText):
     :rtype: str
     """
     result = []
-    if type(encodedText) == str:
-        encodedText = rawStrToByteArray(encodedText) #bytearray(encodedText)
+    if isinstance(encodedText, str):
+        encodedText = bytearray(encodedText.encode('latin-1')) #bytearray(encodedText)
     iterEncoded = iter(encodedText)
     for b in iterEncoded:
         if b == 0x1B: # ESC - switch to extended table
             c = chr(next(iterEncoded))
-            for char, value in dictItemsIter(GSM7_EXTENDED):
+            for char, value in GSM7_EXTENDED.items():
                 if c == value:
                     result.append(char)
                     break
@@ -793,8 +773,7 @@ def divideTextGsm7(plainText):
     plainStopPtr  = 0
     chunkByteSize = 0
 
-    if PYTHON_VERSION >= 3:
-        plainText = str(plainText)
+    plainText = str(plainText)
     while plainStopPtr < len(plainText):
         char = plainText[plainStopPtr]
         idx = GSM7_BASIC.find(char)
@@ -803,7 +782,7 @@ def divideTextGsm7(plainText):
         elif char in GSM7_EXTENDED:
             chunkByteSize = chunkByteSize + 2;
         else:
-            raise ValueError('Cannot encode char "{0}" using GSM-7 encoding'.format(char))
+            raise ValueError(f'Cannot encode char "{char}" using GSM-7 encoding')
 
         plainStopPtr = plainStopPtr + 1
         if chunkByteSize > MAX_MULTIPART_MESSAGE_LENGTH[0x00]:
@@ -828,9 +807,9 @@ def packSeptets(octets, padBits=0):
     :rtype: bytearray
     """
     result = bytearray()
-    if type(octets) == str:
-        octets = iter(rawStrToByteArray(octets))
-    elif type(octets) == bytearray:
+    if isinstance(octets, str):
+        octets = iter(octets.encode('latin-1'))
+    elif isinstance(octets, bytearray) or isinstance(octets, bytes):
         octets = iter(octets)
     shift = padBits
     if padBits == 0:
@@ -868,9 +847,9 @@ def unpackSeptets(septets, numberOfSeptets=None, prevOctet=None, shift=7):
     :rtype: bytearray
     """
     result = bytearray()
-    if type(septets) == str:
-        septets = iter(rawStrToByteArray(septets))
-    elif type(septets) == bytearray:
+    if isinstance(septets, str):
+        septets = iter(septets.encode('latin-1'))
+    elif isinstance(septets, bytearray) or isinstance(septets, bytes):
         septets = iter(septets)
     if numberOfSeptets == None:
         numberOfSeptets = MAX_INT # Loop until StopIteration
@@ -911,7 +890,7 @@ def decodeUcs2(byteIter, numBytes):
     i = 0
     try:
         while i < numBytes:
-            userData.append(unichr((next(byteIter) << 8) | next(byteIter)))
+            userData.append(chr((next(byteIter) << 8) | next(byteIter)))
             i += 2
     except StopIteration:
         # Not enough bytes in iterator to reach numBytes; return what we have

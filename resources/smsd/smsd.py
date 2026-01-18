@@ -29,7 +29,7 @@ except ImportError as e:
     print("Error: importing module from jeedom folder: %s", e)
     sys.exit(1)
 
-################################PARAMETERS######################################
+# PARAMETERS #
 
 gsm = False
 
@@ -40,7 +40,7 @@ def handleSms(sms):
         logging.debug("No text so nothing to do")
         return
     message = jeedom_utils.remove_accents(sms.text.replace('"', ''))
-    jeedom_com.add_changes('devices::'+str(sms.number), {'number': sms.number, 'message': message})
+    jeedom_com.add_changes('devices::' + str(sms.number), {'number': sms.number, 'message': message})
 
 
 def listen():
@@ -63,7 +63,7 @@ def listen():
             gsm.connect(None, 1)
         if _smsc != 'None':
             logging.debug("Configure smsc : %s", _smsc)
-            gsm.write('AT+CSCA="{0}"'.format(_smsc))
+            gsm.write(f'AT+CSCA="{_smsc}"')
         logging.debug("Waiting for network...")
         gsm.waitForNetworkCoverage()
         logging.debug("Ok")
@@ -96,7 +96,7 @@ def listen():
             pass
         logging.error("Global listen exception of type %s occurred: %s", type(e).__name__, e)
         jeedom_com.send_change_immediate({'number': 'none', 'message': str(e)})
-        logging.error("Exit 1 because this exeption is fatal")
+        logging.error("Exit 1 because this exception is fatal")
         shutdown()
     signal_strength_store = 0
     try:
@@ -111,7 +111,7 @@ def listen():
             except Exception as e:
                 logging.error("Exception on GSM : %s", e)
                 if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
-                    logging.error("Exit 1 because this exeption is fatal")
+                    logging.error("Exit 1 because this exception is fatal")
                     shutdown()
             try:
                 read_socket()

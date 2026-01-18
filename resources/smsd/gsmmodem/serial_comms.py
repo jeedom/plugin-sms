@@ -5,15 +5,16 @@
 import sys
 import threading
 import logging
+from typing import Optional, List, Union, Callable, Any
 
 import re
 import serial  # pyserial: http://pyserial.sourceforge.net
 
 from .exceptions import TimeoutException
-from . import compat  # For Python 2.6 compatibility
+# from . import compat  # For Python 2.6 compatibility
 
 
-class SerialComms(object):
+class SerialComms:
     """ Wraps all low-level serial communications (actual read/write operations) """
 
     log = logging.getLogger('gsmmodem.serial_comms.SerialComms')
@@ -25,7 +26,7 @@ class SerialComms(object):
     # Default timeout for serial port reads (in seconds)
     timeout = 1
 
-    def __init__(self, port, baudrate=115200, notifyCallbackFunc=None, fatalErrorCallbackFunc=None, *args, **kwargs):
+    def __init__(self, port: str, baudrate: int = 115200, notifyCallbackFunc: Optional[Callable] = None, fatalErrorCallbackFunc: Optional[Callable] = None, *args, **kwargs):
         """ Constructor
 
         :param fatalErrorCallbackFunc: function to call if a fatal error occurs in the serial device reading thread
@@ -99,7 +100,6 @@ class SerialComms(object):
             while self.alive:
                 data = self.serial.read(1)
                 if len(data) != 0:  # check for timeout
-                    #print >> sys.stderr, ' RX:', data,'({0})'.format(ord(data))
                     rxBuffer.append(ord(data))
                     if rxBuffer[-readTermLen:] == readTermSeq:
                         # A line (or other logical segment) has been read
@@ -117,7 +117,7 @@ class SerialComms(object):
                             rxBuffer = bytearray()
                             self._handleLineRead(line, checkForResponseTerm=False)
             # else:
-                #' <RX timeout>'
+                # ' <RX timeout>'
         except serial.SerialException as e:
             self.alive = False
             try:
@@ -127,7 +127,7 @@ class SerialComms(object):
             # Notify the fatal error handler
             self.fatalErrorCallback(e)
 
-    def write(self, data, waitForResponse=True, timeout=5, expectedResponseTermSeq=None):
+    def write(self, data: str, waitForResponse: bool = True, timeout: Union[int, float] = 5, expectedResponseTermSeq: Optional[str] = None) -> List[str]:
         data = data.encode()
         with self._txLock:
             if waitForResponse:

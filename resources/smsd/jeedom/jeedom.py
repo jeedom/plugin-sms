@@ -108,7 +108,7 @@ class jeedom_com():
                 if r.status_code == requests.codes.ok:
                     break
             except Exception as error:
-                logging.error('Error on send request to jeedom ' + str(error)+' retry : '+str(i)+'/'+str(self.retry))
+                logging.error('Error on send request to jeedom ' + str(error) + ' retry : ' + str(i) + '/' + str(self.retry))
             i = i + 1
 
     def set_change(self, changes):
@@ -120,8 +120,7 @@ class jeedom_com():
     def merge_dict(self, d1, d2):
         for k, v2 in d2.items():
             v1 = d1.get(k)  # returns None if v1 has no value for this key
-            if (isinstance(v1, Mapping) and
-                    isinstance(v2, Mapping)):
+            if (isinstance(v1, Mapping) and isinstance(v2, Mapping)):
                 self.merge_dict(v1, v2)
             else:
                 d1[k] = v2
@@ -130,10 +129,10 @@ class jeedom_com():
         try:
             response = requests.get(self.url + '?apikey=' + self.apikey, verify=False)
             if response.status_code != requests.codes.ok:
-                logging.error('Callback error: %s %s. Please check your network configuration page' % (response.status.code, response.status.message,))
+                logging.error('Callback error: %s %s. Please check your network configuration page' % (response.status_code, response.reason,))
                 return False
         except Exception as e:
-            logging.error('Callback result as a unknown error: %s. Please check your network configuration page' % (e.message,))
+            logging.error('Callback result as a unknown error: %s. Please check your network configuration page' % (str(e),))
             return False
         return True
 
@@ -184,13 +183,13 @@ class jeedom_utils():
 
     @staticmethod
     def dec2bin(x, width=8):
-        return ''.join(str((x >> i) & 1) for i in xrange(width-1, -1, -1))
+        return ''.join(str((x >> i) & 1) for i in range(width-1, -1, -1))
 
     @staticmethod
     def dec2hex(dec):
         if dec is None:
             return '0x00'
-        return "0x{:02X}".format(dec)
+        return f"0x{dec:02X}"
 
     @staticmethod
     def testBit(int_type, offset):

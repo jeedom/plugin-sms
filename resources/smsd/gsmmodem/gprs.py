@@ -74,7 +74,7 @@ class GprsModem(GsmModem):
     @defaultPdpContext.setter
     def defaultPdpContext(self, pdpContext):
         """ Set the default PDP context (or clear it by setting it to None) """
-        self.write('AT+CGDCONT=,"{0}","{1}","{2}",{3},{4}'.format(pdpContext.pdpType, pdpContext.apn, pdpContext.pdpAddress or '', pdpContext.dataCompression, pdpContext.headerCompression))
+        self.write(f'AT+CGDCONT=,"{pdpContext.pdpType}","{pdpContext.apn}","{pdpContext.pdpAddress or ""}",{pdpContext.dataCompression},{pdpContext.headerCompression}')
     
     def definePdpContext(self, pdpContext):
         """ Define a new Packet Data Protocol context, or overwrite an existing one
@@ -82,7 +82,7 @@ class GprsModem(GsmModem):
         @param pdpContext: The PDP context to define
         @type pdpContext: gsmmodem.gprs.PdpContext
         """
-        self.write('AT+CGDCONT={0},"{1}","{2}","{3}",{4},{5}'.format(pdpContext.cid or '', pdpContext.pdpType, pdpContext.apn, pdpContext.pdpAddress or '', pdpContext.dataCompression, pdpContext.headerCompression))
+        self.write(f'AT+CGDCONT={pdpContext.cid or ""},"{pdpContext.pdpType}","{pdpContext.apn}","{pdpContext.pdpAddress or ""}",{pdpContext.dataCompression},{pdpContext.headerCompression}')
 
     def initDataConnection(self, pdpCid=1):
         """ Initializes a packet data (GPRS) connection using the specified PDP Context ID """

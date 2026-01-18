@@ -25,7 +25,7 @@ class SimpleOffsetTzInfo(tzinfo):
         return timedelta(0)
     
     def __repr__(self):
-        return 'gsmmodem.util.SimpleOffsetTzInfo({0})'.format(self.offsetInHours)
+        return f'gsmmodem.util.SimpleOffsetTzInfo({self.offsetInHours})'
 
 def parseTextModeTimeStr(timeStr):
     """ Parses the specified SMS text mode time string
