@@ -1,12 +1,10 @@
-# -*- coding: utf8 -*-
-
-""" GPRS/Data-specific classes 
+""" GPRS/Data-specific classes
 
 BRANCH: mms
 
 PLEASE NOTE: *Everything* in this file (PdpContext, GprsModem class, etc) is experimental.
 This is NOT meant to be used in production in any way; the API is completely unstable,
-no unit tests will be written for this in the forseeable future, and stuff may generally
+no unit tests will be written for this in the foreseeable future, and stuff may generally
 break and cause riots. Please do not file bug reports against this branch unless you
 have a patch to go along with it, but even then: remember that this entire "mms" branch
 is exploratory; I simply want to see what the possibilities are with it.
@@ -19,11 +17,12 @@ import re
 from .util import allLinesMatchingPattern
 from .modem import GsmModem
 
+
 class PdpContext(object):
     """ Packet Data Protocol (PDP) context parameter values """
     def __init__(self, cid, pdpType, apn, pdpAddress=None, dataCompression=0, headerCompression=0):
         """ Construct a new Packet Data Protocol context
-        
+
         @param cid: PDP Context Identifier - specifies a particular PDP context definition
         @type cid: int
         @param pdpType: the type of packet data protocol (IP, PPP, IPV6, etc)
@@ -47,14 +46,14 @@ class PdpContext(object):
 
 class GprsModem(GsmModem):
     """ EXPERIMENTAL: Specialized version of GsmModem that includes GPRS/data-specific commands """
-    
+
     @property
     def pdpContexts(self):
         """ Currently-defined Packet Data Protocol (PDP) context list
-        
-        PDP paramter values returned include PDP type (IP, IPV6, PPP, X.25 etc), APN, 
+
+        PDP parameter values returned include PDP type (IP, IPV6, PPP, X.25 etc), APN,
         data compression, header compression, etc.
-        
+
         @return: a list of currently-defined PDP contexts
         """
         result = []
@@ -65,31 +64,32 @@ class GprsModem(GsmModem):
             pdpContext = PdpContext(cid, pdpType, apn, pdpAddress, dataCompression, headerCompression)
             result.append(pdpContext)
         return result
-    
+
     @property
     def defaultPdpContext(self):
         """ @return: the default PDP context, or None if not defined """
         pdpContexts = self.pdpContexts
         return pdpContexts[0] if len(pdpContexts) > 0 else None
+
     @defaultPdpContext.setter
     def defaultPdpContext(self, pdpContext):
         """ Set the default PDP context (or clear it by setting it to None) """
-        self.write('AT+CGDCONT=,"{0}","{1}","{2}",{3},{4}'.format(pdpContext.pdpType, pdpContext.apn, pdpContext.pdpAddress or '', pdpContext.dataCompression, pdpContext.headerCompression))
-    
+        self.write(f'AT+CGDCONT=,"{pdpContext.pdpType}","{pdpContext.apn}","{pdpContext.pdpAddress or ""}",{pdpContext.dataCompression},{pdpContext.headerCompression}')
+
     def definePdpContext(self, pdpContext):
         """ Define a new Packet Data Protocol context, or overwrite an existing one
-        
+
         @param pdpContext: The PDP context to define
         @type pdpContext: gsmmodem.gprs.PdpContext
         """
-        self.write('AT+CGDCONT={0},"{1}","{2}","{3}",{4},{5}'.format(pdpContext.cid or '', pdpContext.pdpType, pdpContext.apn, pdpContext.pdpAddress or '', pdpContext.dataCompression, pdpContext.headerCompression))
+        self.write(f'AT+CGDCONT={pdpContext.cid or ""},"{pdpContext.pdpType}","{pdpContext.apn}","{pdpContext.pdpAddress or ""}",{pdpContext.dataCompression},{pdpContext.headerCompression}')
 
     def initDataConnection(self, pdpCid=1):
         """ Initializes a packet data (GPRS) connection using the specified PDP Context ID """
         # From this point on, we don't want the read thread interfering
-        #self.log.debug('Stopping read thread')
-        #self.alive = False
-        #self.rxThread.join()
+        # self.log.debug('Stopping read thread')
+        # self.alive = False
+        # self.rxThread.join()
         self.log.debug('Init data connection')
         self.write('ATD*99#', expectedResponseTermSeq="CONNECT\r")
         self.log.debug('Data connection open; ready for PPP comms')
