@@ -88,7 +88,7 @@ if (isset($result['devices'])) {
 					continue;
 				}
 				$smsOk = true;
-				log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . $message);
+				log::add('sms', 'info', __('Message venant de ', __FILE__) . $formatedPhoneNumber . ' : ' . secureXSS($message));
 				if ($cmd->askResponse($message)) {
 					continue (3);
 				}
@@ -110,8 +110,8 @@ if (isset($result['devices'])) {
 						handleMessage($new_number, $number, $message);
 					} else {
 						log::add('sms', 'info', __('Message venant d\'un numéro inconnu mais les numéros inconnus sont autorisés : ', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS($message));
-						$eqLogic->checkAndUpdateCmd('sms', $message);
-						$eqLogic->checkAndUpdateCmd('sender', $number);
+						$eqLogic->checkAndUpdateCmd('sms', secureXSS($message));
+						$eqLogic->checkAndUpdateCmd('sender', secureXSS($number));
 					}
 					$smsOk = true;
 				}
@@ -152,6 +152,6 @@ function handleMessage($cmd, $number, $message) {
 	} else {
 		log::add('sms', 'debug', __("Interaction désactivée.", __FILE__));
 	}
-	$eqLogic->checkAndUpdateCmd('sms', $message);
-	$eqLogic->checkAndUpdateCmd('sender', $cmd->getName());
+	$eqLogic->checkAndUpdateCmd('sms', secureXSS($message));
+	$eqLogic->checkAndUpdateCmd('sender', secureXSS($cmd->getName()));
 }
