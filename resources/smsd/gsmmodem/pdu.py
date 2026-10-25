@@ -281,7 +281,7 @@ def encodeSmsSubmitPdu(number: str, text: str, reference: int = 0, validity: Uni
         encodedTextLength = len(encodeGsm7(text))
     except ValueError:
         # Cannot encode text using GSM-7; use UCS2 instead
-        encodedTextLength = len(text)
+        encodedTextLength = len(encodeUcs2(text)) // 2
         alphabet = 0x08  # UCS2
     else:
         alphabet = 0x00  # GSM-7
@@ -901,16 +901,14 @@ def unpackSeptets(septets, numberOfSeptets=None, prevOctet=None, shift=7):
 
 def decodeUcs2(byteIter, numBytes):
     """ Decodes UCS2-encoded text from the specified byte iterator, up to a maximum of numBytes """
-    userData = []
-    i = 0
-    try:
-        while i < numBytes:
-            userData.append(chr((next(byteIter) << 8) | next(byteIter)))
-            i += 2
-    except StopIteration:
-        # Not enough bytes in iterator to reach numBytes; return what we have
-        pass
-    return ''.join(userData)
+    userData = bytearray()
+    for _ in range(numBytes):
+        try:
+            userData.append(next(byteIter))
+        except StopIteration:
+            break
+    # Keep the historical tolerance for truncated data and lone surrogates.
+    return userData[:len(userData) // 2 * 2].decode('utf-16-be', errors='surrogatepass')
 
 
 def encodeUcs2(text):
@@ -923,12 +921,9 @@ def encodeUcs2(text):
     :return: A bytearray containing the string encoded in UCS2 encoding
     :rtype: bytearray
     """
-    result = bytearray()
-
-    for b in map(ord, text):
-        result.append(b >> 8)
-        result.append(b & 0xFF)
-    return result
+    # UTF-16 preserves the existing BMP encoding and represents supplementary
+    # characters (such as emoji) as surrogate pairs, without a byte-order mark.
+    return bytearray(text.encode('utf-16-be'))
 
 
 def divideTextUcs2(plainText):
@@ -943,15 +938,16 @@ def divideTextUcs2(plainText):
     :rtype: list of str
     """
     result = []
-    resultLength = 0
-
-    fullChunksCount = int(len(plainText) / MAX_MULTIPART_MESSAGE_LENGTH[0x08])
-    for i in range(fullChunksCount):
-        result.append(plainText[i * MAX_MULTIPART_MESSAGE_LENGTH[0x08]:(i + 1) * MAX_MULTIPART_MESSAGE_LENGTH[0x08]])
-        resultLength += MAX_MULTIPART_MESSAGE_LENGTH[0x08]
-
-    # Add last, not fully filled chunk
-    if resultLength < len(plainText):
-        result.append(plainText[resultLength:])
-
+    start = 0
+    units = 0
+    limit = MAX_MULTIPART_MESSAGE_LENGTH[0x08]
+    for index, char in enumerate(plainText):
+        charUnits = 2 if ord(char) > 0xFFFF else 1
+        if units + charUnits > limit:
+            result.append(plainText[start:index])
+            start = index
+            units = 0
+        units += charUnits
+    if start < len(plainText):
+        result.append(plainText[start:])
     return result
