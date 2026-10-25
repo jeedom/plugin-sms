@@ -111,7 +111,6 @@ def listen():
             j_com_instance.send_change_immediate({'number': 'none', 'message': str(e)})
         logging.error("Exit 1 because this exception is fatal")
         shutdown()
-    signal_strength_store = 0
     try:
         while 1:
             time.sleep(_cycle)
@@ -119,10 +118,9 @@ def listen():
                 if gsm:
                     gsm.waitForNetworkCoverage()
                     gsm.processStoredSms(True)
-                    if signal_strength_store != gsm.signalStrength:
-                        signal_strength_store = gsm.signalStrength
+                    signal_strength = gsm.signalStrength
                     if j_com_instance:
-                        j_com_instance.send_change_immediate({'number': 'signal_strength', 'message': str(gsm.signalStrength)})
+                        j_com_instance.send_change_immediate({'number': 'signal_strength', 'message': str(signal_strength)})
             except Exception as e:
                 logging.error("Exception on GSM : %s", e)
                 if str(e) == 'Attempting to use a port that is not open' or str(e) == 'Timeout' or str(e) == 'Device not searching for network operator':
