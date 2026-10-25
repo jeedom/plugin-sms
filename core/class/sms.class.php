@@ -74,7 +74,7 @@ class sms extends eqLogic {
 		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'http:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
 		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
 		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
-		log::add('sms', 'info', 'Lancement démon sms : ' . $cmd);
+		log::add('sms', 'info', 'Lancement démon sms');
 		$result = exec($cmd . ' >> ' . log::getPathToLog('smsd') . ' 2>&1 &');
 		$i = 0;
 		while ($i < 30) {
