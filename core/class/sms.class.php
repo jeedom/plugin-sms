@@ -185,6 +185,22 @@ class smsCmd extends cmd {
 		return preg_replace('#[^A-Za-z0-9 \n\.\'=\*:]+#', '', strtr($_message, $caracteres));
 	}
 
+	/** Split UTF-8 text by code points, keeping every JSON payload valid. */
+	public static function splitMessage($_message, $_limit) {
+		$limit = filter_var($_limit, FILTER_VALIDATE_INT, array('options' => array('min_range' => 1)));
+		if ($limit === false) {
+			throw new InvalidArgumentException('SMS message length must be a positive integer');
+		}
+		$characters = preg_split('//u', $_message, -1, PREG_SPLIT_NO_EMPTY);
+		if ($characters === false) {
+			throw new InvalidArgumentException('SMS message must be valid UTF-8');
+		}
+		if (count($characters) === 0) {
+			return array('');
+		}
+		return array_map(function ($part) { return implode('', $part); }, array_chunk($characters, $limit));
+	}
+
 	/*     * *********************Methode d'instance************************* */
 
 	public function dontRemoveCmd() {
@@ -220,13 +236,12 @@ class smsCmd extends cmd {
 		if (config::byKey('text_mode', 'sms') == 1) {
 			$message = self::cleanSMS(trim($message), true);
 		}
-		if (strlen($message) > config::byKey('maxChartByMessage', 'sms')) {
-			$messages = str_split($message, config::byKey('maxChartByMessage', 'sms'));
-			foreach ($messages as $message_split) {
-				$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message_split));
+		foreach (self::splitMessage($message, config::byKey('maxChartByMessage', 'sms')) as $message_split) {
+			$value = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message_split));
+			if ($value === false) {
+				throw new InvalidArgumentException('Unable to encode SMS payload as JSON');
 			}
-		} else {
-			$values[] = json_encode(array('apikey' => jeedom::getApiKey('sms'), 'number' => $number, 'message' => $message));
+			$values[] = $value;
 		}
 		if (!isset($_options['number'])) {
 			$phonenumbers = explode(';', $this->getConfiguration('phonenumber'));
