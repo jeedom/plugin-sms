@@ -18,6 +18,8 @@
 
 /* * ***************************Includes********************************* */
 
+require_once __DIR__ . '/smsDaemonOptions.class.php';
+
 class sms extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 
@@ -32,19 +34,16 @@ class sms extends eqLogic {
 			if (@posix_getsid(trim(file_get_contents($pid_file)))) {
 				$return['state'] = 'ok';
 			} else {
-				shell_exec(system::getCmdSudo() . 'rm -rf ' . $pid_file . ' 2>&1 > /dev/null');
+				@unlink($pid_file);
 			}
 		}
 		$return['launchable'] = 'ok';
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
-			if (is_string($port)) {
-				if (@!file_exists($port)) {
-					$return['launchable'] = 'nok';
-					$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
-				}
-				exec(system::getCmdSudo() . 'chmod 777 ' . $port . ' > /dev/null 2>&1');
+			if (!smsDaemonOptions::isSerialDevice($port)) {
+				$return['launchable'] = 'nok';
+				$return['launchable_message'] = __('Le port n\'est pas configuré', __FILE__);
 			}
 		}
 		return $return;
@@ -60,22 +59,33 @@ class sms extends eqLogic {
 		if ($port != 'auto') {
 			$port = jeedom::getUsbMapping($port);
 		}
+		$options = array(
+			'device' => $port,
+			'loglevel' => log::convertLogLevel(log::getLogLevel('sms')),
+			'socketport' => config::byKey('socketport', 'sms'),
+			'serialrate' => config::byKey('serial_rate', 'sms'),
+			'pin' => config::byKey('pin', 'sms', 'None'),
+			'textmode' => config::byKey('text_mode', 'sms') == 1 ? 'yes' : 'no',
+			'smsc' => config::byKey('smsc', 'sms', 'None'),
+			'cycle' => config::byKey('cycle', 'sms'),
+			'callback' => network::getNetworkAccess('internal', 'http:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php',
+			'apikey' => jeedom::getApiKey('sms'),
+			'pid' => jeedom::getTmpFolder('sms') . '/deamon.pid',
+		);
+		smsDaemonOptions::validate($options);
+		if ($port != 'auto') {
+			// Restrict the modem to the Jeedom group instead of opening it to every local user.
+			$device = escapeshellarg(realpath($port));
+			exec(system::getCmdSudo() . 'chgrp ' . escapeshellarg((string) posix_getegid()) . ' ' . $device . ' && ' . system::getCmdSudo() . 'chmod 660 ' . $device . ' 2>&1', $output, $status);
+			if ($status != 0) {
+				log::add('sms', 'warning', __('Impossible de restreindre les droits du port série', __FILE__));
+			}
+		}
 		$sms_path = realpath(__DIR__ . '/../../resources/smsd');
-		$cmd = system::getCmdPython3(__CLASS__) . " {$sms_path}/smsd.py";
-		$cmd .= ' --device ' . $port;
-		$cmd .= ' --loglevel ' . log::convertLogLevel(log::getLogLevel('sms'));
-		$cmd .= ' --socketport ' . config::byKey('socketport', 'sms');
-		$cmd .= ' --serialrate ' . config::byKey('serial_rate', 'sms');
-		$cmd .= ' --pin ' . config::byKey('pin', 'sms', 'None');
-		$cmd .= ' --textmode ';
-		$cmd .= (config::byKey('text_mode', 'sms') == 1) ? 'yes' : 'no';
-		$cmd .= ' --smsc ' . config::byKey('smsc', 'sms', 'None');
-		$cmd .= ' --cycle ' . config::byKey('cycle', 'sms');
-		$cmd .= ' --callback ' . network::getNetworkAccess('internal', 'http:127.0.0.1:port:comp') . '/plugins/sms/core/php/jeeSMS.php';
-		$cmd .= ' --apikey ' . jeedom::getApiKey('sms');
-		$cmd .= ' --pid ' . jeedom::getTmpFolder('sms') . '/deamon.pid';
+		$cmd = system::getCmdPython3(__CLASS__) . ' ' . escapeshellarg($sms_path . '/smsd.py');
+		$cmd .= smsDaemonOptions::arguments($options);
 		log::add('sms', 'info', 'Lancement démon sms');
-		$result = exec($cmd . ' >> ' . log::getPathToLog('smsd') . ' 2>&1 &');
+		$result = exec($cmd . ' >> ' . escapeshellarg(log::getPathToLog('smsd')) . ' 2>&1 &');
 		$i = 0;
 		while ($i < 30) {
 			$deamon_info = self::deamon_info();
@@ -100,10 +110,17 @@ class sms extends eqLogic {
 			system::kill($pid);
 		}
 		system::kill('smsd.py');
-		system::fuserk(config::byKey('socketport', 'sms'));
+		$socketport = filter_var(config::byKey('socketport', 'sms'), FILTER_VALIDATE_INT, array('options' => array('min_range' => 1, 'max_range' => 65535)));
+		if ($socketport !== false) {
+			system::fuserk((string) $socketport);
+		}
 		$port = config::byKey('port', 'sms');
 		if ($port != 'auto') {
-			system::fuserk(jeedom::getUsbMapping($port));
+			$device = jeedom::getUsbMapping($port);
+			// fuserk() needs the raw path to detect a device; isSerialDevice() limits it to a real /dev char device.
+			if (smsDaemonOptions::isSerialDevice($device)) {
+				system::fuserk(realpath($device));
+			}
 		}
 		sleep(1);
 	}
