@@ -23,6 +23,7 @@ import traceback
 import json
 from typing import Optional
 from gsmmodem.modem import GsmModem
+from gsmmodem.exceptions import CmsError
 
 try:
     from jeedom.jeedom import jeedom_com, jeedom_socket, jeedom_utils, JEEDOM_SOCKET_MESSAGE
@@ -90,9 +91,10 @@ def listen():
             gsm.write('AT+CPMS="ME","ME","ME"')
             gsm.write('AT+CMGD=1,4')
         except Exception as e:
-            if str(e).find('object has no attribute') != -1:
-                pass
-            logging.error("Exception on 'ME': %s", e)
+            if isinstance(e, CmsError) and e.code == 321:
+                logging.debug("ME storage initialization skipped after CMS 321 (invalid memory index)")
+            else:
+                logging.error("Exception on 'ME': %s", e)
 
         try:
             gsm.write('AT+CPMS="SM","SM","SM"')
