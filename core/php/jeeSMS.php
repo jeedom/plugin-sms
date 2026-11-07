@@ -16,6 +16,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
+require_once __DIR__ . '/../class/smsPhoneNumber.class.php';
 
 if (!jeedom::apiAccess(init('apikey'), 'sms')) {
 	echo __('Vous n\'etes pas autorisé à effectuer cette action', __FILE__);
@@ -62,9 +63,6 @@ if (isset($result['devices'])) {
 	foreach ($result['devices'] as $key => $datas) {
 		$message = trim($datas['message']);
 		$number = $datas['number'];
-		if (strlen($number) < 10) {
-			continue;
-		}
 		if ($message == '' || $number == '') {
 			continue;
 		}
@@ -75,16 +73,22 @@ if (isset($result['devices'])) {
 			}
 			continue;
 		}
-		if (strlen($number) == 11) {
-			$number = '+' . $number;
+		$normalizedNumber = smsPhoneNumber::normalize($number);
+		$isPhoneNumber = $normalizedNumber !== null;
+		if ($isPhoneNumber) {
+			$number = $normalizedNumber;
 		}
-		$formatedPhoneNumber = '0' . substr($number, 3);
+		$formatedPhoneNumber = $number;
 		$reply = '';
 		$smsOk = false;
 		foreach ($eqLogics as $eqLogic) {
 			/** @var cmd $cmd */
 			foreach ($eqLogic->getCmd() as $cmd) {
-				if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
+				// Service sender IDs are receive-only and cannot authorize interactions.
+				if (!$isPhoneNumber) {
+					continue;
+				}
+				if (!smsPhoneNumber::isAuthorized($cmd->getConfiguration('phonenumber'), $number)) {
 					continue;
 				}
 				$smsOk = true;
@@ -97,7 +101,7 @@ if (isset($result['devices'])) {
 			}
 			if (!$smsOk) {
 				if ($eqLogic->getConfiguration('allowUnknownOrigin', 0) == 1) {
-					if ($eqLogic->getConfiguration('autoAddNewNumber', 0) == 1) {
+					if ($isPhoneNumber && $eqLogic->getConfiguration('autoAddNewNumber', 0) == 1) {
 						log::add('sms', 'info', __('Message venant d\'un numéro inconnu, création auto activée:', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS($message));
 						$new_number = new smsCmd();
 						$new_number->setType('action');
