@@ -68,7 +68,7 @@ def listen():
             logging.debug("Text mode false")
             gsm.smsTextMode = False
         if _pin != 'None':
-            logging.debug("Enter pin code : %s ", _pin)
+            logging.debug("Unlocking SIM with configured PIN")
             gsm.connect(_pin, 1)
         else:
             gsm.connect(None, 1)
@@ -241,7 +241,7 @@ logging.info('Device : %s', _device)
 logging.info('Callback : %s', _callback)
 logging.info('Cycle : %s', _cycle)
 logging.info('Serial rate : %s', _serial_rate)
-logging.info('Pin : %s', _pin)
+logging.info('SIM PIN configured : %s', _pin not in ('None', ''))
 logging.info('Text mode : %s', _text_mode)
 logging.info('SMSC : %s', _smsc)
 
