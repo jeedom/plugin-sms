@@ -16,6 +16,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
+require_once __DIR__ . '/../class/smsPhoneNumber.class.php';
 
 if (!jeedom::apiAccess(init('apikey'), 'sms')) {
 	echo __('Vous n\'etes pas autorisé à effectuer cette action', __FILE__);
@@ -72,11 +73,12 @@ if (isset($result['devices'])) {
 			}
 			continue;
 		}
-		$isPhoneNumber = preg_match('/^\+?[0-9]{10,15}$/D', $number) === 1;
-		if ($isPhoneNumber && strlen($number) == 11) {
-			$number = '+' . $number;
+		$normalizedNumber = smsPhoneNumber::normalize($number);
+		$isPhoneNumber = $normalizedNumber !== null;
+		if ($isPhoneNumber) {
+			$number = $normalizedNumber;
 		}
-		$formatedPhoneNumber = $isPhoneNumber ? '0' . substr($number, 3) : $number;
+		$formatedPhoneNumber = $number;
 		$reply = '';
 		$smsOk = false;
 		foreach ($eqLogics as $eqLogic) {
@@ -86,7 +88,7 @@ if (isset($result['devices'])) {
 				if (!$isPhoneNumber) {
 					continue;
 				}
-				if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
+				if (!smsPhoneNumber::isAuthorized($cmd->getConfiguration('phonenumber'), $number)) {
 					continue;
 				}
 				$smsOk = true;

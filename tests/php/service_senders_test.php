@@ -1,5 +1,6 @@
 <?php
 // Execute the actual inbound routing block without a Jeedom instance or actions.
+require_once __DIR__ . '/../../core/class/smsPhoneNumber.class.php';
 class log { public static function add(...$args) {} }
 function __($value, $file) {return $value;}
 function secureXSS($value) {return htmlspecialchars($value, ENT_QUOTES);}
