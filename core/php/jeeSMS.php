@@ -62,9 +62,6 @@ if (isset($result['devices'])) {
 	foreach ($result['devices'] as $key => $datas) {
 		$message = trim($datas['message']);
 		$number = $datas['number'];
-		if (strlen($number) < 10) {
-			continue;
-		}
 		if ($message == '' || $number == '') {
 			continue;
 		}
@@ -75,15 +72,20 @@ if (isset($result['devices'])) {
 			}
 			continue;
 		}
-		if (strlen($number) == 11) {
+		$isPhoneNumber = preg_match('/^\+?[0-9]{10,15}$/D', $number) === 1;
+		if ($isPhoneNumber && strlen($number) == 11) {
 			$number = '+' . $number;
 		}
-		$formatedPhoneNumber = '0' . substr($number, 3);
+		$formatedPhoneNumber = $isPhoneNumber ? '0' . substr($number, 3) : $number;
 		$reply = '';
 		$smsOk = false;
 		foreach ($eqLogics as $eqLogic) {
 			/** @var cmd $cmd */
 			foreach ($eqLogic->getCmd() as $cmd) {
+				// Service sender IDs are receive-only and cannot authorize interactions.
+				if (!$isPhoneNumber) {
+					continue;
+				}
 				if (strpos($cmd->getConfiguration('phonenumber'), $number) === false && strpos($cmd->getConfiguration('phonenumber'), $formatedPhoneNumber) === false) {
 					continue;
 				}
@@ -97,7 +99,7 @@ if (isset($result['devices'])) {
 			}
 			if (!$smsOk) {
 				if ($eqLogic->getConfiguration('allowUnknownOrigin', 0) == 1) {
-					if ($eqLogic->getConfiguration('autoAddNewNumber', 0) == 1) {
+					if ($isPhoneNumber && $eqLogic->getConfiguration('autoAddNewNumber', 0) == 1) {
 						log::add('sms', 'info', __('Message venant d\'un numéro inconnu, création auto activée:', __FILE__) . secureXSS($number) . ' (' . secureXSS($formatedPhoneNumber) . ') : ' . secureXSS($message));
 						$new_number = new smsCmd();
 						$new_number->setType('action');
