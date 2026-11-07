@@ -23,6 +23,7 @@ import traceback
 import json
 from typing import Optional
 from gsmmodem.modem import GsmModem
+from outbox import SmsOutbox
 
 try:
     from jeedom.jeedom import jeedom_com, jeedom_socket, jeedom_utils, JEEDOM_SOCKET_MESSAGE
@@ -136,20 +137,11 @@ def listen():
         shutdown()
 
 
+outbox = SmsOutbox()
+
+
 def read_socket():
-    try:
-        if not JEEDOM_SOCKET_MESSAGE.empty():
-            logging.debug("Message received in socket JEEDOM_SOCKET_MESSAGE")
-            message = json.loads(JEEDOM_SOCKET_MESSAGE.get().decode("utf-8"))
-            if message['apikey'] != _apikey:
-                logging.error("Invalid apikey from socket : ", message)
-                return
-            if gsm:
-                gsm.waitForNetworkCoverage()
-                logging.info("Envoi d'un message à %s: %s", message['number'], message['message'])
-                gsm.sendSms(message['number'], message['message'])
-    except Exception as e:
-        logging.error(str(e))
+    outbox.process(JEEDOM_SOCKET_MESSAGE, gsm, _apikey)
 
 
 def handler(signum=None, frame=None):
